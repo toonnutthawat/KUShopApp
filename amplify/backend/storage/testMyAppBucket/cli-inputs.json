@@ -1,0 +1,16 @@
+{
+  "resourceName": "testMyAppBucket",
+  "policyUUID": "04378016",
+  "bucketName": "testmyapp",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
