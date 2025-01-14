@@ -3,7 +3,7 @@ import { View , Text , Image , StyleSheet} from "react-native";
 function KuShopTitle({title} : {title: string}) {
     return (
                 <View style={styles.logoContainer}>
-                    <Image source={require('../assets/KULogo.png')} style={styles.logo} />
+                    <Image source={require('../../assets/KULogo.png')} style={styles.logo} />
                     <Text style={styles.title}>{title}</Text>
                 </View>
     )

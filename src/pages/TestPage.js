@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, Image, StyleSheet, Button, TextInput, Alert } from "react-native";
 import { generateClient } from "@aws-amplify/api";
-import { createBook } from "../src/graphql/mutations";
+import { createBook } from "../graphql/mutations";
 import { useNavigation } from "@react-navigation/native";
 import { launchImageLibrary } from "react-native-image-picker";
 import * as ImagePicker from 'expo-image-picker'
@@ -92,7 +92,7 @@ function TestPage(){
               }}
             >
               <Text>Hello World 1 2 3 4 5 6 7 8 9</Text>
-              <Image source={require('../assets/shima.jpg')} style={myStyle.image}></Image>
+              <Image source={require('../../assets/shima.jpg')} style={myStyle.image}></Image>
               <View>
                 <Text>count : {count}</Text>
               </View>
