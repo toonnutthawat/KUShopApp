@@ -85,7 +85,7 @@ export type CreateUserInput = {
   id?: string | null,
   email: string,
   profile?: string | null,
-  credit?: boolean | null,
+  credit: boolean,
 };
 
 export type ModelUserConditionInput = {
@@ -112,13 +112,9 @@ export type User = {
   id: string,
   email: string,
   profile?: string | null,
-  credit?: boolean | null,
+  credit: boolean,
   createdAt: string,
   updatedAt: string,
-};
-
-export type DeleteUserInput = {
-  id: string,
 };
 
 export type UpdateUserInput = {
@@ -126,6 +122,10 @@ export type UpdateUserInput = {
   email?: string | null,
   profile?: string | null,
   credit?: boolean | null,
+};
+
+export type DeleteUserInput = {
+  id: string,
 };
 
 export type ModelBookFilterInput = {
@@ -299,24 +299,7 @@ export type CreateUserMutation = {
     id: string,
     email: string,
     profile?: string | null,
-    credit?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteUserMutationVariables = {
-  input: DeleteUserInput,
-  condition?: ModelUserConditionInput | null,
-};
-
-export type DeleteUserMutation = {
-  deleteUser?:  {
-    __typename: "User",
-    id: string,
-    email: string,
-    profile?: string | null,
-    credit?: boolean | null,
+    credit: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -333,7 +316,24 @@ export type UpdateUserMutation = {
     id: string,
     email: string,
     profile?: string | null,
-    credit?: boolean | null,
+    credit: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteUserMutationVariables = {
+  input: DeleteUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type DeleteUserMutation = {
+  deleteUser?:  {
+    __typename: "User",
+    id: string,
+    email: string,
+    profile?: string | null,
+    credit: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -387,7 +387,7 @@ export type GetUserQuery = {
     id: string,
     email: string,
     profile?: string | null,
-    credit?: boolean | null,
+    credit: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -407,7 +407,7 @@ export type ListUsersQuery = {
       id: string,
       email: string,
       profile?: string | null,
-      credit?: boolean | null,
+      credit: boolean,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -465,6 +465,7 @@ export type OnDeleteBookSubscription = {
 
 export type OnCreateUserSubscriptionVariables = {
   filter?: ModelSubscriptionUserFilterInput | null,
+  id?: string | null,
 };
 
 export type OnCreateUserSubscription = {
@@ -473,7 +474,7 @@ export type OnCreateUserSubscription = {
     id: string,
     email: string,
     profile?: string | null,
-    credit?: boolean | null,
+    credit: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -481,6 +482,7 @@ export type OnCreateUserSubscription = {
 
 export type OnUpdateUserSubscriptionVariables = {
   filter?: ModelSubscriptionUserFilterInput | null,
+  id?: string | null,
 };
 
 export type OnUpdateUserSubscription = {
@@ -489,7 +491,7 @@ export type OnUpdateUserSubscription = {
     id: string,
     email: string,
     profile?: string | null,
-    credit?: boolean | null,
+    credit: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -497,6 +499,7 @@ export type OnUpdateUserSubscription = {
 
 export type OnDeleteUserSubscriptionVariables = {
   filter?: ModelSubscriptionUserFilterInput | null,
+  id?: string | null,
 };
 
 export type OnDeleteUserSubscription = {
@@ -505,7 +508,7 @@ export type OnDeleteUserSubscription = {
     id: string,
     email: string,
     profile?: string | null,
-    credit?: boolean | null,
+    credit: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,

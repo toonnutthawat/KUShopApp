@@ -3,11 +3,14 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-nativ
 import { confirmSignUp } from "aws-amplify/auth";
 import { useNavigation } from "@react-navigation/native";
 import KuShopTitle from "../components/KuShopTitle";
+import { useAppDispatch } from "../hook";
+import { addUser } from "../store/thunks/userThunk";
 
-function ConfirmSignUpPage({ username }: { username: string }) {
+function ConfirmSignUpPage({ username , email}: { username: string , email: string}) {
     const [otp, setOtp] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const navigation = useNavigation();
+    const dispatch = useAppDispatch()
 
     const handleConfirmSignUp = async () => {
         try {
@@ -15,7 +18,9 @@ function ConfirmSignUpPage({ username }: { username: string }) {
                 username: username,
                 confirmationCode: otp,
             });
+
             if (nextStep.signUpStep === "DONE") {
+                dispatch(addUser({usernameOfUser: username , emailOfUser: email}))
                 navigation.navigate("Login" as never);
             }
         } catch (e) {

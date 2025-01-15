@@ -34,7 +34,7 @@ function SignUpPage() {
     return (
         <View style={styles.container}>
             {confirmSignUp ? (
-                <ConfirmSignUpPage username={username} />
+                <ConfirmSignUpPage username={username}  email={email}/>
             ) : (
                 <View style={styles.formContainer}>
                     <KuShopTitle title="SIGN UP" />

@@ -7,7 +7,7 @@ import { launchImageLibrary } from "react-native-image-picker";
 import * as ImagePicker from 'expo-image-picker'
 
 function TestPage(){
-      const client = generateClient()
+      const client = generateClient({authMode: "apiKey"})
       const [count , setCount] = useState(0)
       const [image, setImage] = useState("")
       const [title , setTitle] = useState("")
@@ -103,7 +103,7 @@ function TestPage(){
               <TextInput placeholder="enter a title" keyboardType="default" onChangeText={(value) => setTitle(value)}></TextInput>
               <TextInput placeholder="enter a content" keyboardType="default" onChangeText={(value) => setContent(value)}></TextInput>
               <Button title="upload Image" onPress={() => pickImage()}></Button>
-              {/* <Button title="upload to DB" onPress={() => addBook()}></Button> */}
+              <Button title="upload to DB" onPress={() => addBook()}></Button>
               <View style={{marginTop: 6}}>
               {/* <Button title="to Profile Page >" onPress={() => navigation.navigate("Profile" as never)}></Button> */}
               </View>
