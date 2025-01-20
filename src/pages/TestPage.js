@@ -53,35 +53,6 @@ function TestPage(){
         }
       };
 
-    // const  handleChooseImage = () => {
-    //      launchImageLibrary(
-    //       {
-    //         mediaType: "photo",
-    //         quality: 1,
-    //       },
-    //       (response) => {
-    //         if (response.didCancel) {
-    //           Alert.alert("Image selection canceled");
-    //           console.log("cancel");
-
-    //         } else if (response.errorCode) {
-    //           Alert.alert("Error", response.errorMessage || "Unknown error");
-    //           console.log("error");
-              
-    //         } else if (response.assets && response.assets.length > 0) {
-    //           const selectedUri = response.assets[0].uri;
-    //           setImageUri(selectedUri);
-    //           console.log("imgUri: ",selectedUri);
-    //         }
-    //         else{
-    //           console.log("else statement");
-              
-    //         }
-    //       }
-    //     );
-    //     console.log("imageUri: ",imageUri);
-    //   };
-    
     return (
         <View
               style={{

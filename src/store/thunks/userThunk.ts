@@ -1,11 +1,11 @@
 import { generateClient } from "@aws-amplify/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createUser } from "../../graphql/mutations";
+import { createUser, updateUser } from "../../graphql/mutations";
 import { getUser } from "../../graphql/queries";
 import { getCurrentUser } from "aws-amplify/auth";
 
-const client = generateClient({ authMode: "apiKey" });
-const privateClient = generateClient();
+const client = generateClient();
+const privateClient = generateClient({authMode: "userPool"});
 
 const addUser = createAsyncThunk(
   "addUser",
@@ -46,7 +46,22 @@ const fetchMyUser = createAsyncThunk("fetchMyUser", async () => {
 
   } catch (e) {
     console.log((e as Error).message);
+    throw e;
   }
 });
 
-export { addUser, fetchMyUser };
+const editImgUser = createAsyncThunk("editImgUser" , async ({userID , imgPath} : {userID : string , imgPath: string}) => {
+  const response = await privateClient.graphql({
+    query: updateUser,
+    variables: {
+      input: {
+        id: userID,
+        profile: imgPath
+      }
+    }
+  })
+
+  return response.data.updateUser.profile
+})
+
+export { addUser, fetchMyUser , editImgUser};

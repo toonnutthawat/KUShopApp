@@ -8,51 +8,6 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
-export const onCreateBook = /* GraphQL */ `subscription OnCreateBook($filter: ModelSubscriptionBookFilterInput) {
-  onCreateBook(filter: $filter) {
-    id
-    title
-    content
-    img
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnCreateBookSubscriptionVariables,
-  APITypes.OnCreateBookSubscription
->;
-export const onUpdateBook = /* GraphQL */ `subscription OnUpdateBook($filter: ModelSubscriptionBookFilterInput) {
-  onUpdateBook(filter: $filter) {
-    id
-    title
-    content
-    img
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnUpdateBookSubscriptionVariables,
-  APITypes.OnUpdateBookSubscription
->;
-export const onDeleteBook = /* GraphQL */ `subscription OnDeleteBook($filter: ModelSubscriptionBookFilterInput) {
-  onDeleteBook(filter: $filter) {
-    id
-    title
-    content
-    img
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnDeleteBookSubscriptionVariables,
-  APITypes.OnDeleteBookSubscription
->;
 export const onCreateUser = /* GraphQL */ `subscription OnCreateUser(
   $filter: ModelSubscriptionUserFilterInput
   $id: String
@@ -62,6 +17,10 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser(
     email
     profile
     credit
+    posts {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -80,6 +39,10 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser(
     email
     profile
     credit
+    posts {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -98,6 +61,10 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser(
     email
     profile
     credit
+    posts {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -106,4 +73,91 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser(
 ` as GeneratedSubscription<
   APITypes.OnDeleteUserSubscriptionVariables,
   APITypes.OnDeleteUserSubscription
+>;
+export const onCreatePost = /* GraphQL */ `subscription OnCreatePost(
+  $filter: ModelSubscriptionPostFilterInput
+  $userID: String
+) {
+  onCreatePost(filter: $filter, userID: $userID) {
+    id
+    title
+    content
+    likes
+    image
+    user {
+      id
+      email
+      profile
+      credit
+      createdAt
+      updatedAt
+      __typename
+    }
+    userID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreatePostSubscriptionVariables,
+  APITypes.OnCreatePostSubscription
+>;
+export const onUpdatePost = /* GraphQL */ `subscription OnUpdatePost(
+  $filter: ModelSubscriptionPostFilterInput
+  $userID: String
+) {
+  onUpdatePost(filter: $filter, userID: $userID) {
+    id
+    title
+    content
+    likes
+    image
+    user {
+      id
+      email
+      profile
+      credit
+      createdAt
+      updatedAt
+      __typename
+    }
+    userID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdatePostSubscriptionVariables,
+  APITypes.OnUpdatePostSubscription
+>;
+export const onDeletePost = /* GraphQL */ `subscription OnDeletePost(
+  $filter: ModelSubscriptionPostFilterInput
+  $userID: String
+) {
+  onDeletePost(filter: $filter, userID: $userID) {
+    id
+    title
+    content
+    likes
+    image
+    user {
+      id
+      email
+      profile
+      credit
+      createdAt
+      updatedAt
+      __typename
+    }
+    userID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeletePostSubscriptionVariables,
+  APITypes.OnDeletePostSubscription
 >;

@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProfilePage from './src/pages/ProfilePage';
 import Icon from 'react-native-vector-icons/Ionicons';
+import PostPage from './src/pages/posts/PostPage';
 
 
 const Stack = createNativeStackNavigator();
@@ -30,6 +31,9 @@ function BottomTabs() {
           } else if (route.name === 'Profile') {
             iconName = 'person';
           }
+          else if (route.name === 'Post') {
+            iconName = 'paper-plane';
+          }
           return <Icon name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: '#004c27',
@@ -37,6 +41,7 @@ function BottomTabs() {
       })}
     >
       <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Post" component={PostPage}/>
       <Tab.Screen name="Test" component={TestPage} />
       <Tab.Screen name="Profile" component={ProfilePage} />
     </Tab.Navigator>

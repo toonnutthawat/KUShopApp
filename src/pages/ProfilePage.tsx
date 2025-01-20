@@ -1,26 +1,122 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Button , Image} from "react-native";
 import KuShopTitle from "../components/KuShopTitle";
 import { useAppDispatch, useAppSelector } from "../hook";
-import { useEffect } from "react";
-import { fetchMyUser } from "../store/thunks/userThunk";
+import { useEffect, useState } from "react";
+import { editImgUser, fetchMyUser } from "../store/thunks/userThunk";
+import ProfileImage from "../components/ProfileImage";
+import * as ImagePicker from 'expo-image-picker'
+import { downloadData, getProperties, uploadData } from 'aws-amplify/storage';
 
 function ProfilePage() {
-
+    
     const userInfo = useAppSelector(state => state.users.myUser)
     const dispatch = useAppDispatch()
-    console.log("userInfo" , userInfo);
+    const [editImg , setEditImg] = useState(false)
+    const [image, setImage] = useState("")
+    const [imgFile , setImgFile] = useState("")
+    // dispatch(fetchMyUser())
+   // console.log("userInfo" , userInfo);
     
 
     useEffect(() => {
-        dispatch(fetchMyUser())
-        console.log("userInfo" , userInfo);
+        // dispatch(fetchMyUser())
+        const fetch = async () => {
+            await dispatch(fetchMyUser())
+        }
+        fetch()
     },[])
 
+        const pickImage = async () => {
+            // No permissions request is necessary for launching the image library
+            let result = await ImagePicker.launchImageLibraryAsync({
+              mediaTypes: ['images', 'videos'],
+              allowsEditing: true,
+              aspect: [4, 3],
+              quality: 1,
+            });
+
+            console.log("result : " ,result.assets[0]);
+
+            if (!result.canceled) {
+              setImage(result.assets[0].uri);
+            //   setImgFile(result.assets[0].file)
+            }
+            
+          };
+
+          const uploadIMG = async () => {
+            if (image) {
+                console.log("IF in Image");
+                const filename = `public/profile/${userInfo.id}`;
+                await dispatch(editImgUser({ userID: userInfo.id, imgPath: filename }));
+        
+                try {
+                    const result = uploadData({
+                        path: filename,
+                        data: image,
+                    }).result;
+        
+                    console.log("Succeeded: ", result);
+                    await dispatch(fetchMyUser());
+                } catch (error) {
+                    console.log("Error: ", error);
+                }
+            } else {
+                console.log("No image selected");
+            }
+        };
+
+        async function dowloadImageFromS3(){
+                try {
+                    const result = await downloadData({
+                          path: userInfo.profile,
+                          // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
+                        }).result;
+                        const blob = await result.body.blob()
+                        const reader = new FileReader()
+                        reader.onloadend = () => {
+                            setImgFile(reader.result as string)
+                        }
+                        reader.readAsDataURL(blob)
+                        console.log('File Properties ', result);
+                        console.log("ImgFile" , imgFile);
+                      } catch (error) {
+                        console.log('Error ', error);
+                      }
+            }
+        
+    
+
     return (
-        <View style={styles.container}>
-            <View style={styles.homeBox}>
+        <View style={styles.container} >
+            
+            <Button title="click" onPress={() => console.log(userInfo)}>
+            </Button>
+            <View style={styles.homeBox} >
+                {
+                    (editImg && image) ? <Image source={{uri : image}} style={styles.profile}></Image> :
+
+                    <ProfileImage size={100}></ProfileImage>
+                }
+
+                {
+                    editImg && (
+                        <Button title="uploadImgage" onPress={pickImage}></Button>
+                    )
+                }
+                {
+                    image && (
+                        <Button title="upload to S3" onPress={uploadIMG}></Button>
+                    )
+                }
+                <Button title="edit img" onPress={() => setEditImg(!editImg)}/>
+                <Button title="downloadImgFromS3" onPress={dowloadImageFromS3}/>
+                <Image source={{uri : imgFile}} style={styles.profile}></Image>
                 <Text>
-                  
+                  {userInfo.id}
+                </Text>
+                <Text>
+                  {userInfo.email}
                 </Text>
             </View>
         </View>
@@ -35,6 +131,8 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start", // Aligns content at the top
     },
     homeBox: {
+        display: "flex",
+        alignItems: 'center',
         backgroundColor: "#d5f0e8",
         width: "85%",
         borderRadius: 10,
@@ -47,6 +145,12 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         marginTop: 20
     },
+
+        profile : {
+            width: 100,
+            height: 100,
+            borderRadius: 50
+        }
 
 })
 
