@@ -2,6 +2,7 @@ import { generateClient } from "@aws-amplify/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createPost } from "../../graphql/mutations";
 import { getCurrentUser } from "aws-amplify/auth";
+import { listPosts } from "../../graphql/queries";
 
 const client = generateClient({authMode: "userPool"})
 
@@ -27,4 +28,20 @@ const addPost = createAsyncThunk("addPost", async ({titlePost , contentPost} : {
     }
 })
 
-export { addPost }
+const fetchMyPosts = createAsyncThunk("fetchMyPosts", async () => {
+    const user = await getCurrentUser()
+    const response = await client.graphql({
+        query: listPosts,
+        variables: {
+            filter: {
+                userID : { 
+                    eq : user.username
+                }
+            }
+        }
+    })
+    console.log("response :", response.data.listPosts.items);
+    return response.data.listPosts.items
+})
+
+export { addPost , fetchMyPosts}

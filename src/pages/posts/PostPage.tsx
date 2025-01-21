@@ -1,8 +1,8 @@
-import { View , Image, TextInput , StyleSheet, Button} from "react-native";
+import { Text ,View , Image, TextInput , StyleSheet, Button, TouchableOpacity} from "react-native";
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 import { useState } from "react";
 import { useAppDispatch } from "../../hook";
-import { addPost } from "../../store/thunks/postsThunk";
+import { addPost, fetchMyPosts } from "../../store/thunks/postsThunk";
 import { useNavigation } from "@react-navigation/native";
 
 function PostPage(){
@@ -14,7 +14,10 @@ function PostPage(){
 
     const postItem = async () => {
         await dispatch(addPost({titlePost: title , contentPost: content}))
-        navigation.navigate("Home" as never)
+        setContent("")
+        setTitle("")
+        await dispatch(fetchMyPosts())
+        navigation.navigate("MyPosts" as never)
     }
 
     return(
@@ -34,7 +37,15 @@ function PostPage(){
                         placeholder="content"
                         style={styles.textInput}
                     ></TextInput>
-                    <Button title="post" onPress={postItem}></Button>
+                    <View style={{marginTop: 20}}>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={postItem}
+                            style={{backgroundColor: "#004c27", padding: 4, alignItems: 'center', borderRadius: 10}}
+                            >
+                                <Text style={{color: 'white'}}>Post</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </StyledHomeBox>
         </StyledContainer>

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Post } from "../../API";
-import { addPost } from "../thunks/postsThunk";
+import { addPost, fetchMyPosts } from "../thunks/postsThunk";
 
 const postsSlice = createSlice({
   name: "posts",
@@ -17,14 +17,22 @@ const postsSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(addPost.fulfilled, (state, action) => {
+      if(action.payload === null) return;
       if (action.payload) {
-        state.allPosts.data.push(action.payload);
+        state.allPosts.data?.push(action.payload as Post)
         console.log("addPost success in Redux");
       }
     });
     builder.addCase(addPost.rejected, (state) => {
       state.error = "fail to addPost";
       console.log("fail to addPost");
+    });
+    builder.addCase(fetchMyPosts.fulfilled , (state,action) => {
+      state.myPosts.data = action.payload as Post[]
+    })
+    builder.addCase(fetchMyPosts.rejected, (state) => {
+      state.error = "fail to fetchMyPosts";
+      console.log("fail to fetchMyPosts");
     });
   },
   reducers: {},

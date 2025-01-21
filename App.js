@@ -12,10 +12,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProfilePage from './src/pages/ProfilePage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PostPage from './src/pages/posts/PostPage';
-
+import MyPosts from './src/pages/posts/MyPosts';
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator();
 
 function BottomTabs() {
   return (
@@ -30,20 +30,33 @@ function BottomTabs() {
             iconName = 'play';
           } else if (route.name === 'Profile') {
             iconName = 'person';
-          }
-          else if (route.name === 'Post') {
+          } else if (route.name === 'Post') {
             iconName = 'paper-plane';
           }
+
+          // Return empty if you want to hide the icon
           return <Icon name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: '#004c27',
         tabBarInactiveTintColor: 'gray',
+        tabBarStyle: {
+          width: 500,  // Adjust the height of the tab bar
+        },
       })}
     >
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Post" component={PostPage}/>
+      <Tab.Screen name="Post" component={PostPage} />
       <Tab.Screen name="Test" component={TestPage} />
       <Tab.Screen name="Profile" component={ProfilePage} />
+      <Tab.Screen
+        name="MyPosts"
+        component={MyPosts}
+        options={{
+          tabBarButton: () => null,  // Hide the tab button completely
+          tabBarIcon: () => <></>,  // Hide the icon
+          tabBarLabel: () => null,  // Hide the label
+        }}
+      />
     </Tab.Navigator>
   );
 }
@@ -51,15 +64,16 @@ function BottomTabs() {
 export default function App() {
   return (
     <Provider store={store}>
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Test" component={TestPage} />
-        <Stack.Screen name="Home" component={BottomTabs} options={{headerShown: false}} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="SignUp" component={SignUpPage} />
-        <Stack.Screen name="ConfirmSignUp" component={ConfirmSignUpPage} />
-      </Stack.Navigator>
-    </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen name="Test" component={TestPage} />
+          <Stack.Screen name="MyPosts" component={MyPosts} />
+          <Stack.Screen name="Home" component={BottomTabs} options={{ headerShown: false }} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="SignUp" component={SignUpPage} />
+          <Stack.Screen name="ConfirmSignUp" component={ConfirmSignUpPage} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 }

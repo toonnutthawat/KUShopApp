@@ -4,8 +4,8 @@ import { createUser, updateUser } from "../../graphql/mutations";
 import { getUser } from "../../graphql/queries";
 import { getCurrentUser } from "aws-amplify/auth";
 
-const client = generateClient();
-const privateClient = generateClient({authMode: "userPool"});
+const client = generateClient({authMode: 'apiKey'});
+const privateClient = generateClient();
 
 const addUser = createAsyncThunk(
   "addUser",
@@ -34,7 +34,7 @@ const addUser = createAsyncThunk(
 const fetchMyUser = createAsyncThunk("fetchMyUser", async () => {
   try {
     const userInfo = await getCurrentUser();
-    console.log("123",userInfo);
+    //console.log("123",userInfo);
     const response = await privateClient.graphql({
       query: getUser,
       variables: {
