@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { View, Text, Image, StyleSheet, Button, TextInput, Alert } from "react-native";
 import { generateClient } from "@aws-amplify/api";
-import { createBook } from "../src/graphql/mutations";
+import { createBook } from "../graphql/mutations";
 import { useNavigation } from "@react-navigation/native";
 import { launchImageLibrary } from "react-native-image-picker";
 import * as ImagePicker from 'expo-image-picker'
 
 function TestPage(){
-      const client = generateClient()
+      const client = generateClient({authMode: "apiKey"})
       const [count , setCount] = useState(0)
       const [image, setImage] = useState("")
       const [title , setTitle] = useState("")
@@ -53,35 +53,6 @@ function TestPage(){
         }
       };
 
-    // const  handleChooseImage = () => {
-    //      launchImageLibrary(
-    //       {
-    //         mediaType: "photo",
-    //         quality: 1,
-    //       },
-    //       (response) => {
-    //         if (response.didCancel) {
-    //           Alert.alert("Image selection canceled");
-    //           console.log("cancel");
-
-    //         } else if (response.errorCode) {
-    //           Alert.alert("Error", response.errorMessage || "Unknown error");
-    //           console.log("error");
-              
-    //         } else if (response.assets && response.assets.length > 0) {
-    //           const selectedUri = response.assets[0].uri;
-    //           setImageUri(selectedUri);
-    //           console.log("imgUri: ",selectedUri);
-    //         }
-    //         else{
-    //           console.log("else statement");
-              
-    //         }
-    //       }
-    //     );
-    //     console.log("imageUri: ",imageUri);
-    //   };
-    
     return (
         <View
               style={{
@@ -92,7 +63,7 @@ function TestPage(){
               }}
             >
               <Text>Hello World 1 2 3 4 5 6 7 8 9</Text>
-              <Image source={require('../assets/shima.jpg')} style={myStyle.image}></Image>
+              <Image source={require('../../assets/shima.jpg')} style={myStyle.image}></Image>
               <View>
                 <Text>count : {count}</Text>
               </View>
@@ -103,7 +74,7 @@ function TestPage(){
               <TextInput placeholder="enter a title" keyboardType="default" onChangeText={(value) => setTitle(value)}></TextInput>
               <TextInput placeholder="enter a content" keyboardType="default" onChangeText={(value) => setContent(value)}></TextInput>
               <Button title="upload Image" onPress={() => pickImage()}></Button>
-              {/* <Button title="upload to DB" onPress={() => addBook()}></Button> */}
+              <Button title="upload to DB" onPress={() => addBook()}></Button>
               <View style={{marginTop: 6}}>
               {/* <Button title="to Profile Page >" onPress={() => navigation.navigate("Profile" as never)}></Button> */}
               </View>

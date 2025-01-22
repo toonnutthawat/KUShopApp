@@ -1,21 +1,36 @@
-type Book @model {
-  id: ID!
-  title: String!
-  content: String!
-  img: String!
-}
-
 type User
   @model
   @auth(
     rules: [
-      { allow: private  , operations: [read]}
-      { allow: owner, ownerField: "id", operations: [update] }
+      { allow: private  , operations: [read,update] , provider: userPools}
+      { allow: owner, ownerField: "id" , provider: userPools }
+      { allow: public , operations: [create]}
     ]
   )
+  @aws_cognito_user_pools
   {
     id: ID!
     email: String!
     profile: String
-    credit: Boolean
+    credit: Boolean!
+    posts: [Post] @hasMany(indexName: "byUser", fields: ["id"])
   }
+
+  type Post
+    @model
+    @auth (
+      rules: [
+        { allow : owner , provider: userPools , ownerField: "userID"}
+        { allow : private , provider: userPools, operations: [read, update]}
+      ]
+    )
+    @aws_cognito_user_pools
+    {
+      id: ID!
+      title: String!
+      content: String!
+      likes: Int!
+      image: String
+      user: User! @belongsTo(fields: ["userID"])
+      userID: ID! @index(name: "byUser")
+    }

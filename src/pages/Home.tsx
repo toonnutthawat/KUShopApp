@@ -3,10 +3,13 @@ import KuShopTitle from "../components/KuShopTitle";
 import { getCurrentUser, signOut } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { useAppDispatch } from "../hook";
+import { fetchMyUser } from "../store/thunks/userThunk";
 
 function Home() {
     const [user, setUser] = useState("");
     const navigation = useNavigation();
+    const dispatch = useAppDispatch()
 
     const getUserInfo = async () => {
         const response = await getCurrentUser();
@@ -15,6 +18,7 @@ function Home() {
 
     useEffect(() => {
         getUserInfo();
+        dispatch(fetchMyUser())
     }, []);
 
     async function handleSignOut() {
