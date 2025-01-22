@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch } from "../hook";
 import { fetchMyUser } from "../store/thunks/userThunk";
+import { StyledContainer, StyledHomeBox } from "../components/StyleContainer";
 
 function Home() {
     const [user, setUser] = useState("");
@@ -27,20 +28,20 @@ function Home() {
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.username}>Welcome, {user}!</Text>
+        <StyledContainer>
+            {/* <Text style={styles.username}>Welcome, {user}!</Text> */}
             
             {/* HomeBox Component */}
-            <View style={styles.homeBox}>
+            <StyledHomeBox>
                 <KuShopTitle title="HOME" />
                 <Text style={styles.homeBoxTitle}>KU Second hand Dashboard</Text>
                 <Text style={styles.homeBoxContent}>The shop items will display here!</Text>
-            </View>
+            </StyledHomeBox>
             
             <TouchableOpacity style={styles.logoutButton} onPress={handleSignOut}>
                 <Text style={styles.logoutButtonText}>Log Out</Text>
             </TouchableOpacity>
-        </View>
+        </StyledContainer>
     );
 }
 
