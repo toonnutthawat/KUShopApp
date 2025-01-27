@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, TextInput } from "react-native";
 import KuShopTitle from "../components/KuShopTitle";
 import { getCurrentUser, signOut } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
@@ -11,9 +11,12 @@ import PostReusable from "../components/PostReusable";
 
 function Home() {
     const [user, setUser] = useState("");
+    const [term ,setTerm] = useState("")
     const navigation = useNavigation();
     const dispatch = useAppDispatch()
     const allPosts = useAppSelector(state => state.posts.allPosts.data)
+
+    const filteredMyPosts = allPosts.filter((post) => post.title.toLowerCase().includes(term.toLowerCase()))
 
     const getUserInfo = async () => {
         const response = await getCurrentUser();
@@ -29,18 +32,24 @@ function Home() {
     return (
         <StyledContainer>
             {/* <Text style={styles.username}>Welcome, {user}!</Text> */}
-            
+
             {/* HomeBox Component */}
             <StyledHomeBox>
-                <KuShopTitle title="HOME" />
-
-                <Text style={styles.homeBoxTitle}>KU Second hand Dashboard</Text>
-                <Text style={styles.homeBoxContent}>The shop items will display here!</Text>
-                { allPosts && allPosts.map((post, index) => (
-                        <PostReusable key={index} post={post} />
-                    ))}
+                <KuShopTitle title="Welcome !" />
+                <View>
+                    <TextInput
+                        placeholder="search title"
+                        value={term}
+                        onChangeText={(value) => setTerm(value)}
+                        style={{ backgroundColor: 'white', width: 300, borderRadius: 20 }}
+                    >
+                    </TextInput>
+                </View>
+                {allPosts && filteredMyPosts.map((post, index) => (
+                    <PostReusable key={index} post={post} />
+                ))}
             </StyledHomeBox>
-            
+
         </StyledContainer>
     );
 }
@@ -75,12 +84,12 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#004d26",
         marginBottom: 10,
-        textAlign : "center"
+        textAlign: "center"
     },
     homeBoxContent: {
         fontSize: 16,
         color: "#555",
-        textAlign : "center"
+        textAlign: "center"
     },
     logoutButton: {
         backgroundColor: "red",
