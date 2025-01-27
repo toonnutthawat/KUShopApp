@@ -20,7 +20,6 @@ function MyPosts() {
 
 
     return (
-        <ScrollView>
             <StyledContainer>
                 <StyledHomeBox>
                     {myPosts.map((post, index) => (
@@ -28,7 +27,6 @@ function MyPosts() {
                     ))}
                 </StyledHomeBox>
             </StyledContainer>
-        </ScrollView>
     )
 }
 

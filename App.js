@@ -13,6 +13,7 @@ import ProfilePage from './src/pages/ProfilePage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PostPage from './src/pages/posts/PostPage';
 import MyPosts from './src/pages/posts/MyPosts';
+import PostDetail from './src/pages/posts/PostDetail';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -40,7 +41,7 @@ function BottomTabs() {
         tabBarActiveTintColor: '#004c27',
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: {
-          width: 500,  // Adjust the height of the tab bar
+          width: 600,  // Adjust the height of the tab bar
         },
       })}
     >
@@ -51,6 +52,15 @@ function BottomTabs() {
       <Tab.Screen
         name="MyPosts"
         component={MyPosts}
+        options={{
+          tabBarButton: () => null,  // Hide the tab button completely
+          tabBarIcon: () => <></>,  // Hide the icon
+          tabBarLabel: () => null,  // Hide the label
+        }}
+      />
+        <Tab.Screen
+        name="PostDetail"
+        component={PostDetail}
         options={{
           tabBarButton: () => null,  // Hide the tab button completely
           tabBarIcon: () => <></>,  // Hide the icon

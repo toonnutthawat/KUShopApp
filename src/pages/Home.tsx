@@ -3,14 +3,17 @@ import KuShopTitle from "../components/KuShopTitle";
 import { getCurrentUser, signOut } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { useAppDispatch } from "../hook";
+import { useAppDispatch, useAppSelector } from "../hook";
 import { fetchMyUser } from "../store/thunks/userThunk";
 import { StyledContainer, StyledHomeBox } from "../components/StyleContainer";
+import { fetchAllPosts } from "../store/thunks/postsThunk";
+import PostReusable from "../components/PostReusable";
 
 function Home() {
     const [user, setUser] = useState("");
     const navigation = useNavigation();
     const dispatch = useAppDispatch()
+    const allPosts = useAppSelector(state => state.posts.allPosts.data)
 
     const getUserInfo = async () => {
         const response = await getCurrentUser();
@@ -20,12 +23,8 @@ function Home() {
     useEffect(() => {
         getUserInfo();
         dispatch(fetchMyUser())
+        dispatch(fetchAllPosts())
     }, []);
-
-    async function handleSignOut() {
-        await signOut();
-        navigation.navigate("Login" as never);
-    }
 
     return (
         <StyledContainer>
@@ -34,13 +33,14 @@ function Home() {
             {/* HomeBox Component */}
             <StyledHomeBox>
                 <KuShopTitle title="HOME" />
+
                 <Text style={styles.homeBoxTitle}>KU Second hand Dashboard</Text>
                 <Text style={styles.homeBoxContent}>The shop items will display here!</Text>
+                { allPosts && allPosts.map((post, index) => (
+                        <PostReusable key={index} post={post} />
+                    ))}
             </StyledHomeBox>
             
-            <TouchableOpacity style={styles.logoutButton} onPress={handleSignOut}>
-                <Text style={styles.logoutButtonText}>Log Out</Text>
-            </TouchableOpacity>
         </StyledContainer>
     );
 }

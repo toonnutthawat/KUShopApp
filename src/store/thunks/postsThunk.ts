@@ -44,4 +44,11 @@ const fetchMyPosts = createAsyncThunk("fetchMyPosts", async () => {
     return response.data.listPosts.items
 })
 
-export { addPost , fetchMyPosts}
+const fetchAllPosts = createAsyncThunk("fetchAllPosts" , async () => {
+    const response = await client.graphql({
+        query: listPosts,
+    })
+    return response.data.listPosts.items
+})
+
+export { addPost , fetchMyPosts , fetchAllPosts }

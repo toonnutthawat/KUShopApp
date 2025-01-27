@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Post } from "../../API";
-import { addPost, fetchMyPosts } from "../thunks/postsThunk";
+import { addPost, fetchAllPosts, fetchMyPosts } from "../thunks/postsThunk";
 
 const postsSlice = createSlice({
   name: "posts",
@@ -33,6 +33,14 @@ const postsSlice = createSlice({
     builder.addCase(fetchMyPosts.rejected, (state) => {
       state.error = "fail to fetchMyPosts";
       console.log("fail to fetchMyPosts");
+    });
+
+    builder.addCase(fetchAllPosts.fulfilled , (state,action) => {
+      state.allPosts.data = action.payload as Post[]
+    })
+    builder.addCase(fetchAllPosts.rejected, (state) => {
+      state.error = "fail to fetchAllPosts";
+      console.log("fail to fetchAllPost");
     });
   },
   reducers: {},

@@ -1,6 +1,6 @@
 // components/StyledContainers.js
 import React, { useEffect } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
 import ProfileImage from "./ProfileImage";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { fetchMyUser } from "../store/thunks/userThunk";
@@ -13,16 +13,27 @@ export function StyledContainer({ children }) {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(fetchMyUser())
+        //dispatch(fetchMyUser())
+        const fetch = async () => {
+            await dispatch(fetchMyUser())
+        }
+        fetch()
     }, [])
 
-    return <View style={styles.container}>
-        <View style={{display: 'flex', flexDirection: 'row', marginTop: 10, right: 40, position: 'absolute'}}>
-            <ProfileImage size={20}></ProfileImage>
-            <Text style={{color: 'white', marginLeft: 5}}>{userInfo.id}</Text>
-        </View>
-        {children}
-    </View>;
+    return (
+        <ScrollView style={{flex: 1, backgroundColor: "#004d26"}}>
+            <View style={styles.container}>
+                <View style={{ display: 'flex', flexDirection: 'row', marginTop: 10, right: 40, position: 'absolute' }}>
+                    {
+                        userInfo && (
+                            <><ProfileImage size={20}></ProfileImage><Text style={{ color: 'white', marginLeft: 5 }}>{userInfo.id}</Text></>
+                        )
+                    }
+                </View>
+                {children}
+            </View>
+        </ScrollView>
+    );
 }
 
 export function StyledHomeBox({ children }) {
