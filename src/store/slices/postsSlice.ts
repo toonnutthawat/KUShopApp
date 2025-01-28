@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Post } from "../../API";
 import { addPost, fetchAllPosts, fetchMyPosts, removePost } from "../thunks/postsThunk";
+import { updateTotalLikes } from "../thunks/likeStatusThunk";
 
 const postsSlice = createSlice({
   name: "posts",
@@ -46,6 +47,10 @@ const postsSlice = createSlice({
       state.myPosts.data = state.myPosts.data.filter((post) => {
         return post.id !== action.payload.id
       })
+    })
+    builder.addCase(updateTotalLikes.fulfilled, (state,action) => {
+      const index = state.allPosts.data.findIndex((post) => post.id === action.payload.id)
+      state.allPosts.data[index].likes = action.payload.likes
     })
   },
   reducers: {},

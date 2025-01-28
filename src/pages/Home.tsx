@@ -14,7 +14,6 @@ function Home() {
     const navigation = useNavigation();
     const dispatch = useAppDispatch()
     const allPosts = useAppSelector(state => state.posts.allPosts.data || [])
-    console.log("allPosts: ",allPosts);
     
 
     if(!allPosts) return;

@@ -9,20 +9,27 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addComment, fetchCommentByPost } from "../../store/thunks/commentsThunk";
 import { useAppDispatch, useAppSelector } from "../../hook";
+import { changeLikeStatus, fetchLikeStatus, updateTotalLikes } from "../../store/thunks/likeStatusThunk";
+import { fetchAllPosts } from "../../store/thunks/postsThunk";
 
 function PostDetail({ route }) {
     const { post } : { post : Post} = route.params
     const formattedDate = format(new Date(post.createdAt), 'hh:mm a : PPP');
     const comments = useAppSelector(state => state.comments.data)
+    const likeStatus = useAppSelector(state => state.likeStatus.data || null)
+    const totalLikes = useAppSelector(state => state.posts.allPosts.data.find((fecthPost) => fecthPost.id === post.id))
     const [showComments, setShowComments] = useState(false)
     const [comment , setComment] = useState("")
     const dispatch = useAppDispatch()
     console.log("comments :" , comments);
+    console.log("likeStatus :", likeStatus);
+    
 
     useEffect(() => {
-        dispatch(fetchCommentByPost(post))
+        // dispatch(fetchCommentByPost(post))
         const fetch = async () => {
             dispatch(fetchCommentByPost(post))
+            dispatch(fetchLikeStatus(post.id))
         }
         fetch()
     },[post])
@@ -56,6 +63,13 @@ function PostDetail({ route }) {
         )
     })
 
+    const toggleLikeStatus = async () => {
+        await dispatch(changeLikeStatus(post.id))
+        await dispatch(fetchLikeStatus(post.id))
+        await dispatch(updateTotalLikes(post.id))
+        //await dispatch(fetchAllPosts())
+    }
+
     return (
         <StyledContainer>
             <StyledHomeBox>
@@ -70,8 +84,15 @@ function PostDetail({ route }) {
                             <Text style={[{ marginLeft: 10 }, styles.text]}>{post.userID}</Text>
                         </View>
                         <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 10 }}>
-                            <AntDesign name="like1" size={30} color="#004c27" />
-                            <Text style={[{ marginLeft: 10 }, styles.text]}>{post.likes}</Text>
+                            { likeStatus && (
+                            <Pressable onPress={toggleLikeStatus}>
+                            {
+                                (likeStatus.status === true) ? <AntDesign name="like1" size={30} color="#004c27" /> :
+                                <AntDesign name="like1" size={30} color="silver" />
+                            }
+                            </Pressable>)
+}
+                            <Text style={[{ marginLeft: 10 }, styles.text]}>{totalLikes.likes}</Text>
                         </View>
                         <Pressable onPress={() => setShowComments(!showComments)}>
                         <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 10 }}>
