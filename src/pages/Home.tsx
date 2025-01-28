@@ -10,23 +10,21 @@ import { fetchAllPosts } from "../store/thunks/postsThunk";
 import PostReusable from "../components/PostReusable";
 
 function Home() {
-    const [user, setUser] = useState("");
     const [term ,setTerm] = useState("")
     const navigation = useNavigation();
     const dispatch = useAppDispatch()
-    const allPosts = useAppSelector(state => state.posts.allPosts.data)
+    const allPosts = useAppSelector(state => state.posts.allPosts.data || [])
+    console.log("allPosts: ",allPosts);
+    
 
+    if(!allPosts) return;
     const filteredMyPosts = allPosts.filter((post) => post.title.toLowerCase().includes(term.toLowerCase()))
 
-    const getUserInfo = async () => {
-        const response = await getCurrentUser();
-        setUser(response.username);
-    };
-
     useEffect(() => {
-        getUserInfo();
-        dispatch(fetchMyUser())
-        dispatch(fetchAllPosts())
+        const fetch = async () => {
+            await dispatch(fetchAllPosts())
+        }
+        fetch()
     }, []);
 
     return (
@@ -45,7 +43,7 @@ function Home() {
                     >
                     </TextInput>
                 </View>
-                {allPosts && filteredMyPosts.map((post, index) => (
+                {filteredMyPosts && filteredMyPosts.map((post, index) => (
                     <PostReusable key={index} post={post} />
                 ))}
             </StyledHomeBox>

@@ -33,4 +33,24 @@ type User
       image: String
       user: User! @belongsTo(fields: ["userID"])
       userID: ID! @index(name: "byUser")
+      comments: [Comment] @hasMany(indexName: "byPost", fields:["id"])
     }
+
+    type Comment
+    @model
+    @auth (
+      rules: [
+        { allow : owner , provider: userPools , ownerField: "userID"}
+        { allow : private , provider: userPools, operations: [read, update]}
+      ]
+    )
+    @aws_cognito_user_pools
+    {
+      id: ID!
+      content: String!
+      post: Post! @belongsTo(fields: ["postID"])
+      postID: ID! @index(name: "byPost")
+      userID: String!
+    }
+
+

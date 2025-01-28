@@ -94,6 +94,10 @@ export const onCreatePost = /* GraphQL */ `subscription OnCreatePost(
       __typename
     }
     userID
+    comments {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -123,6 +127,10 @@ export const onUpdatePost = /* GraphQL */ `subscription OnUpdatePost(
       __typename
     }
     userID
+    comments {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -152,6 +160,10 @@ export const onDeletePost = /* GraphQL */ `subscription OnDeletePost(
       __typename
     }
     userID
+    comments {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -160,4 +172,91 @@ export const onDeletePost = /* GraphQL */ `subscription OnDeletePost(
 ` as GeneratedSubscription<
   APITypes.OnDeletePostSubscriptionVariables,
   APITypes.OnDeletePostSubscription
+>;
+export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
+  $filter: ModelSubscriptionCommentFilterInput
+  $userID: String
+) {
+  onCreateComment(filter: $filter, userID: $userID) {
+    id
+    content
+    post {
+      id
+      title
+      content
+      likes
+      image
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+    postID
+    userID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateCommentSubscriptionVariables,
+  APITypes.OnCreateCommentSubscription
+>;
+export const onUpdateComment = /* GraphQL */ `subscription OnUpdateComment(
+  $filter: ModelSubscriptionCommentFilterInput
+  $userID: String
+) {
+  onUpdateComment(filter: $filter, userID: $userID) {
+    id
+    content
+    post {
+      id
+      title
+      content
+      likes
+      image
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+    postID
+    userID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateCommentSubscriptionVariables,
+  APITypes.OnUpdateCommentSubscription
+>;
+export const onDeleteComment = /* GraphQL */ `subscription OnDeleteComment(
+  $filter: ModelSubscriptionCommentFilterInput
+  $userID: String
+) {
+  onDeleteComment(filter: $filter, userID: $userID) {
+    id
+    content
+    post {
+      id
+      title
+      content
+      likes
+      image
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+    postID
+    userID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteCommentSubscriptionVariables,
+  APITypes.OnDeleteCommentSubscription
 >;
