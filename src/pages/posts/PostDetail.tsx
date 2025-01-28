@@ -38,10 +38,10 @@ function PostDetail({ route }) {
     }
 
     if(!comments) return;
-    const renderedComments = comments.map((comment) => {
+    const renderedComments = comments.map((comment,index) => {
         const commentDate = format(new Date(comment.createdAt), 'hh:mm a : PPP')
         return(
-            <View style={{backgroundColor: 'white', padding: 10, borderRadius: 10, marginTop: 10}}>
+            <View style={{backgroundColor: 'white', padding: 10, borderRadius: 10, marginTop: 10}} key={index}>
                 <View style={{display: 'flex' ,flexDirection: 'row'}}>
                     <ProfileImage size={24}></ProfileImage>
                     <Text style={{marginLeft: 5}}>{comment.userID}</Text>

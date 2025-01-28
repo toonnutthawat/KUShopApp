@@ -76,6 +76,10 @@ export const createPost = /* GraphQL */ `mutation CreatePost(
       nextToken
       __typename
     }
+    likeStatuses {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -109,6 +113,10 @@ export const updatePost = /* GraphQL */ `mutation UpdatePost(
       nextToken
       __typename
     }
+    likeStatuses {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -139,6 +147,10 @@ export const deletePost = /* GraphQL */ `mutation DeletePost(
     }
     userID
     comments {
+      nextToken
+      __typename
+    }
+    likeStatuses {
       nextToken
       __typename
     }
@@ -237,6 +249,96 @@ export const deleteComment = /* GraphQL */ `mutation DeleteComment(
 ` as GeneratedMutation<
   APITypes.DeleteCommentMutationVariables,
   APITypes.DeleteCommentMutation
+>;
+export const createLikeStatus = /* GraphQL */ `mutation CreateLikeStatus(
+  $input: CreateLikeStatusInput!
+  $condition: ModelLikeStatusConditionInput
+) {
+  createLikeStatus(input: $input, condition: $condition) {
+    id
+    status
+    post {
+      id
+      title
+      content
+      likes
+      image
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+    postID
+    userID
+    createdAt
+    updatedAt
+    username
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateLikeStatusMutationVariables,
+  APITypes.CreateLikeStatusMutation
+>;
+export const updateLikeStatus = /* GraphQL */ `mutation UpdateLikeStatus(
+  $input: UpdateLikeStatusInput!
+  $condition: ModelLikeStatusConditionInput
+) {
+  updateLikeStatus(input: $input, condition: $condition) {
+    id
+    status
+    post {
+      id
+      title
+      content
+      likes
+      image
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+    postID
+    userID
+    createdAt
+    updatedAt
+    username
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateLikeStatusMutationVariables,
+  APITypes.UpdateLikeStatusMutation
+>;
+export const deleteLikeStatus = /* GraphQL */ `mutation DeleteLikeStatus(
+  $input: DeleteLikeStatusInput!
+  $condition: ModelLikeStatusConditionInput
+) {
+  deleteLikeStatus(input: $input, condition: $condition) {
+    id
+    status
+    post {
+      id
+      title
+      content
+      likes
+      image
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+    postID
+    userID
+    createdAt
+    updatedAt
+    username
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteLikeStatusMutationVariables,
+  APITypes.DeleteLikeStatusMutation
 >;
 export const createUser = /* GraphQL */ `mutation CreateUser(
   $input: CreateUserInput!

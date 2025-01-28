@@ -1,6 +1,6 @@
 import { generateClient } from "@aws-amplify/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createPost } from "../../graphql/mutations";
+import { createPost, deletePost } from "../../graphql/mutations";
 import { getCurrentUser } from "aws-amplify/auth";
 import { listPosts } from "../../graphql/queries";
 
@@ -51,4 +51,14 @@ const fetchAllPosts = createAsyncThunk("fetchAllPosts" , async () => {
     return response.data.listPosts.items
 })
 
-export { addPost , fetchMyPosts , fetchAllPosts }
+const removePost = createAsyncThunk("removePost", async (id: string) => {
+    const response = await client.graphql({
+        query: deletePost,
+        variables: {
+            input: {id}
+        }
+    })
+    return response.data.deletePost
+})
+
+export { addPost , fetchMyPosts , fetchAllPosts , removePost}

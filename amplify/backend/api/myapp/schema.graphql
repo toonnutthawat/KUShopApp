@@ -2,55 +2,67 @@ type User
   @model
   @auth(
     rules: [
-      { allow: private  , operations: [read,update] , provider: userPools}
-      { allow: owner, ownerField: "id" , provider: userPools }
-      { allow: public , operations: [create]}
+      { allow: private, operations: [read, update], provider: userPools }
+      { allow: owner, ownerField: "id", provider: userPools }
+      { allow: public, operations: [create] }
     ]
   )
-  @aws_cognito_user_pools
-  {
-    id: ID!
-    email: String!
-    profile: String
-    credit: Boolean!
-    posts: [Post] @hasMany(indexName: "byUser", fields: ["id"])
-  }
+  @aws_cognito_user_pools {
+  id: ID!
+  email: String!
+  profile: String
+  credit: Boolean!
+  posts: [Post] @hasMany(indexName: "byUser", fields: ["id"])
+}
 
-  type Post
-    @model
-    @auth (
-      rules: [
-        { allow : owner , provider: userPools , ownerField: "userID"}
-        { allow : private , provider: userPools, operations: [read, update]}
-      ]
-    )
-    @aws_cognito_user_pools
-    {
-      id: ID!
-      title: String!
-      content: String!
-      likes: Int!
-      image: String
-      user: User! @belongsTo(fields: ["userID"])
-      userID: ID! @index(name: "byUser")
-      comments: [Comment] @hasMany(indexName: "byPost", fields:["id"])
-    }
+type Post
+  @model
+  @auth(
+    rules: [
+      { allow: owner, provider: userPools, ownerField: "userID" }
+      { allow: private, provider: userPools, operations: [read, update] }
+    ]
+  )
+  @aws_cognito_user_pools {
+  id: ID!
+  title: String!
+  content: String!
+  likes: Int!
+  image: String
+  user: User! @belongsTo(fields: ["userID"])
+  userID: ID! @index(name: "byUser")
+  comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+  likeStatuses: [LikeStatus] @hasMany(indexName: "byPost", fields: ["id"])
+}
 
-    type Comment
-    @model
-    @auth (
-      rules: [
-        { allow : owner , provider: userPools , ownerField: "userID"}
-        { allow : private , provider: userPools, operations: [read, update]}
-      ]
-    )
-    @aws_cognito_user_pools
-    {
-      id: ID!
-      content: String!
-      post: Post! @belongsTo(fields: ["postID"])
-      postID: ID! @index(name: "byPost")
-      userID: String!
-    }
+type Comment
+  @model
+  @auth(
+    rules: [
+      { allow: owner, provider: userPools, ownerField: "userID" }
+      { allow: private, provider: userPools, operations: [read, update] }
+    ]
+  )
+  @aws_cognito_user_pools {
+  id: ID!
+  content: String!
+  post: Post! @belongsTo(fields: ["postID"])
+  postID: ID! @index(name: "byPost")
+  userID: String!
+}
 
-
+type LikeStatus
+  @model
+  @auth(
+    rules: [
+      { allow: owner, provider: userPools, ownerField: "username" }
+      { allow: private, provider: userPools, operations: [read, delete] }
+    ]
+  )
+  @aws_cognito_user_pools { # Include this directive to enable Cognito User Pools
+  id: ID!
+  status: Boolean!
+  post: Post! @belongsTo(fields: ["postID"])
+  postID: ID! @index(name: "byPost")
+  userID: String!
+}

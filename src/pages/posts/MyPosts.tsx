@@ -34,7 +34,7 @@ function MyPosts() {
                         </TextInput>
                     </View>
                     {filteredMyPosts.map((post, index) => (
-                        <PostReusable key={index} post={post} />
+                        <PostReusable key={index} post={post} isMyPosts={true} />
                     ))}
                 </StyledHomeBox>
             </StyledContainer>

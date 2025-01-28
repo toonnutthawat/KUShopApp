@@ -65,6 +65,10 @@ export const getPost = /* GraphQL */ `query GetPost($id: ID!) {
       nextToken
       __typename
     }
+    likeStatuses {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -142,6 +146,57 @@ export const listComments = /* GraphQL */ `query ListComments(
   APITypes.ListCommentsQueryVariables,
   APITypes.ListCommentsQuery
 >;
+export const getLikeStatus = /* GraphQL */ `query GetLikeStatus($id: ID!) {
+  getLikeStatus(id: $id) {
+    id
+    status
+    post {
+      id
+      title
+      content
+      likes
+      image
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+    postID
+    userID
+    createdAt
+    updatedAt
+    username
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetLikeStatusQueryVariables,
+  APITypes.GetLikeStatusQuery
+>;
+export const listLikeStatuses = /* GraphQL */ `query ListLikeStatuses(
+  $filter: ModelLikeStatusFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listLikeStatuses(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      status
+      postID
+      userID
+      createdAt
+      updatedAt
+      username
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListLikeStatusesQueryVariables,
+  APITypes.ListLikeStatusesQuery
+>;
 export const postsByUserID = /* GraphQL */ `query PostsByUserID(
   $userID: ID!
   $sortDirection: ModelSortDirection
@@ -205,4 +260,36 @@ export const commentsByPostID = /* GraphQL */ `query CommentsByPostID(
 ` as GeneratedQuery<
   APITypes.CommentsByPostIDQueryVariables,
   APITypes.CommentsByPostIDQuery
+>;
+export const likeStatusesByPostID = /* GraphQL */ `query LikeStatusesByPostID(
+  $postID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelLikeStatusFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  likeStatusesByPostID(
+    postID: $postID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      status
+      postID
+      userID
+      createdAt
+      updatedAt
+      username
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.LikeStatusesByPostIDQueryVariables,
+  APITypes.LikeStatusesByPostIDQuery
 >;
