@@ -13,6 +13,8 @@ type User
   profile: String
   credit: Boolean!
   posts: [Post] @hasMany(indexName: "byUser", fields: ["id"])
+  chats: [Chat] @hasMany(indexName: "byUser", fields: ["id"])
+  chats2: [Chat] @hasMany(indexName: "byUser2", fields: ["id"])
 }
 
 type Post
@@ -66,3 +68,40 @@ type LikeStatus
   postID: ID! @index(name: "byPost")
   userID: String!
 }
+
+type Chat
+  @model
+  @auth(
+    rules: [
+      {allow: owner , provider: userPools, ownerField: "userID"}
+      {allow: owner , provider: userPools, ownerField: "userID2"}
+    ]
+  )
+@aws_cognito_user_pools
+{
+  id: ID!
+  message: [Message] @hasMany(indexName: "byChat", fields: ["id"])
+  user: User! @belongsTo(fields: ["userID"])
+  userID: ID! @index(name: "byUser")
+  user2: User! @belongsTo(fields: ["userID2"])
+  userID2: ID! @index(name: "byUser2")
+}
+
+type Message
+  @model
+  @auth(
+    rules: [
+      {allow: owner , provider: userPools, ownerField: "userID"}
+      {allow: private, provider: userPools, operations: [read,delete]}
+    ]
+  )
+@aws_cognito_user_pools
+{
+  id: ID!
+  content: String!
+  userID: String!
+  chat: Chat! @belongsTo(fields: ["chatID"])
+  chatID: ID! @index(name: "byChat")
+}
+
+

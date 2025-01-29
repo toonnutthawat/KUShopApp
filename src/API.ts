@@ -75,6 +75,8 @@ export type User = {
   profile?: string | null,
   credit: boolean,
   posts?: ModelPostConnection | null,
+  chats?: ModelChatConnection | null,
+  chats2?: ModelChatConnection | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -133,6 +135,41 @@ export type LikeStatus = {
   createdAt: string,
   updatedAt: string,
   username?: string | null,
+};
+
+export type ModelChatConnection = {
+  __typename: "ModelChatConnection",
+  items:  Array<Chat | null >,
+  nextToken?: string | null,
+};
+
+export type Chat = {
+  __typename: "Chat",
+  id: string,
+  message?: ModelMessageConnection | null,
+  user: User,
+  userID: string,
+  user2: User,
+  userID2: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelMessageConnection = {
+  __typename: "ModelMessageConnection",
+  items:  Array<Message | null >,
+  nextToken?: string | null,
+};
+
+export type Message = {
+  __typename: "Message",
+  id: string,
+  content: string,
+  userID: string,
+  chat: Chat,
+  chatID: string,
+  createdAt: string,
+  updatedAt: string,
 };
 
 export type DeleteUserInput = {
@@ -261,6 +298,61 @@ export type DeleteLikeStatusInput = {
   id: string,
 };
 
+export type CreateChatInput = {
+  id?: string | null,
+  userID: string,
+  userID2: string,
+};
+
+export type ModelChatConditionInput = {
+  userID?: ModelIDInput | null,
+  userID2?: ModelIDInput | null,
+  and?: Array< ModelChatConditionInput | null > | null,
+  or?: Array< ModelChatConditionInput | null > | null,
+  not?: ModelChatConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type UpdateChatInput = {
+  id: string,
+  userID?: string | null,
+  userID2?: string | null,
+};
+
+export type DeleteChatInput = {
+  id: string,
+};
+
+export type CreateMessageInput = {
+  id?: string | null,
+  content: string,
+  userID: string,
+  chatID: string,
+};
+
+export type ModelMessageConditionInput = {
+  content?: ModelStringInput | null,
+  userID?: ModelStringInput | null,
+  chatID?: ModelIDInput | null,
+  and?: Array< ModelMessageConditionInput | null > | null,
+  or?: Array< ModelMessageConditionInput | null > | null,
+  not?: ModelMessageConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type UpdateMessageInput = {
+  id: string,
+  content?: string | null,
+  userID?: string | null,
+  chatID?: string | null,
+};
+
+export type DeleteMessageInput = {
+  id: string,
+};
+
 export type CreateUserInput = {
   id?: string | null,
   email: string,
@@ -323,6 +415,29 @@ export type ModelLikeStatusFilterInput = {
   or?: Array< ModelLikeStatusFilterInput | null > | null,
   not?: ModelLikeStatusFilterInput | null,
   username?: ModelStringInput | null,
+};
+
+export type ModelChatFilterInput = {
+  id?: ModelIDInput | null,
+  userID?: ModelIDInput | null,
+  userID2?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelChatFilterInput | null > | null,
+  or?: Array< ModelChatFilterInput | null > | null,
+  not?: ModelChatFilterInput | null,
+};
+
+export type ModelMessageFilterInput = {
+  id?: ModelIDInput | null,
+  content?: ModelStringInput | null,
+  userID?: ModelStringInput | null,
+  chatID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelMessageFilterInput | null > | null,
+  or?: Array< ModelMessageFilterInput | null > | null,
+  not?: ModelMessageFilterInput | null,
 };
 
 export enum ModelSortDirection {
@@ -425,6 +540,27 @@ export type ModelSubscriptionLikeStatusFilterInput = {
   username?: ModelStringInput | null,
 };
 
+export type ModelSubscriptionChatFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionChatFilterInput | null > | null,
+  or?: Array< ModelSubscriptionChatFilterInput | null > | null,
+  userID?: ModelStringInput | null,
+  userID2?: ModelStringInput | null,
+};
+
+export type ModelSubscriptionMessageFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  content?: ModelSubscriptionStringInput | null,
+  chatID?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionMessageFilterInput | null > | null,
+  or?: Array< ModelSubscriptionMessageFilterInput | null > | null,
+  userID?: ModelStringInput | null,
+};
+
 export type UpdateUserMutationVariables = {
   input: UpdateUserInput,
   condition?: ModelUserConditionInput | null,
@@ -439,6 +575,14 @@ export type UpdateUserMutation = {
     credit: boolean,
     posts?:  {
       __typename: "ModelPostConnection",
+      nextToken?: string | null,
+    } | null,
+    chats?:  {
+      __typename: "ModelChatConnection",
+      nextToken?: string | null,
+    } | null,
+    chats2?:  {
+      __typename: "ModelChatConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -460,6 +604,14 @@ export type DeleteUserMutation = {
     credit: boolean,
     posts?:  {
       __typename: "ModelPostConnection",
+      nextToken?: string | null,
+    } | null,
+    chats?:  {
+      __typename: "ModelChatConnection",
+      nextToken?: string | null,
+    } | null,
+    chats2?:  {
+      __typename: "ModelChatConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -746,6 +898,195 @@ export type DeleteLikeStatusMutation = {
   } | null,
 };
 
+export type CreateChatMutationVariables = {
+  input: CreateChatInput,
+  condition?: ModelChatConditionInput | null,
+};
+
+export type CreateChatMutation = {
+  createChat?:  {
+    __typename: "Chat",
+    id: string,
+    message?:  {
+      __typename: "ModelMessageConnection",
+      nextToken?: string | null,
+    } | null,
+    user:  {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      credit: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    userID: string,
+    user2:  {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      credit: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    userID2: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateChatMutationVariables = {
+  input: UpdateChatInput,
+  condition?: ModelChatConditionInput | null,
+};
+
+export type UpdateChatMutation = {
+  updateChat?:  {
+    __typename: "Chat",
+    id: string,
+    message?:  {
+      __typename: "ModelMessageConnection",
+      nextToken?: string | null,
+    } | null,
+    user:  {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      credit: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    userID: string,
+    user2:  {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      credit: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    userID2: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteChatMutationVariables = {
+  input: DeleteChatInput,
+  condition?: ModelChatConditionInput | null,
+};
+
+export type DeleteChatMutation = {
+  deleteChat?:  {
+    __typename: "Chat",
+    id: string,
+    message?:  {
+      __typename: "ModelMessageConnection",
+      nextToken?: string | null,
+    } | null,
+    user:  {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      credit: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    userID: string,
+    user2:  {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      credit: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    userID2: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateMessageMutationVariables = {
+  input: CreateMessageInput,
+  condition?: ModelMessageConditionInput | null,
+};
+
+export type CreateMessageMutation = {
+  createMessage?:  {
+    __typename: "Message",
+    id: string,
+    content: string,
+    userID: string,
+    chat:  {
+      __typename: "Chat",
+      id: string,
+      userID: string,
+      userID2: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    chatID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateMessageMutationVariables = {
+  input: UpdateMessageInput,
+  condition?: ModelMessageConditionInput | null,
+};
+
+export type UpdateMessageMutation = {
+  updateMessage?:  {
+    __typename: "Message",
+    id: string,
+    content: string,
+    userID: string,
+    chat:  {
+      __typename: "Chat",
+      id: string,
+      userID: string,
+      userID2: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    chatID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteMessageMutationVariables = {
+  input: DeleteMessageInput,
+  condition?: ModelMessageConditionInput | null,
+};
+
+export type DeleteMessageMutation = {
+  deleteMessage?:  {
+    __typename: "Message",
+    id: string,
+    content: string,
+    userID: string,
+    chat:  {
+      __typename: "Chat",
+      id: string,
+      userID: string,
+      userID2: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    chatID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type CreateUserMutationVariables = {
   input: CreateUserInput,
   condition?: ModelUserConditionInput | null,
@@ -760,6 +1101,14 @@ export type CreateUserMutation = {
     credit: boolean,
     posts?:  {
       __typename: "ModelPostConnection",
+      nextToken?: string | null,
+    } | null,
+    chats?:  {
+      __typename: "ModelChatConnection",
+      nextToken?: string | null,
+    } | null,
+    chats2?:  {
+      __typename: "ModelChatConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -780,6 +1129,14 @@ export type GetUserQuery = {
     credit: boolean,
     posts?:  {
       __typename: "ModelPostConnection",
+      nextToken?: string | null,
+    } | null,
+    chats?:  {
+      __typename: "ModelChatConnection",
+      nextToken?: string | null,
+    } | null,
+    chats2?:  {
+      __typename: "ModelChatConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -968,6 +1325,110 @@ export type ListLikeStatusesQuery = {
   } | null,
 };
 
+export type GetChatQueryVariables = {
+  id: string,
+};
+
+export type GetChatQuery = {
+  getChat?:  {
+    __typename: "Chat",
+    id: string,
+    message?:  {
+      __typename: "ModelMessageConnection",
+      nextToken?: string | null,
+    } | null,
+    user:  {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      credit: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    userID: string,
+    user2:  {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      credit: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    userID2: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListChatsQueryVariables = {
+  filter?: ModelChatFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListChatsQuery = {
+  listChats?:  {
+    __typename: "ModelChatConnection",
+    items:  Array< {
+      __typename: "Chat",
+      id: string,
+      userID: string,
+      userID2: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetMessageQueryVariables = {
+  id: string,
+};
+
+export type GetMessageQuery = {
+  getMessage?:  {
+    __typename: "Message",
+    id: string,
+    content: string,
+    userID: string,
+    chat:  {
+      __typename: "Chat",
+      id: string,
+      userID: string,
+      userID2: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    chatID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListMessagesQueryVariables = {
+  filter?: ModelMessageFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListMessagesQuery = {
+  listMessages?:  {
+    __typename: "ModelMessageConnection",
+    items:  Array< {
+      __typename: "Message",
+      id: string,
+      content: string,
+      userID: string,
+      chatID: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type PostsByUserIDQueryVariables = {
   userID: string,
   sortDirection?: ModelSortDirection | null,
@@ -1043,6 +1504,76 @@ export type LikeStatusesByPostIDQuery = {
   } | null,
 };
 
+export type ChatsByUserIDQueryVariables = {
+  userID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelChatFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ChatsByUserIDQuery = {
+  chatsByUserID?:  {
+    __typename: "ModelChatConnection",
+    items:  Array< {
+      __typename: "Chat",
+      id: string,
+      userID: string,
+      userID2: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ChatsByUserID2QueryVariables = {
+  userID2: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelChatFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ChatsByUserID2Query = {
+  chatsByUserID2?:  {
+    __typename: "ModelChatConnection",
+    items:  Array< {
+      __typename: "Chat",
+      id: string,
+      userID: string,
+      userID2: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type MessagesByChatIDQueryVariables = {
+  chatID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelMessageFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type MessagesByChatIDQuery = {
+  messagesByChatID?:  {
+    __typename: "ModelMessageConnection",
+    items:  Array< {
+      __typename: "Message",
+      id: string,
+      content: string,
+      userID: string,
+      chatID: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type OnCreateUserSubscriptionVariables = {
   filter?: ModelSubscriptionUserFilterInput | null,
   id?: string | null,
@@ -1057,6 +1588,14 @@ export type OnCreateUserSubscription = {
     credit: boolean,
     posts?:  {
       __typename: "ModelPostConnection",
+      nextToken?: string | null,
+    } | null,
+    chats?:  {
+      __typename: "ModelChatConnection",
+      nextToken?: string | null,
+    } | null,
+    chats2?:  {
+      __typename: "ModelChatConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1080,6 +1619,14 @@ export type OnUpdateUserSubscription = {
       __typename: "ModelPostConnection",
       nextToken?: string | null,
     } | null,
+    chats?:  {
+      __typename: "ModelChatConnection",
+      nextToken?: string | null,
+    } | null,
+    chats2?:  {
+      __typename: "ModelChatConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1099,6 +1646,14 @@ export type OnDeleteUserSubscription = {
     credit: boolean,
     posts?:  {
       __typename: "ModelPostConnection",
+      nextToken?: string | null,
+    } | null,
+    chats?:  {
+      __typename: "ModelChatConnection",
+      nextToken?: string | null,
+    } | null,
+    chats2?:  {
+      __typename: "ModelChatConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1382,5 +1937,197 @@ export type OnDeleteLikeStatusSubscription = {
     createdAt: string,
     updatedAt: string,
     username?: string | null,
+  } | null,
+};
+
+export type OnCreateChatSubscriptionVariables = {
+  filter?: ModelSubscriptionChatFilterInput | null,
+  userID?: string | null,
+  userID2?: string | null,
+};
+
+export type OnCreateChatSubscription = {
+  onCreateChat?:  {
+    __typename: "Chat",
+    id: string,
+    message?:  {
+      __typename: "ModelMessageConnection",
+      nextToken?: string | null,
+    } | null,
+    user:  {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      credit: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    userID: string,
+    user2:  {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      credit: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    userID2: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateChatSubscriptionVariables = {
+  filter?: ModelSubscriptionChatFilterInput | null,
+  userID?: string | null,
+  userID2?: string | null,
+};
+
+export type OnUpdateChatSubscription = {
+  onUpdateChat?:  {
+    __typename: "Chat",
+    id: string,
+    message?:  {
+      __typename: "ModelMessageConnection",
+      nextToken?: string | null,
+    } | null,
+    user:  {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      credit: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    userID: string,
+    user2:  {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      credit: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    userID2: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteChatSubscriptionVariables = {
+  filter?: ModelSubscriptionChatFilterInput | null,
+  userID?: string | null,
+  userID2?: string | null,
+};
+
+export type OnDeleteChatSubscription = {
+  onDeleteChat?:  {
+    __typename: "Chat",
+    id: string,
+    message?:  {
+      __typename: "ModelMessageConnection",
+      nextToken?: string | null,
+    } | null,
+    user:  {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      credit: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    userID: string,
+    user2:  {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      credit: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    userID2: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateMessageSubscriptionVariables = {
+  filter?: ModelSubscriptionMessageFilterInput | null,
+  userID?: string | null,
+};
+
+export type OnCreateMessageSubscription = {
+  onCreateMessage?:  {
+    __typename: "Message",
+    id: string,
+    content: string,
+    userID: string,
+    chat:  {
+      __typename: "Chat",
+      id: string,
+      userID: string,
+      userID2: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    chatID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateMessageSubscriptionVariables = {
+  filter?: ModelSubscriptionMessageFilterInput | null,
+  userID?: string | null,
+};
+
+export type OnUpdateMessageSubscription = {
+  onUpdateMessage?:  {
+    __typename: "Message",
+    id: string,
+    content: string,
+    userID: string,
+    chat:  {
+      __typename: "Chat",
+      id: string,
+      userID: string,
+      userID2: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    chatID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteMessageSubscriptionVariables = {
+  filter?: ModelSubscriptionMessageFilterInput | null,
+  userID?: string | null,
+};
+
+export type OnDeleteMessageSubscription = {
+  onDeleteMessage?:  {
+    __typename: "Message",
+    id: string,
+    content: string,
+    userID: string,
+    chat:  {
+      __typename: "Chat",
+      id: string,
+      userID: string,
+      userID2: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    chatID: string,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };

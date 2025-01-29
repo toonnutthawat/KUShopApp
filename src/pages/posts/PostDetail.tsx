@@ -10,26 +10,30 @@ import { useDispatch } from "react-redux";
 import { addComment, fetchCommentByPost } from "../../store/thunks/commentsThunk";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { changeLikeStatus, fetchLikeStatus, updateTotalLikes } from "../../store/thunks/likeStatusThunk";
-import { fetchAllPosts } from "../../store/thunks/postsThunk";
+import { fetchAllPosts, fetchMyPosts } from "../../store/thunks/postsThunk";
+import Entypo from '@expo/vector-icons/Entypo';
+import { fetchMyChat } from "../../store/thunks/chatsThunk";
+import { useNavigation } from "@react-navigation/native";
 
 function PostDetail({ route }) {
     const { post } : { post : Post} = route.params
     const formattedDate = format(new Date(post.createdAt), 'hh:mm a : PPP');
     const comments = useAppSelector(state => state.comments.data)
+    const myUser = useAppSelector(state => state.users.myUser)
+    const myChatWithPostID = useAppSelector(state => state.chats.myChat)
     const likeStatus = useAppSelector(state => state.likeStatus.data || null)
     const totalLikes = useAppSelector(state => state.posts.allPosts.data.find((fecthPost) => fecthPost.id === post.id))
     const [showComments, setShowComments] = useState(false)
     const [comment , setComment] = useState("")
     const dispatch = useAppDispatch()
-    console.log("comments :" , comments);
-    console.log("likeStatus :", likeStatus);
-    
+    const navigation = useNavigation()
 
     useEffect(() => {
         // dispatch(fetchCommentByPost(post))
         const fetch = async () => {
             dispatch(fetchCommentByPost(post))
             dispatch(fetchLikeStatus(post.id))
+            dispatch(fetchMyPosts())
         }
         fetch()
     },[post])
@@ -42,6 +46,11 @@ function PostDetail({ route }) {
         }))
         setShowComments(false)
         setComment("")
+    }
+
+    const checkUserChatWithFriendID = async () => {
+        await dispatch(fetchMyChat(post.userID))
+        navigation.navigate("Chat" as never)
     }
 
     if(!comments) return;
@@ -67,7 +76,6 @@ function PostDetail({ route }) {
         await dispatch(changeLikeStatus(post.id))
         await dispatch(fetchLikeStatus(post.id))
         await dispatch(updateTotalLikes(post.id))
-        //await dispatch(fetchAllPosts())
     }
 
     return (
@@ -82,6 +90,14 @@ function PostDetail({ route }) {
                         <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 10 }}>
                             <ProfileImage size={20} />
                             <Text style={[{ marginLeft: 10 }, styles.text]}>{post.userID}</Text>
+                            {
+                                myUser.id !== post.userID && (
+                                    <Pressable onPress={checkUserChatWithFriendID}>
+                                        <Entypo name="chat" size={30} color="#004c27"  style={{marginLeft: 20}}/>
+                                    </Pressable>
+                                )
+                            }
+                            
                         </View>
                         <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 10 }}>
                             { likeStatus && (
