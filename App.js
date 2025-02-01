@@ -18,7 +18,6 @@ import AllChats from "./src/pages/chat/AllChats";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import ChatPage from "./src/pages/chat/ChatPage";
-import CreateChat from "./src/pages/chat/CreateChat";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -46,7 +45,7 @@ function BottomTabs() {
         tabBarActiveTintColor: "#004c27",
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
-          width: 800, // Adjust the height of the tab bar
+          width: 700, // Adjust the height of the tab bar
         },
       })}
     >
@@ -75,15 +74,6 @@ function BottomTabs() {
       <Tab.Screen
         name="ChatPage"
         component={ChatPage}
-        options={{
-          tabBarButton: () => null, // Hide the tab button completely
-          tabBarIcon: () => <></>, // Hide the icon
-          tabBarLabel: () => null, // Hide the label
-        }}
-      />
-      <Tab.Screen
-        name="CreateChat"
-        component={CreateChat}
         options={{
           tabBarButton: () => null, // Hide the tab button completely
           tabBarIcon: () => <></>, // Hide the icon

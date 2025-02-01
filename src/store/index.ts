@@ -4,6 +4,7 @@ import { postsReducer } from "./slices/postsSlice"
 import { commentReducer } from "./slices/commentsSlice"
 import { likeStatusReducer } from "./slices/likeStatusSlice"
 import { chatReducer } from "./slices/chatsSlice"
+import { messagesReducer } from "./slices/messagesSlice"
 
 
 const store = configureStore({
@@ -13,6 +14,7 @@ const store = configureStore({
         comments: commentReducer,
         likeStatus: likeStatusReducer,
         chats: chatReducer,
+        messages: messagesReducer
     }
 })
 
