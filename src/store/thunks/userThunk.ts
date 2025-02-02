@@ -41,7 +41,7 @@ const fetchMyUser = createAsyncThunk("fetchMyUser", async () => {
         id: userInfo.username,
       },
     });
-    console.log(response);
+    //console.log(response);
     return response.data.getUser;
 
   } catch (e) {

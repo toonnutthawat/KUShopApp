@@ -1,46 +1,53 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, TextInput } from "react-native";
 import KuShopTitle from "../components/KuShopTitle";
 import { getCurrentUser, signOut } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { useAppDispatch } from "../hook";
+import { useAppDispatch, useAppSelector } from "../hook";
 import { fetchMyUser } from "../store/thunks/userThunk";
+import { StyledContainer, StyledHomeBox } from "../components/StyleContainer";
+import { fetchAllPosts } from "../store/thunks/postsThunk";
+import PostReusable from "../components/PostReusable";
 
 function Home() {
-    const [user, setUser] = useState("");
+    const [term ,setTerm] = useState("")
     const navigation = useNavigation();
     const dispatch = useAppDispatch()
+    const allPosts = useAppSelector(state => state.posts.allPosts.data || [])
+    
 
-    const getUserInfo = async () => {
-        const response = await getCurrentUser();
-        setUser(response.username);
-    };
+    if(!allPosts) return;
+    const filteredMyPosts = allPosts.filter((post) => post.title.toLowerCase().includes(term.toLowerCase()))
 
     useEffect(() => {
-        getUserInfo();
-        dispatch(fetchMyUser())
+        const fetch = async () => {
+            await dispatch(fetchAllPosts())
+        }
+        fetch()
     }, []);
 
-    async function handleSignOut() {
-        await signOut();
-        navigation.navigate("Login" as never);
-    }
-
     return (
-        <View style={styles.container}>
-            <Text style={styles.username}>Welcome, {user}!</Text>
-            
+        <StyledContainer>
+            {/* <Text style={styles.username}>Welcome, {user}!</Text> */}
+
             {/* HomeBox Component */}
-            <View style={styles.homeBox}>
-                <KuShopTitle title="HOME" />
-                <Text style={styles.homeBoxTitle}>KU Second hand Dashboard</Text>
-                <Text style={styles.homeBoxContent}>The shop items will display here!</Text>
-            </View>
-            
-            <TouchableOpacity style={styles.logoutButton} onPress={handleSignOut}>
-                <Text style={styles.logoutButtonText}>Log Out</Text>
-            </TouchableOpacity>
-        </View>
+            <StyledHomeBox>
+                <KuShopTitle title="Welcome !" />
+                <View>
+                    <TextInput
+                        placeholder="search title"
+                        value={term}
+                        onChangeText={(value) => setTerm(value)}
+                        style={{ backgroundColor: 'white', width: 300, borderRadius: 20 }}
+                    >
+                    </TextInput>
+                </View>
+                {filteredMyPosts && filteredMyPosts.map((post, index) => (
+                    <PostReusable key={index} post={post} />
+                ))}
+            </StyledHomeBox>
+
+        </StyledContainer>
     );
 }
 
@@ -74,12 +81,12 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#004d26",
         marginBottom: 10,
-        textAlign : "center"
+        textAlign: "center"
     },
     homeBoxContent: {
         fontSize: 16,
         color: "#555",
-        textAlign : "center"
+        textAlign: "center"
     },
     logoutButton: {
         backgroundColor: "red",

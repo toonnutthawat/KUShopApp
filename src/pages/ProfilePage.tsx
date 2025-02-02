@@ -8,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker'
 import { downloadData, getProperties, uploadData } from 'aws-amplify/storage';
 import { StyledContainer, StyledHomeBox } from "../components/StyleContainer";
 import { useNavigation } from "@react-navigation/native";
+import { signOut } from "aws-amplify/auth";
 
 function ProfilePage() {
 
@@ -88,6 +89,11 @@ function ProfilePage() {
         }
     }
 
+        async function handleSignOut() {
+            await signOut();
+            navigation.navigate("Login" as never);
+        }
+        
     return (
         <StyledContainer>
             <StyledHomeBox>
@@ -135,6 +141,20 @@ function ProfilePage() {
                 >
                     <Text style={{ color: 'white' }}>MyPosts</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={handleSignOut}
+                    style={{ backgroundColor: "red", 
+                        padding: 4, 
+                        alignItems: 'center', 
+                        borderRadius: 10 , 
+                        width: 200,
+                        marginTop: 20
+                    }}
+                >
+                    <Text style={{ color: 'white' }}>sign out</Text>
+                </TouchableOpacity>
+                
             </StyledHomeBox>
         </StyledContainer>
     )
