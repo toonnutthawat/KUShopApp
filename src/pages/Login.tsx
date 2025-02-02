@@ -1,8 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, StyleSheet, TextInput, Text, TouchableOpacity } from "react-native";
-import KuShopTitle from "../components/KuShopTitle";
+import { View, TextInput, Text, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { signIn, signOut } from "aws-amplify/auth";
+import KuShopTitle from "../components/KuShopTitle";
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -31,123 +31,42 @@ function Login() {
                 setErrorMessage("Fail to login");
             }
         } catch (e) {
-            setErrorMessage((e as Error).message);
+            setErrorMessage((e).message);
         }
     };
 
     return (
-        <View style={styles.container}>
-
-            {/* Login Box */}
-            <View style={styles.loginBox}>
+        <View className="flex-1 bg-green-900 items-center justify-center px-4">
+            <View className="bg-white w-4/5 rounded-2xl p-6 shadow-lg shadow-black">
                 <KuShopTitle title="LOGIN" />
                 <TextInput
-                    placeholder="username"
+                    placeholder="Username"
                     value={username}
-                    onChangeText={(value) => setUsername(value)}
-                    style={styles.input}
+                    onChangeText={setUsername}
+                    className="bg-gray-100 rounded-md h-12 px-4 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300"
                     placeholderTextColor="#555"
                 />
                 <TextInput
-                    placeholder="password"
-                    secureTextEntry={true}
+                    placeholder="Password"
+                    secureTextEntry
                     value={password}
-                    onChangeText={(value) => setPassword(value)}
-                    style={styles.input}
+                    onChangeText={setPassword}
+                    className="bg-gray-100 rounded-md h-12 px-4 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300"
                     placeholderTextColor="#555"
                 />
-                {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
-
-                {/* Login Button */}
-                <TouchableOpacity style={styles.loginButton} onPress={handleSignIn}>
-                    <Text style={styles.loginButtonText}>Login</Text>
+                {errorMessage && <Text className="text-red-600 text-center mb-2">{errorMessage}</Text>}
+                <TouchableOpacity className="bg-green-700 py-3 rounded-md items-center mt-2 shadow-md shadow-black" onPress={handleSignIn}>
+                    <Text className="text-white font-bold text-lg">Login</Text>
                 </TouchableOpacity>
-
-                {/* Sign Out and Sign Up Buttons */}
-                <TouchableOpacity style={styles.signUpButton} onPress={handleSignOut}>
-                    <Text style={styles.signUpButtonText}>Sign Out</Text>
+                <TouchableOpacity className="bg-blue-500 py-3 rounded-md items-center mt-4 shadow-md shadow-black" onPress={handleSignOut}>
+                    <Text className="text-white font-bold">Sign Out</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.signUpButton}
-                    onPress={() => navigation.navigate("SignUp" as never)}
-                >
-                    <Text style={styles.signUpButtonText}>Sign Up</Text>
+                <TouchableOpacity className="mt-4" onPress={() => navigation.navigate("SignUp" as never)}>
+                    <Text className="text-blue-600 font-semibold text-center">Don't have an account? Sign Up</Text>
                 </TouchableOpacity>
             </View>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#004d26',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    logoContainer: {
-        alignItems: 'center',
-        marginBottom: 30,
-    },
-    logoText: {
-        fontSize: 60,
-        color: '#fff',
-        fontWeight: 'bold',
-    },
-    universityName: {
-        fontSize: 18,
-        color: '#fff',
-    },
-    loginBox: {
-        backgroundColor: '#d5f0e8',
-        width: '85%',
-        borderRadius: 10,
-        padding: 20,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    input: {
-        backgroundColor: '#fff',
-        borderRadius: 5,
-        height: 40,
-        marginBottom: 15,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: '#ddd',
-    },
-    loginButton: {
-        backgroundColor: '#004d26',
-        paddingVertical: 12,
-        borderRadius: 5,
-        alignItems: 'center',
-        marginTop: 10,
-    },
-    loginButtonText: {
-        color: '#fff',
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    signUpButton: {
-        backgroundColor: '#4f87c7',
-        paddingVertical: 10,
-        borderRadius: 5,
-        alignItems: 'center',
-        marginTop: 10,
-    },
-    signUpButtonText: {
-        color: '#fff',
-        fontSize: 14,
-        fontWeight: 'bold',
-    },
-    errorText: {
-        color: 'red',
-        fontSize: 14,
-        textAlign: 'center',
-        marginBottom: 10,
-    },
-});
 
 export default Login;

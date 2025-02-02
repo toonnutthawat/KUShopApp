@@ -13,6 +13,7 @@ import ProfilePage from './src/pages/ProfilePage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PostPage from './src/pages/posts/PostPage';
 import MyPosts from './src/pages/posts/MyPosts';
+import "./global.css";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
