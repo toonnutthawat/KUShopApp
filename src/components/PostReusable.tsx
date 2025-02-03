@@ -4,7 +4,6 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import ProfileImage from './ProfileImage';
 import { Post } from '../API';
 import { useNavigation } from '@react-navigation/native';
-
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAppDispatch } from '../hook';
 import { fetchAllPosts, removePost } from '../store/thunks/postsThunk';
@@ -19,7 +18,7 @@ type RootStackParamList = {
 type PostReusableNavigationProp = NativeStackNavigationProp<RootStackParamList, 'PostDetail'>;
 
 
-const PostReusable = ({ post, isMyPosts }: { post: Post, isMyPosts?: Boolean | null }) => {
+const PostReusable = ({ post, isMyPosts, className}: { post: Post, isMyPosts?: Boolean | null ; className?: string  }) => {
     const navigation = useNavigation<PostReusableNavigationProp>()
     const dispatch = useAppDispatch()
 
@@ -30,13 +29,14 @@ const PostReusable = ({ post, isMyPosts }: { post: Post, isMyPosts?: Boolean | n
 
     return (
         <Pressable onPress={() => navigation.navigate('PostDetail', { post })}>
-            <View style={styles.container}>
+            <View className={`bg-white w-full rounded-2xl mb-4 p-4 ${className}`}>
                 { isMyPosts && 
-                <TouchableOpacity style={styles.deleteButton} onPress={removePostByID}>
-                    <Text style={{padding: 5, color: 'white'}}>X</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity className="absolute top-2 right-2 bg-red-500 rounded-full w-6 h-6 flex items-center justify-center" onPress={removePostByID}>
+                        <Text className="text-white text-xs">X</Text>
+                    </TouchableOpacity>
                 }
-                <Image source={require("../../assets/defaultPostImg.png")} style={{ width: 200, marginTop: 20 }} />
+
+                <Image source={require("../../assets/defaultPostImg.png")} className="w-full h-40 rounded-md mt-2" resizeMode="cover" />
                 <View style={{ marginBottom: 20 }}>
                     <Text style={{ marginTop: 5 }}>Title: {post.title}</Text>
                     {/* <Text style={{ marginTop: 5 }}>Content: {post.content}</Text> */}

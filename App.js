@@ -48,6 +48,7 @@ function BottomTabs() {
         tabBarStyle: {
           width: 700, // Adjust the height of the tab bar
         },
+        headerShown: false, // Set headerShown to false for all tabs
       })}
     >
       <Tab.Screen name="Home" component={Home} />
@@ -89,7 +90,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Test" component={TestPage} />
           <Stack.Screen name="MyPosts" component={MyPosts} />
           <Stack.Screen

@@ -36,14 +36,14 @@ function Login() {
     };
 
     return (
-        <View className="flex-1 bg-green-900 items-center justify-center px-4">
-            <View className="bg-white w-4/5 rounded-2xl p-6 shadow-lg shadow-black">
+        <View className="flex-1 bg-kuColor items-center justify-center p-4 pt-10 "> 
+            <View className="bg-kuColor w-full h-full rounded-2xl p-6 ">
                 <KuShopTitle title="LOGIN" />
                 <TextInput
                     placeholder="Username"
                     value={username}
                     onChangeText={setUsername}
-                    className="bg-gray-100 rounded-md h-12 px-4 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300"
+                    className="bg-gray-100 rounded-xl h-12 px-4 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300"
                     placeholderTextColor="#555"
                 />
                 <TextInput
@@ -51,14 +51,14 @@ function Login() {
                     secureTextEntry
                     value={password}
                     onChangeText={setPassword}
-                    className="bg-gray-100 rounded-md h-12 px-4 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300"
+                    className="bg-gray-100 rounded-xl h-12 px-4 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300"
                     placeholderTextColor="#555"
                 />
                 {errorMessage && <Text className="text-red-600 text-center mb-2">{errorMessage}</Text>}
-                <TouchableOpacity className="bg-green-700 py-3 rounded-md items-center mt-2 shadow-md shadow-black" onPress={handleSignIn}>
+                <TouchableOpacity className="bg-green-700 py-3 rounded-md items-center mt-2 shadow-md" onPress={handleSignIn}>
                     <Text className="text-white font-bold text-lg">Login</Text>
                 </TouchableOpacity>
-                <TouchableOpacity className="bg-blue-500 py-3 rounded-md items-center mt-4 shadow-md shadow-black" onPress={handleSignOut}>
+                <TouchableOpacity className="bg-blue-500 py-3 rounded-md items-center mt-4 shadow-md" onPress={handleSignOut}>
                     <Text className="text-white font-bold">Sign Out</Text>
                 </TouchableOpacity>
                 <TouchableOpacity className="mt-4" onPress={() => navigation.navigate("SignUp" as never)}>
