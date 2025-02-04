@@ -36,7 +36,7 @@ const PostReusable = ({ post, isMyPosts }: { post: Post, isMyPosts?: Boolean | n
                     <Text style={{padding: 5, color: 'white'}}>X</Text>
                 </TouchableOpacity>
                 }
-                <Image source={require("../../assets/defaultPostImg.png")} style={{ width: 200, marginTop: 20 }} />
+                <Image source={require("../../assets/defaultPostImg.png")} className='rounded-lg mt-4' />
                 <View style={{ marginBottom: 20 }}>
                     <Text style={{ marginTop: 5 }}>Title: {post.title}</Text>
                     {/* <Text style={{ marginTop: 5 }}>Content: {post.content}</Text> */}
