@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        kuColor: "#BFE7E2"
+        kuColor: "#BFE7E2",
+        kuBGColor: "#0E391F"
       }
     },
   },

@@ -36,8 +36,8 @@ function Login() {
     };
 
     return (
-        <View className="flex-1 bg-kuColor items-center justify-center p-4 pt-10 "> 
-            <View className="bg-kuColor w-full h-full rounded-2xl p-6 ">
+        <View className="flex-1 bg-kuBGColor items-center justify-center p-4 pt-10"> 
+            <View className="bg-kuColor w-full h-full rounded-2xl p-6">
                 <KuShopTitle title="LOGIN" />
                 <TextInput
                     placeholder="Username"

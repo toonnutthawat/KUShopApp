@@ -32,11 +32,11 @@ function SignUpPage() {
     };
 
     return (
-        <View style={styles.container}>
+        <View className="flex-1 bg-kuBGColor items-center justify-center p-4 pt-10">
             {confirmSignUp ? (
                 <ConfirmSignUpPage username={username}  email={email}/>
             ) : (
-                <View style={styles.formContainer}>
+                <View className="bg-kuColor w-full h-full rounded-2xl p-6">
                     <KuShopTitle title="SIGN UP" />
                     <TextInput
                         autoComplete="email"
@@ -44,14 +44,14 @@ function SignUpPage() {
                         placeholder="Email"
                         value={email}
                         onChangeText={(value) => setEmail(value)}
-                        style={styles.input}
+                        className="bg-gray-100 rounded-xl h-12 px-4 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300"
                         placeholderTextColor="#555"
                     />
                     <TextInput
                         placeholder="Username"
                         value={username}
                         onChangeText={(value) => setUsername(value)}
-                        style={styles.input}
+                        className="bg-gray-100 rounded-xl h-12 px-4 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300"
                         placeholderTextColor="#555"
                     />
                     <TextInput
@@ -59,7 +59,7 @@ function SignUpPage() {
                         value={password}
                         secureTextEntry={true}
                         onChangeText={(value) => setPassword(value)}
-                        style={styles.input}
+                        className="bg-gray-100 rounded-xl h-12 px-4 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300"
                         placeholderTextColor="#555"
                     />
                     <TextInput
@@ -67,76 +67,25 @@ function SignUpPage() {
                         value={confirmPassword}
                         secureTextEntry={true}
                         onChangeText={(value) => setConfirmPassword(value)}
-                        style={styles.input}
+                        className="bg-gray-100 rounded-xl h-12 px-4 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300"
                         placeholderTextColor="#555"
                     />
-                    {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
+                    {errorMessage && <Text className="text-red-500 mb-4">{errorMessage}</Text>}
                     <TouchableOpacity
                         onPress={handleSignUp}
-                        style={[
-                            styles.signUpButton,
+                        className={`bg-green-500 rounded-lg h-12 justify-center items-center ${
                             confirmPassword !== password || !password
-                                ? styles.disabledButton
-                                : null,
-                        ]}
+                                ? 'opacity-50'
+                                : 'opacity-100'
+                        }`}
                         disabled={confirmPassword !== password || !password}
                     >
-                        <Text style={styles.signUpButtonText}>Sign Up</Text>
+                        <Text className="text-white font-bold">Sign Up</Text>
                     </TouchableOpacity>
                 </View>
             )}
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#004d26",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    formContainer: {
-        backgroundColor: "#d5f0e8",
-        width: "85%",
-        borderRadius: 10,
-        padding: 20,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    input: {
-        backgroundColor: "#fff",
-        borderRadius: 5,
-        height: 40,
-        marginBottom: 15,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: "#ddd",
-    },
-    errorText: {
-        color: "red",
-        fontSize: 14,
-        textAlign: "center",
-        marginBottom: 10,
-    },
-    signUpButton: {
-        backgroundColor: "#004d26",
-        paddingVertical: 12,
-        borderRadius: 5,
-        alignItems: "center",
-        marginTop: 10,
-    },
-    disabledButton: {
-        backgroundColor: "#ccc",
-    },
-    signUpButtonText: {
-        color: "#fff",
-        fontWeight: "bold",
-        fontSize: 16,
-    },
-});
 
 export default SignUpPage;
