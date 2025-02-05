@@ -22,7 +22,7 @@ function Home() {
     const filteredMyPosts = allPosts.filter((post) => post.title.toLowerCase().includes(term.toLowerCase()));
 
     return (
-        <View className="flex-1 bg-kuColor p-4 pt-10">
+        <View className="flex-1 bg-kuBGColor p-4 pt-10">
             <View className="w-full max-w-md bg-kuColor rounded-2xl p-6 flex-1">
                 <KuShopTitle title="Welcome to KUShopApp!" />
                 <TextInput
