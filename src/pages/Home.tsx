@@ -8,6 +8,7 @@ import { fetchMyUser } from "../store/thunks/userThunk";
 import { StyledContainer, StyledHomeBox } from "../components/StyleContainer";
 import { fetchAllPosts } from "../store/thunks/postsThunk";
 import PostReusable from "../components/PostReusable";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 function Home() {
     const [term ,setTerm] = useState("")
@@ -28,11 +29,9 @@ function Home() {
 
     return (
         <StyledContainer>
-            {/* <Text style={styles.username}>Welcome, {user}!</Text> */}
-
-            {/* HomeBox Component */}
             <StyledHomeBox>
                 <KuShopTitle title="Welcome !" />
+                <MaterialIcons name="post-add" size={30} color="#004c27" className="absolute right-4 top-4" onPress={() => navigation.navigate("Post" as never)}/>
                 <View>
                     <TextInput
                         placeholder="search title"
@@ -46,7 +45,6 @@ function Home() {
                     <PostReusable key={index} post={post} />
                 ))}
             </StyledHomeBox>
-
         </StyledContainer>
     );
 }

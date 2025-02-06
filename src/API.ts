@@ -6,13 +6,20 @@ export type UpdateUserInput = {
   id: string,
   email?: string | null,
   profile?: string | null,
-  credit?: boolean | null,
+  credit?: CreditStatus | null,
 };
+
+export enum CreditStatus {
+  NOT_YET_VERIFIED = "NOT_YET_VERIFIED",
+  PENDING = "PENDING",
+  ACCEPTED = "ACCEPTED",
+}
+
 
 export type ModelUserConditionInput = {
   email?: ModelStringInput | null,
   profile?: ModelStringInput | null,
-  credit?: ModelBooleanInput | null,
+  credit?: ModelCreditStatusInput | null,
   and?: Array< ModelUserConditionInput | null > | null,
   or?: Array< ModelUserConditionInput | null > | null,
   not?: ModelUserConditionInput | null,
@@ -61,11 +68,9 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type ModelBooleanInput = {
-  ne?: boolean | null,
-  eq?: boolean | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
+export type ModelCreditStatusInput = {
+  eq?: CreditStatus | null,
+  ne?: CreditStatus | null,
 };
 
 export type User = {
@@ -73,7 +78,7 @@ export type User = {
   id: string,
   email: string,
   profile?: string | null,
-  credit: boolean,
+  credit: CreditStatus,
   posts?: ModelPostConnection | null,
   chats?: ModelChatConnection | null,
   chats2?: ModelChatConnection | null,
@@ -287,6 +292,13 @@ export type ModelLikeStatusConditionInput = {
   username?: ModelStringInput | null,
 };
 
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
 export type UpdateLikeStatusInput = {
   id: string,
   status?: boolean | null,
@@ -357,14 +369,14 @@ export type CreateUserInput = {
   id?: string | null,
   email: string,
   profile?: string | null,
-  credit: boolean,
+  credit: CreditStatus,
 };
 
 export type ModelUserFilterInput = {
   id?: ModelIDInput | null,
   email?: ModelStringInput | null,
   profile?: ModelStringInput | null,
-  credit?: ModelBooleanInput | null,
+  credit?: ModelCreditStatusInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelUserFilterInput | null > | null,
@@ -449,7 +461,7 @@ export enum ModelSortDirection {
 export type ModelSubscriptionUserFilterInput = {
   email?: ModelSubscriptionStringInput | null,
   profile?: ModelSubscriptionStringInput | null,
-  credit?: ModelSubscriptionBooleanInput | null,
+  credit?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionUserFilterInput | null > | null,
@@ -470,11 +482,6 @@ export type ModelSubscriptionStringInput = {
   beginsWith?: string | null,
   in?: Array< string | null > | null,
   notIn?: Array< string | null > | null,
-};
-
-export type ModelSubscriptionBooleanInput = {
-  ne?: boolean | null,
-  eq?: boolean | null,
 };
 
 export type ModelSubscriptionPostFilterInput = {
@@ -540,6 +547,11 @@ export type ModelSubscriptionLikeStatusFilterInput = {
   username?: ModelStringInput | null,
 };
 
+export type ModelSubscriptionBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+};
+
 export type ModelSubscriptionChatFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
@@ -572,7 +584,7 @@ export type UpdateUserMutation = {
     id: string,
     email: string,
     profile?: string | null,
-    credit: boolean,
+    credit: CreditStatus,
     posts?:  {
       __typename: "ModelPostConnection",
       nextToken?: string | null,
@@ -601,7 +613,7 @@ export type DeleteUserMutation = {
     id: string,
     email: string,
     profile?: string | null,
-    credit: boolean,
+    credit: CreditStatus,
     posts?:  {
       __typename: "ModelPostConnection",
       nextToken?: string | null,
@@ -637,7 +649,7 @@ export type CreatePostMutation = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -673,7 +685,7 @@ export type UpdatePostMutation = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -709,7 +721,7 @@ export type DeletePostMutation = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -916,7 +928,7 @@ export type CreateChatMutation = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -926,7 +938,7 @@ export type CreateChatMutation = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -954,7 +966,7 @@ export type UpdateChatMutation = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -964,7 +976,7 @@ export type UpdateChatMutation = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -992,7 +1004,7 @@ export type DeleteChatMutation = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -1002,7 +1014,7 @@ export type DeleteChatMutation = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -1098,7 +1110,7 @@ export type CreateUserMutation = {
     id: string,
     email: string,
     profile?: string | null,
-    credit: boolean,
+    credit: CreditStatus,
     posts?:  {
       __typename: "ModelPostConnection",
       nextToken?: string | null,
@@ -1126,7 +1138,7 @@ export type GetUserQuery = {
     id: string,
     email: string,
     profile?: string | null,
-    credit: boolean,
+    credit: CreditStatus,
     posts?:  {
       __typename: "ModelPostConnection",
       nextToken?: string | null,
@@ -1158,7 +1170,7 @@ export type ListUsersQuery = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -1183,7 +1195,7 @@ export type GetPostQuery = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -1342,7 +1354,7 @@ export type GetChatQuery = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -1352,7 +1364,7 @@ export type GetChatQuery = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -1585,7 +1597,7 @@ export type OnCreateUserSubscription = {
     id: string,
     email: string,
     profile?: string | null,
-    credit: boolean,
+    credit: CreditStatus,
     posts?:  {
       __typename: "ModelPostConnection",
       nextToken?: string | null,
@@ -1614,7 +1626,7 @@ export type OnUpdateUserSubscription = {
     id: string,
     email: string,
     profile?: string | null,
-    credit: boolean,
+    credit: CreditStatus,
     posts?:  {
       __typename: "ModelPostConnection",
       nextToken?: string | null,
@@ -1643,7 +1655,7 @@ export type OnDeleteUserSubscription = {
     id: string,
     email: string,
     profile?: string | null,
-    credit: boolean,
+    credit: CreditStatus,
     posts?:  {
       __typename: "ModelPostConnection",
       nextToken?: string | null,
@@ -1679,7 +1691,7 @@ export type OnCreatePostSubscription = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -1715,7 +1727,7 @@ export type OnUpdatePostSubscription = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -1751,7 +1763,7 @@ export type OnDeletePostSubscription = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -1959,7 +1971,7 @@ export type OnCreateChatSubscription = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -1969,7 +1981,7 @@ export type OnCreateChatSubscription = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -1998,7 +2010,7 @@ export type OnUpdateChatSubscription = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -2008,7 +2020,7 @@ export type OnUpdateChatSubscription = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -2037,7 +2049,7 @@ export type OnDeleteChatSubscription = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
@@ -2047,7 +2059,7 @@ export type OnDeleteChatSubscription = {
       id: string,
       email: string,
       profile?: string | null,
-      credit: boolean,
+      credit: CreditStatus,
       createdAt: string,
       updatedAt: string,
     },
