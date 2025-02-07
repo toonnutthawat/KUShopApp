@@ -14,6 +14,7 @@ import { fetchAllPosts, fetchMyPosts } from "../../store/thunks/postsThunk";
 import Entypo from '@expo/vector-icons/Entypo';
 import { fetchMyChat } from "../../store/thunks/chatsThunk";
 import { useNavigation } from "@react-navigation/native";
+import { fetchMyUser } from "../../store/thunks/userThunk";
 
 function PostDetail({ route }) {
     const { post } : { post : Post} = route.params
@@ -37,7 +38,14 @@ function PostDetail({ route }) {
         }
         fetch()
     },[post])
-    
+
+    useEffect(() => {
+        //dispatch(fetchMyUser())
+        const fetch = async () => {
+            await dispatch(fetchMyUser())
+        }
+        fetch()
+    }, [])
 
     const sentComment = async () => {
         await dispatch(addComment({

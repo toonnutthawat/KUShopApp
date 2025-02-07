@@ -5,8 +5,6 @@ import ProfileImage from "./ProfileImage";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { fetchMyUser } from "../store/thunks/userThunk";
 
-
-
 export function StyledContainer({ children }) {
 
     const userInfo = useAppSelector(state => state.users.myUser)
@@ -21,45 +19,22 @@ export function StyledContainer({ children }) {
     }, [])
 
     return (
-        <ScrollView style={{flex: 1, backgroundColor: "#004d26"}}>
-            <View style={styles.container}>
-                <View style={{ display: 'flex', flexDirection: 'row', marginTop: 10, right: 40, position: 'absolute' }}>
-                    {
-                        userInfo && (
-                            <><ProfileImage size={20}></ProfileImage><Text style={{ color: 'white', marginLeft: 5 }}>{userInfo.id}</Text></>
-                        )
-                    }
+        <View className="flex-1 bg-kuBGColor p-4 pt-10">
+            <View className="flex-1 bg-kuBGColor p-4 pt-10 mt-2">
+                <View className="flex-row absolute right-10 mt-2">
+                      {userInfo && (
+                        <>
+                          <ProfileImage size={20} />
+                          <Text className="text-white ml-2 mt-1">{userInfo.id}</Text>
+                        </>
+                      )}
                 </View>
                 {children}
             </View>
-        </ScrollView>
+        </View>
     );
 }
 
 export function StyledHomeBox({ children }) {
-    return <View style={styles.homeBox}>{children}</View>;
+    return <View className="flex-1 w-full max-w-md bg-kuColor rounded-2xl p-4 pt-10 flex-1">{children}</View>;
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#004d26",
-        alignItems: "center",
-        justifyContent: "flex-start", // Aligns content at the top
-    },
-    homeBox: {
-        backgroundColor: "#d5f0e8",
-        width: "85%",
-        borderRadius: 10,
-        padding: 20,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 5,
-        marginBottom: 20,
-        marginTop: 40,
-        display: 'flex',
-        alignItems: 'center'
-    },
-});

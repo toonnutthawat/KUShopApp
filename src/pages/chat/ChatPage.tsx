@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform, Keyboard  } from "react-native";
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 import { Chat, Message } from "../../API";
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ import { format } from "date-fns";
 import { generateClient } from "@aws-amplify/api";
 import { onCreateMessage } from "../../graphql/subscriptions";
 import { Subscription } from "rxjs";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function ChatPage({ route }) {
     const { chat }: { chat: Chat } = route.params
@@ -62,25 +63,25 @@ function ChatPage({ route }) {
         const hr = format(new Date(message.createdAt), 'hh:mm a');
         const date = format(new Date(message.createdAt), 'dd/MM/yyyy');
         return (
-            <View key={index} style={[{backgroundColor: message.userID === myUser.id ? '#00974e' : 'white'},styles.chatBubble]}>
+            <View key={index} className={`p-4 rounded-2xl w-full mt-2 flex items-left ${message.userID === myUser.id ? 'bg-green-600' : 'bg-white'}`}>
                 {
                     message.userID === myUser.id ?
                         <View>
-                            <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                <ProfileImage size={30} ></ProfileImage>
-                                <Text style={{marginLeft: 10, color: 'white'}}>{myUser.id}</Text>
-                                <Text style={{marginLeft: 10, color: 'white'}}>{date}</Text>
+                            <View className="flex-1 flex-row">
+                                <ProfileImage size={20} ></ProfileImage>
+                                <Text className="ml-2 color-white font-bold mt-1">{myUser.id}</Text>
+                                <Text className="ml-2 color-white mt-1">{date}</Text>
                             </View>
-                            <Text style={{color: 'white', marginTop: 10,marginBottom: 10}}>{message.content}</Text>
+                            <Text className="mt-2 mb-2 color-white">{message.content}</Text>
                             <Text style={{color: 'white'}}>{hr}</Text>
                         </View> :
                         <View>
-                            <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                <ProfileImage size={30} ></ProfileImage>
-                                <Text style={{marginLeft: 10}}>{message.userID}</Text>
-                                <Text style={{marginLeft: 10}}>{date}</Text>
+                            <View className="flex-1 flex-row">
+                                <ProfileImage size={20} ></ProfileImage>
+                                <Text className="ml-2 font-bold mt-1">{message.userID}</Text>
+                                <Text className="ml-2 mt-1">{date}</Text>
                             </View>
-                            <Text style={{ marginTop: 10,marginBottom: 10}}>{message.content}</Text>
+                            <Text className="mt-2 mb-2">{message.content}</Text>
                             <Text>{hr}</Text>
                         </View>
                 }
@@ -89,23 +90,28 @@ function ChatPage({ route }) {
     })
 
     return (
-        <View style={styles.container}>
-            <View style={styles.homeBox}>
-                <ScrollView>
-                    <View style={{ display: 'flex', alignItems: 'center' }}>
+        <StyledContainer>
+            <StyledHomeBox>
+                <ScrollView className="w-full flex-grow" showsVerticalScrollIndicator={false}>
+                    <View>
                         {renderedMesssages}
                     </View>
                 </ScrollView>
-            </View>
-            <View style={styles.messageInputContainer}>
-                <TextInput
-                    value={newMessage}
-                    onChangeText={(value) => setNewMessage(value)}
-                    placeholder="type your message"
-                    style={styles.messageInput} />
-                <TouchableOpacity style={styles.button} onPress={sentMessage}><Text style={{ color: 'white' }}>sent</Text></TouchableOpacity>
-            </View>
-        </View>
+                <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={100}>
+                <View className="flex-row items-center w-full bg-gray-100 rounded-xl border border-gray-300 focus-within:border-blue-500 focus-within:ring focus-within:ring-green-300 px-2 mt-2">
+                    <TextInput
+                        value={newMessage}
+                        onChangeText={(value) => setNewMessage(value)}
+                        placeholder="Type your message"
+                        className="flex-1 h-14 px-4 bg-transparent"
+                    />
+                    <TouchableOpacity onPress={sentMessage} className="bg-blue-500 px-4 py-2 rounded-lg ml-2">
+                        <Icon name="paper-plane" size={20} color="white" />
+                    </TouchableOpacity>
+                </View>
+                </KeyboardAvoidingView>
+            </StyledHomeBox>
+        </StyledContainer>
     )
 }
 
