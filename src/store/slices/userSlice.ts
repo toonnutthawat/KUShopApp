@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../API";
-import { addUser, editImgUser, fetchMyUser } from "../thunks/userThunk";
+import { addUser, changeCreditStatus, editImgUser, fetchMyUser, fetchPendingStatusUsers } from "../thunks/userThunk";
 
 const userSlice = createSlice({
     name: "user",
     initialState: {
         data: null as User[] | null,
         myUser: null as User | null,
+        requestedUser: null as User[] | null,
         error: ""
     },
     extraReducers(builder){
@@ -28,6 +29,14 @@ const userSlice = createSlice({
             if(state.myUser){
                 state.myUser.profile = action.payload
             }
+        })
+        builder.addCase(changeCreditStatus.fulfilled, (state,action) => {
+            if(state.myUser){
+                state.myUser.credit = action.payload.credit
+            }
+        })
+        builder.addCase(fetchPendingStatusUsers.fulfilled, (state,action) => {
+            state.requestedUser = action.payload
         })
 
     },

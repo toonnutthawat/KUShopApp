@@ -1,8 +1,9 @@
 import { generateClient } from "@aws-amplify/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createUser, updateUser } from "../../graphql/mutations";
-import { getUser } from "../../graphql/queries";
+import { getUser, listUsers } from "../../graphql/queries";
 import { getCurrentUser } from "aws-amplify/auth";
+import { CreditStatus } from "../../API";
 
 const client = generateClient({authMode: 'apiKey'});
 const privateClient = generateClient();
@@ -22,7 +23,7 @@ const addUser = createAsyncThunk(
         input: {
           id: usernameOfUser,
           email: emailOfUser,
-          credit: false,
+          credit: CreditStatus.NOT_YET_VERIFIED,
         },
       },
     });
@@ -64,4 +65,31 @@ const editImgUser = createAsyncThunk("editImgUser" , async ({userID , imgPath} :
   return response.data.updateUser.profile
 })
 
-export { addUser, fetchMyUser , editImgUser};
+const changeCreditStatus = createAsyncThunk("changeCreditStatus" , async ({userID , creditStatus} : {userID : string , creditStatus : CreditStatus}) => {
+  const response = await privateClient.graphql({
+    query: updateUser,
+    variables: {
+      input: {
+        id: userID,
+        credit: creditStatus
+      }
+    }
+  })
+  return response.data.updateUser
+})
+
+const fetchPendingStatusUsers = createAsyncThunk("fetchPendingStatusUsers" , async () => {
+  const response = await privateClient.graphql({
+    query: listUsers,
+    variables: {
+      filter: {
+        credit: {
+          eq : CreditStatus.PENDING
+        }
+      }
+    }
+  })
+  return response.data.listUsers.items
+})
+
+export { addUser, fetchMyUser , editImgUser , changeCreditStatus, fetchPendingStatusUsers };

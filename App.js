@@ -19,6 +19,10 @@ import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import ChatPage from "./src/pages/chat/ChatPage";
 import "./global.css";
+import AllProducts from "./src/pages/shop/AllProducts";
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import AddProduct from "./src/pages/shop/AddProduct";
+import ManageRequest from "./src/pages/Admin/ManageRequest";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -36,8 +40,8 @@ function BottomTabs() {
             return <Entypo name="chat" size={24} color={color} />;
           } else if (route.name === "Profile") {
             iconName = "person";
-          } else if (route.name === "Post") {
-            return <MaterialIcons name="post-add" size={24} color={color} />;
+          } else if (route.name === "Shop") {
+            return <FontAwesome5 name="shopping-cart" size={24} color={color} />
           }
 
           // Return empty if you want to hide the icon
@@ -46,15 +50,33 @@ function BottomTabs() {
         tabBarActiveTintColor: "#004c27",
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
-          width: 700, // Adjust the height of the tab bar
+          width: 1000, // Adjust the height of the tab bar
         },
         headerShown: false, // Set headerShown to false for all tabs
       })}
     >
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Post" component={PostPage} />
+      <Tab.Screen name="Shop" component={AllProducts} />
       <Tab.Screen name="Chat" component={AllChats} />
       <Tab.Screen name="Profile" component={ProfilePage} />
+      <Tab.Screen
+        name="Post"
+        component={PostPage}
+        options={{
+          tabBarButton: () => null, // Hide the tab button completely
+          tabBarIcon: () => <></>, // Hide the icon
+          tabBarLabel: () => null, // Hide the label
+        }}
+      />
+        <Tab.Screen
+        name="ManageStatusRequest"
+        component={ManageRequest}
+        options={{
+          tabBarButton: () => null, // Hide the tab button completely
+          tabBarIcon: () => <></>, // Hide the icon
+          tabBarLabel: () => null, // Hide the label
+        }}
+      />
       <Tab.Screen
         name="MyPosts"
         component={MyPosts}
@@ -76,6 +98,15 @@ function BottomTabs() {
       <Tab.Screen
         name="ChatPage"
         component={ChatPage}
+        options={{
+          tabBarButton: () => null, // Hide the tab button completely
+          tabBarIcon: () => <></>, // Hide the icon
+          tabBarLabel: () => null, // Hide the label
+        }}
+      />
+        <Tab.Screen
+        name="AddProduct"
+        component={AddProduct}
         options={{
           tabBarButton: () => null, // Hide the tab button completely
           tabBarIcon: () => <></>, // Hide the icon

@@ -1,3 +1,9 @@
+enum CreditStatus {
+  NOT_YET_VERIFIED,
+  PENDING,
+  ACCEPTED,
+}
+
 type User
   @model
   @auth(
@@ -11,7 +17,7 @@ type User
   id: ID!
   email: String!
   profile: String
-  credit: Boolean!
+  credit: CreditStatus!
   posts: [Post] @hasMany(indexName: "byUser", fields: ["id"])
   chats: [Chat] @hasMany(indexName: "byUser", fields: ["id"])
   chats2: [Chat] @hasMany(indexName: "byUser2", fields: ["id"])

@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { fetchAllPosts } from "../store/thunks/postsThunk";
 import PostReusable from "../components/PostReusable";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 function Home() {
     const [term, setTerm] = useState("");
