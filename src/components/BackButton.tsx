@@ -2,10 +2,14 @@ import React from 'react'
 import {Pressable ,StyleSheet, Text, View } from 'react-native'
 import { theme } from '../constants/theme'
 import Icon from '../../assets/icons'
+import { useNavigation } from "@react-navigation/native";
 
-const BackButton = ({size = 26, router}) => {
+
+const BackButton = ({size = 26}) => {
+    const navigation = useNavigation();
+
     return (
-        <Pressable onPress = {()=> router.back()}style = {styles.button}> 
+        <Pressable style = {styles.button} onPress={() => navigation.goBack()}> 
             <Icon name = "arrowLeft" strokeWidth= {2.5} size = {size} color = {theme.colors.text}></Icon>
         </Pressable>
     )
