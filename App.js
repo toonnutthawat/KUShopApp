@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "./src/pages/Login";
 import SignUpPage from "./src/pages/SignUpPage";
+import WelcomePage from "./src/pages/WelcomePage";
 import ConfirmSignUpPage from "./src/pages/ConfirmSignUpPage";
 import TestPage from "./src/pages/TestPage";
 import Home from "./src/pages/Home";
@@ -121,12 +122,13 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Test" component={TestPage} />
           <Stack.Screen name="MyPosts" component={MyPosts} />
           <Stack.Screen name="Home"component={BottomTabs} options={{ headerShown: false }}/>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="SignUp" component={SignUpPage} />
+          <Stack.Screen name="Welcome" component={WelcomePage} />
           <Stack.Screen name="ConfirmSignUp" component={ConfirmSignUpPage} />
         </Stack.Navigator>
       </NavigationContainer>
