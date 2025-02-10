@@ -11,6 +11,7 @@ import ScreenWrapper from "../components/ScreenWrapper";
 import { hp, wp } from "../helpers/common";
 import { theme } from "../constants/theme";
 import Icon from "../../assets/icons";
+import BackButton from "../components/BackButton";
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -51,8 +52,9 @@ function Login() {
     return (
         <ScreenWrapper bg = {theme.colors.kuColor}> 
             <StatusBar style = "dark"></StatusBar>
+            <BackButton/>
             <View style = {styles.container}>
-                <Text style ={styles.welcomeText}>Hey,</Text>
+                <Text style ={styles.welcomeText}>Hi,</Text>
                 <Text style ={styles.welcomeText}>WelCome Back</Text>
                 <View style = {styles.form}>
                 <Input
@@ -73,7 +75,7 @@ function Login() {
                 </View>
                 {errorMessage && <Text className="text-red-600 text-center mb-2">{errorMessage}</Text>}
                 <Button title = {'Login'} onPress={handleSignIn}/>
-                <Button title = {'Sign Out'} onPress={handleSignIn}/>
+                <Button title = {'Sign Out'} onPress={handleSignOut}/>
                 <TouchableOpacity className="mt-4" onPress={() => navigation.navigate("SignUp" as never)}>
                     <Text className="text-blue-600 font-semibold text-center">Don't have an account? Sign Up</Text>
                 </TouchableOpacity>

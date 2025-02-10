@@ -19,14 +19,14 @@ const Welcome: React.FC = () => {
                 <Image 
                     style={styles.welcomeImage} 
                     resizeMode="contain" 
-                    source={require('../../assets/KULogo.png')} 
+                    source={require('../../assets/kuLogoEdit.png')} 
                 />
 
                 {/* Title & Punchline */}
                 <View style={{gap:20}}>
-                    <Text style={styles.title}>Welcome!</Text>
+                    <Text style={styles.title}>Welcome to KUShop Secondhand store!</Text>
                     <Text style={styles.punchline}>
-                        Welcome to KUShop Secondhand store!
+                        a place where you can buy cheap and reasonable price for items!
                     </Text>
                 </View>
 
