@@ -1,8 +1,16 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, TextInput, Text, TouchableOpacity } from "react-native";
+import { View, TextInput, Text, TouchableOpacity, TextStyle, StyleSheet } from "react-native";
+import { Alert } from 'react-native'
 import { useState } from "react";
 import { signIn, signOut } from "aws-amplify/auth";
 import KuShopTitle from "../components/KuShopTitle";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import { StatusBar } from 'expo-status-bar'
+import ScreenWrapper from "../components/ScreenWrapper";
+import { hp, wp } from "../helpers/common";
+import { theme } from "../constants/theme";
+import Icon from "../../assets/icons";
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -15,6 +23,11 @@ function Login() {
     }
 
     const handleSignIn = async () => {
+        if(!username || !password){
+            Alert.alert('Login', "please fill all the fields!")
+            return;
+        }
+        
         try {
             const response = await signIn({
                 username: username,
@@ -36,37 +49,70 @@ function Login() {
     };
 
     return (
-        <View className="flex-1 bg-kuBGColor items-center justify-center p-4 pt-10"> 
-            <View className="bg-kuColor w-full h-full rounded-2xl p-6">
-                <KuShopTitle title="LOGIN" />
-                <TextInput
+        <ScreenWrapper bg = {theme.colors.kuColor}> 
+            <StatusBar style = "dark"></StatusBar>
+            <View style = {styles.container}>
+                <Text style ={styles.welcomeText}>Hey,</Text>
+                <Text style ={styles.welcomeText}>WelCome Back</Text>
+                <View style = {styles.form}>
+                <Input
+                    icon = {<Icon name = "user" size = {26} strokeWidth = {1.6} />}
                     placeholder="Username"
                     value={username}
                     onChangeText={setUsername}
-                    className="bg-gray-100 rounded-xl h-12 px-4 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300"
                     placeholderTextColor="#555"
                 />
-                <TextInput
+                <Input
+                    icon = {<Icon name = "lock" size = {26} strokeWidth = {1.6} />}
                     placeholder="Password"
                     secureTextEntry
                     value={password}
                     onChangeText={setPassword}
-                    className="bg-gray-100 rounded-xl h-12 px-4 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300"
                     placeholderTextColor="#555"
                 />
+                </View>
                 {errorMessage && <Text className="text-red-600 text-center mb-2">{errorMessage}</Text>}
-                <TouchableOpacity className="bg-green-700 py-3 rounded-md items-center mt-2 shadow-md" onPress={handleSignIn}>
-                    <Text className="text-white font-bold text-lg">Login</Text>
-                </TouchableOpacity>
-                <TouchableOpacity className="bg-blue-500 py-3 rounded-md items-center mt-4 shadow-md" onPress={handleSignOut}>
-                    <Text className="text-white font-bold">Sign Out</Text>
-                </TouchableOpacity>
+                <Button title = {'Login'} onPress={handleSignIn}/>
+                <Button title = {'Sign Out'} onPress={handleSignIn}/>
                 <TouchableOpacity className="mt-4" onPress={() => navigation.navigate("SignUp" as never)}>
                     <Text className="text-blue-600 font-semibold text-center">Don't have an account? Sign Up</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScreenWrapper>
     );
 }
+
+const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        gap:45,
+        paddingHorizontal:wp(5),
+    },
+    welcomeText:{
+        fontSize: hp(4),
+        fontWeight: theme.fonts.bold as TextStyle['fontWeight'],
+        
+        color: theme.colors.text,
+    },
+    form:{
+        gap:25,
+    },
+    forgotPassword:{
+        textAlign: 'right',
+        fontWeight: theme.fonts.semibold as TextStyle['fontWeight'],
+        color:theme.colors.text,
+    },
+    footer:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems:'center',
+        gap:5,
+    },
+    footerText:{
+        textAlign: 'center',
+        color : theme.colors.text,
+        fontSize: hp(1.6)
+    }
+})
 
 export default Login;
