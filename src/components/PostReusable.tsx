@@ -22,6 +22,8 @@ type PostReusableNavigationProp = NativeStackNavigationProp<RootStackParamList, 
 const PostReusable = ({ post, isMyPosts }: { post: Post, isMyPosts?: Boolean | null }) => {
     const navigation = useNavigation<PostReusableNavigationProp>()
     const dispatch = useAppDispatch()
+    console.log(post);
+    
 
     const removePostByID = async () => {
         await dispatch(removePost(post.id))
@@ -45,7 +47,7 @@ const PostReusable = ({ post, isMyPosts }: { post: Post, isMyPosts?: Boolean | n
                         <Text style={{ marginLeft: 10 }}>{post.likes}</Text>
                     </View>
                     <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 5 }}>
-                        <ProfileImage size={20} />
+                        <ProfileImage size={20} src={post.user.profile}/>
                         <Text style={{ marginLeft: 10 }}>{post.userID}</Text>
                     </View>
                 </View>

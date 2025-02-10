@@ -2,6 +2,7 @@ import { View , Image, StyleSheet } from "react-native";
 import { downloadData } from 'aws-amplify/storage';
 import { getProperties } from 'aws-amplify/storage';
 import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hook";
 
 function ProfileImage({size , src } : { size: number, src?: string | null}){
 
@@ -13,33 +14,43 @@ function ProfileImage({size , src } : { size: number, src?: string | null}){
         }
     })
 
-    const [img , setImg] = useState()
-
+    const dispatch = useAppDispatch()
+    const [dowloadedImg, setDowloadedImg] = useState("")
+    const userInfo = useAppSelector(state => state.users.myUser)
     useEffect(() => {
-        const fetch = async () => {
-            await setImage()
-        }
-        fetch()
+        fetchedImageFromS3()
     },[])
 
-    async function setImage(){
-        if(src){
-            try {
-                const result = await getProperties({
-                  path: src,
-                  // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
-                });
-                console.log('File Properties ', result);
-              } catch (error) {
-                console.log('Error ', error);
-              }
+    async function fetchedImageFromS3() {
+        if (!src) return;
+        try {
+            const result = await downloadData({
+                path: src,
+            }).result
+            if (result?.body) {
+                const blob = await result.body.blob();
+                const reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onloadend = async () => {
+                    const base64data = reader.result as string;
+                    setDowloadedImg(base64data)
+                };
+            }
+            console.log("result", result);
+
+        } catch (error) {
+            console.log('Error ', error);
+
         }
     }
+
+
+
 
     return(
         <View>
             {
-                src ? <Image>
+                src ? <Image style={styles.profile} source={{uri: dowloadedImg}}>
 
                 </Image>
  

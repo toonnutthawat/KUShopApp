@@ -26,7 +26,7 @@ export function StyledContainer({ children }) {
                 <View style={{ display: 'flex', flexDirection: 'row', marginTop: 10, right: 40, position: 'absolute' }}>
                     {
                         userInfo && (
-                            <><ProfileImage size={20}></ProfileImage><Text style={{ color: 'white', marginLeft: 5 }}>{userInfo.id}</Text></>
+                            <><ProfileImage size={20} src={userInfo.profile}></ProfileImage><Text style={{ color: 'white', marginLeft: 5 }}>{userInfo.id}</Text></>
                         )
                     }
                 </View>

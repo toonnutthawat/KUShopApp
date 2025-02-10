@@ -88,7 +88,7 @@ function PostDetail({ route }) {
                         <Text style={[{ marginTop: 10 }, styles.text]}>รายละเอียด: {post.content}</Text>
                         <Text style={[{ marginTop: 10 }, styles.text]}>โพสต์วันที่: {formattedDate}</Text>
                         <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 10 }}>
-                            <ProfileImage size={20} />
+                            <ProfileImage size={20} src={post.user.profile}/>
                             <Text style={[{ marginLeft: 10 }, styles.text]}>{post.userID}</Text>
                             {
                                 myUser.id !== post.userID && (

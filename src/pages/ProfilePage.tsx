@@ -5,34 +5,27 @@ import { editImgUser, fetchMyUser } from "../store/thunks/userThunk";
 import ProfileImage from "../components/ProfileImage";
 import * as ImagePicker from 'expo-image-picker'
 import * as FileSystem from 'expo-file-system'
-import { downloadData, getProperties, uploadData } from 'aws-amplify/storage';
 import { StyledContainer, StyledHomeBox } from "../components/StyleContainer";
 import { useNavigation } from "@react-navigation/native";
 import { signOut } from "aws-amplify/auth";
-import Storage, { getUrl } from "@aws-amplify/storage";
-import { fetchUserAttributes } from 'aws-amplify/auth';
+import { fetchUserAttributes } from 'aws-amplify/auth'
+import { decode } from 'base64-arraybuffer'
+import { uploadImgToS3 } from "../store/thunks/imageThunk";
+import Entypo from '@expo/vector-icons/Entypo';
 
 const imgDir = FileSystem.documentDirectory + 'images/'
-
-const ensureDirectoryExist = async () => {
-    const dirInfo = await FileSystem.getInfoAsync(imgDir)
-    if(!dirInfo.exists){
-        await FileSystem.makeDirectoryAsync(imgDir, { intermediates: true})
-    }
-}
 
 function ProfilePage() {
     const userInfo = useAppSelector(state => state.users.myUser)
     const [images, setImages] = useState<string[]>()
     const dispatch = useAppDispatch()
     const [editImg, setEditImg] = useState(false)
-    const [selectedImage, setSelectedImage] = useState("")
+    const [selectedImage, setSelectedImage] = useState<ImagePicker.ImagePickerAsset>()
     const [imgFile, setImgFile] = useState("")
-    const [imgBlob , setImgBlob] = useState<Blob | null>()
-    const [dowloadedImg , setDowloadedImg] = useState("")
-    const [isAdmin ,setIsAdmin] = useState(false)
+    const [dowloadedImg, setDowloadedImg] = useState("")
+    const [isAdmin, setIsAdmin] = useState(false)
     const navigation = useNavigation()
-    console.log("selectedImage: " ,selectedImage);
+    console.log("selectedImage: ", selectedImage);
 
     useEffect(() => {
         console.log(dowloadedImg);
@@ -41,17 +34,17 @@ function ProfilePage() {
     useEffect(() => {
         const fetch = async () => {
             const response = await fetchUserAttributes();
-            if(response.nickname === "admin"){
+            if (response.nickname === "admin") {
                 setIsAdmin(true)
             }
         }
         fetch()
-    },[])
+        //fetchedImageFromS3()
+    }, [])
 
 
 
     useEffect(() => {
-        //dispatch(fetchMyUser())
         const fetch = async () => {
             await dispatch(fetchMyUser())
         }
@@ -60,6 +53,7 @@ function ProfilePage() {
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
+        setEditImg(true)
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ['images', 'videos'],
             allowsEditing: true,
@@ -69,130 +63,63 @@ function ProfilePage() {
         console.log("result : ", result.assets[0]);
 
         if (!result.canceled) {
-            setSelectedImage(result.assets[0].uri);
-            saveImage(result.assets[0].uri)
-            //handleImagePicked(result)
+            setSelectedImage(result.assets[0]);
         }
-        
 
     };
 
-    // const fetchImageFromUri = async (uri) => {
-    //     const response = await fetch(uri)
-    //     const blob = await response.blob()
-    //     return blob
-    // }
-
-    //  const handleImagePicked = async (imageResult) => {
-    //     if(imageResult.canceled){
-    //         console.log("picked error");
-    //     }
-    //     else{
-    //         const img = await fetchImageFromUri(imageResult.uri)
-    //         setImgBlob(img)
-    //         console.log("blob img" , img);
-    //         await uploadIMG(img)
-    //     }
-    // }
-
-
-    const uploadIMG = async (blobIMG : Blob) => {
+    const uploadIMG = async () => {
         if (selectedImage) {
             console.log("IF in Image");
-            const filename = `public/profile/${userInfo.id}`;
+            const filename = `public/profile/${userInfo.id}` + '.png';
+            const fileBase64 = await FileSystem.readAsStringAsync(selectedImage.uri, {
+                encoding: FileSystem.EncodingType.Base64
+            })
+            let imageData = decode(fileBase64)
             await dispatch(editImgUser({ userID: userInfo.id, imgPath: filename }));
-
-            try {
-                const result = uploadData({
-                    path: filename,
-                    data: selectedImage,
-                    options: {
-                        contentType: 'image/jpeg'
-                    }
-                }).result;
-
-                console.log("Succeeded: ", result);
-                await dispatch(fetchMyUser());
-            } catch (error) {
-                console.log("Error: ", error);
-            }
+            await dispatch(uploadImgToS3({ filenamePath: filename, data: imageData }))
+            await dispatch(fetchMyUser());
+            setEditImg(false)
+            setSelectedImage(null)
         } else {
             console.log("No image selected");
         }
     };
 
-    const saveImage = async (uri: string) => {
-        await ensureDirectoryExist();
-        const filename = userInfo.id
-        const dest = imgDir + filename
-        await FileSystem.copyAsync({from: uri,to: dest})
-        setImages([...images,dest])
-
+    async function handleSignOut() {
+        await signOut();
+        navigation.navigate("Login" as never);
     }
 
-    async function dowloadImageFromS3() {
-        try {
-            const result = await getUrl({
-                path: userInfo.profile,
-            })
-            // if (result?.body) {
-            //                 // Convert ResponseBodyMixin to Blob
-            // const blob = await result.body.blob();
-
-            // // Convert Blob to Base64
-            // const reader = new FileReader();
-            // reader.readAsDataURL(blob);
-            // reader.onloadend = async () => {
-            //     const base64data = reader.result as string;
-            //     setDowloadedImg(base64data);
-            //     // console.log("dowloadedImg",dowloadedImg);
-            //     // console.log("Image URI (Base64):", base64data);
-            // };
-            // }
-            //setDowloadedImg(result.url.)
-            console.log("result",result);
-            
-
-        } catch (error) {
-            console.log('Error ', error);
-        }
+    function cancelEditImg(){
+        setEditImg(false)
+        setSelectedImage(null)
     }
 
-        async function handleSignOut() {
-            await signOut();
-            navigation.navigate("Login" as never);
-        }
-        
     return (
         <StyledContainer>
             <StyledHomeBox>
                 {
-                    (editImg && selectedImage) ? <Image source={{uri : selectedImage}} style={styles.profile}></Image> :
-
-                        <ProfileImage size={100}></ProfileImage>
-                }
-                
-                {/* {
-                    (dowloadedImg) ? 
-                        <Image source={{uri: dowloadedImg}} style={{width: 100 , height: 100}} alt="Image"  onError={(e) => console.log("Error loading image", e.nativeEvent.error)}></Image> :
-                        <ProfileImage size={100}></ProfileImage>
+                    (editImg && selectedImage) ? <Image source={{ uri: selectedImage.uri }} style={styles.profile}></Image> : 
                     
+                        <ProfileImage size={100} src={userInfo.profile}></ProfileImage>
                 }
-                
 
-                {
-                    editImg && (
-                        <Button title="uploadImgage" onPress={pickImage}></Button>
-                    )
-                }
+                        <TouchableOpacity onPress={pickImage} className="absolute" style={{top: 90, left: 200}}>
+                            <View className="rounded-full p-2" style={{backgroundColor: "#004c27"}}>
+                                <Entypo name="camera" size={20} color="white"/>
+                            </View>
+                        </TouchableOpacity>
+                    
+    
                 {
                     selectedImage && (
-                        <Button title="upload to S3" onPress={() => uploadIMG(imgBlob)}></Button>
+                        <View className="flex flex-row mt-4">
+                            <TouchableOpacity onPress={() => uploadIMG()} style={styles.saveButton}><Text className="text-white">Save</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={cancelEditImg} style={styles.cancelButton}><Text className="text-white">Cancel</Text></TouchableOpacity>
+                        </View>
                     )
                 }
-                <Button title="edit img" onPress={() => setEditImg(!editImg)} />
-                <Button title="downloadImgFromS3" onPress={dowloadImageFromS3} /> */}
-                {/* <Image source={{ uri: imgFile }} style={styles.profile}></Image> */}
                 {
                     userInfo && (
                         <View style={{ marginTop: 20 }}>
@@ -208,10 +135,11 @@ function ProfilePage() {
                 <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => navigation.navigate("MyPosts" as never)}
-                    style={{ backgroundColor: "#004c27", 
-                        padding: 4, 
-                        alignItems: 'center', 
-                        borderRadius: 10 , 
+                    style={{
+                        backgroundColor: "#004c27",
+                        padding: 4,
+                        alignItems: 'center',
+                        borderRadius: 10,
                         width: 200,
                         marginTop: 20
                     }}
@@ -221,34 +149,36 @@ function ProfilePage() {
                 {
                     isAdmin && (
                         <TouchableOpacity
-                        activeOpacity={0.8}
-                        onPress={() => navigation.navigate("ManageStatusRequest" as never)}
-                        style={{ backgroundColor: "#004c27", 
-                            padding: 4, 
-                            alignItems: 'center', 
-                            borderRadius: 10 , 
-                            width: 200,
-                            marginTop: 20
-                        }}
-                    >
-                        <Text style={{ color: 'white' }}>Manage Status Request</Text>
-                    </TouchableOpacity>
+                            activeOpacity={0.8}
+                            onPress={() => navigation.navigate("ManageStatusRequest" as never)}
+                            style={{
+                                backgroundColor: "#004c27",
+                                padding: 4,
+                                alignItems: 'center',
+                                borderRadius: 10,
+                                width: 200,
+                                marginTop: 20
+                            }}
+                        >
+                            <Text style={{ color: 'white' }}>Manage Status Request</Text>
+                        </TouchableOpacity>
                     )
                 }
                 <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={handleSignOut}
-                    style={{ backgroundColor: "red", 
-                        padding: 4, 
-                        alignItems: 'center', 
-                        borderRadius: 10 , 
+                    style={{
+                        backgroundColor: "red",
+                        padding: 4,
+                        alignItems: 'center',
+                        borderRadius: 10,
                         width: 200,
                         marginTop: 20
                     }}
                 >
                     <Text style={{ color: 'white' }}>sign out</Text>
                 </TouchableOpacity>
-                
+
             </StyledHomeBox>
         </StyledContainer>
     )
@@ -280,6 +210,18 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 50
+    },
+    saveButton: {
+        backgroundColor: '#004d26',
+        display: 'flex',
+        alignItems: 'center',
+        width: 60,
+    },
+    cancelButton: {
+        backgroundColor: 'red',
+        display: 'flex',
+        alignItems: 'center',
+        width: 60,
     }
 
 })
