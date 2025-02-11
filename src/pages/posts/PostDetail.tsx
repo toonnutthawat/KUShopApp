@@ -14,6 +14,7 @@ import { fetchAllPosts, fetchMyPosts } from "../../store/thunks/postsThunk";
 import Entypo from '@expo/vector-icons/Entypo';
 import { fetchMyChat } from "../../store/thunks/chatsThunk";
 import { useNavigation } from "@react-navigation/native";
+import PostImage from "../../components/PostImage";
 
 function PostDetail({ route }) {
     const { post } : { post : Post} = route.params
@@ -88,7 +89,7 @@ function PostDetail({ route }) {
         <StyledContainer>
             <StyledHomeBox>
                 <View style={{ display: 'flex', alignItems: 'center' }}>
-                    <Image source={require("../../../assets/defaultPostImg.png")} style={{ width: 200, marginTop: 20 }} />
+                    <PostImage size={200} src={post.image}></PostImage>
                     <View style={[{ marginBottom: 20 }]}>
                         <Text style={[{ marginTop: 10 }, styles.text]}>หัวข้อ: {post.title}</Text>
                         <Text style={[{ marginTop: 10 }, styles.text]}>รายละเอียด: {post.content}</Text>

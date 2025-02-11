@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAppDispatch } from '../hook';
 import { fetchAllPosts, removePost } from '../store/thunks/postsThunk';
+import PostImage from './PostImage';
 
 // Define the navigation stack types
 type RootStackParamList = {
@@ -37,7 +38,7 @@ const PostReusable = ({ post, isMyPosts }: { post: Post, isMyPosts?: Boolean | n
                     <Text style={{padding: 5, color: 'white'}}>X</Text>
                 </TouchableOpacity>
                 }
-                <Image source={require("../../assets/defaultPostImg.png")} className='rounded-lg mt-4' />
+                <PostImage size={200} src={post.image}/>
                 <View style={{ marginBottom: 20 }}>
                     <Text style={{ marginTop: 5 }}>Title: {post.title}</Text>
                     {/* <Text style={{ marginTop: 5 }}>Content: {post.content}</Text> */}

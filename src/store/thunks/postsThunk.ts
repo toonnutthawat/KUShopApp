@@ -7,7 +7,9 @@ import { Post, User } from "../../API";
 
 const client = generateClient({authMode: "userPool"})
 
-const addPost = createAsyncThunk("addPost", async ({titlePost , contentPost} : {titlePost : string , contentPost : string}) => {
+const addPost = createAsyncThunk("addPost", async ({titlePost , contentPost, imgPath} : 
+    {titlePost : string , contentPost : string, imgPath?: string | null}) => {
+
     try{
     const user = await getCurrentUser()
     const response = await client.graphql({
@@ -17,7 +19,8 @@ const addPost = createAsyncThunk("addPost", async ({titlePost , contentPost} : {
                 title: titlePost,
                 content: contentPost,
                 likes: 0,
-                userID: user.username
+                userID: user.username,
+                image: imgPath
             }
         }
     })
