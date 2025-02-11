@@ -114,6 +114,7 @@ export type ModelCommentConnection = {
 };
 
 export type Comment = {
+  user: any;
   __typename: "Comment",
   id: string,
   content: string,

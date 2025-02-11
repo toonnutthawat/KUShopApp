@@ -22,7 +22,6 @@ type PostReusableNavigationProp = NativeStackNavigationProp<RootStackParamList, 
 const PostReusable = ({ post, isMyPosts }: { post: Post, isMyPosts?: Boolean | null }) => {
     const navigation = useNavigation<PostReusableNavigationProp>()
     const dispatch = useAppDispatch()
-    console.log(post);
     
 
     const removePostByID = async () => {

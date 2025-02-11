@@ -14,6 +14,8 @@ import { Subscription } from "rxjs";
 
 function ChatPage({ route }) {
     const { chat }: { chat: Chat } = route.params
+    console.log(chat);
+    
     const messages = useAppSelector(state => state.messages.data || [])
     const [newMessage, setNewMessage] = useState("")
     const sortedMessages = [...messages].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
@@ -67,7 +69,7 @@ function ChatPage({ route }) {
                     message.userID === myUser.id ?
                         <View>
                             <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                <ProfileImage size={30} ></ProfileImage>
+                                <ProfileImage size={30} src={myUser.profile}></ProfileImage>
                                 <Text style={{marginLeft: 10, color: 'white'}}>{myUser.id}</Text>
                                 <Text style={{marginLeft: 10, color: 'white'}}>{date}</Text>
                             </View>
@@ -76,7 +78,7 @@ function ChatPage({ route }) {
                         </View> :
                         <View>
                             <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                <ProfileImage size={30} ></ProfileImage>
+                                <ProfileImage size={30} src={message.userID === chat.userID ? chat.user.profile : chat.user2.profile}></ProfileImage>
                                 <Text style={{marginLeft: 10}}>{message.userID}</Text>
                                 <Text style={{marginLeft: 10}}>{date}</Text>
                             </View>
@@ -91,6 +93,10 @@ function ChatPage({ route }) {
     return (
         <View style={styles.container}>
             <View style={styles.homeBox}>
+                <View className="flex flex-row items-center pb-4">
+                    <ProfileImage size={36} src={myUser.id === chat.userID ? chat.user2.profile : chat.user.profile}></ProfileImage>
+                    <Text className="ml-2">{myUser.id === chat.userID ? chat.userID2 : chat.userID}</Text>
+                </View>
                 <ScrollView>
                     <View style={{ display: 'flex', alignItems: 'center' }}>
                         {renderedMesssages}

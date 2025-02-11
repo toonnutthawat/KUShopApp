@@ -19,6 +19,7 @@ function PostDetail({ route }) {
     const { post } : { post : Post} = route.params
     const formattedDate = format(new Date(post.createdAt), 'hh:mm a : PPP');
     const comments = useAppSelector(state => state.comments.data)
+    console.log("comments" , comments);
     const myUser = useAppSelector(state => state.users.myUser)
     const myChatWithPostID = useAppSelector(state => state.chats.myChat)
     const likeStatus = useAppSelector(state => state.likeStatus.data || null)
@@ -56,10 +57,15 @@ function PostDetail({ route }) {
     if(!comments) return;
     const renderedComments = comments.map((comment,index) => {
         const commentDate = format(new Date(comment.createdAt), 'hh:mm a : PPP')
+        console.log(comment);
+        
         return(
             <View style={{backgroundColor: 'white', padding: 10, borderRadius: 10, marginTop: 10}} key={index}>
                 <View style={{display: 'flex' ,flexDirection: 'row'}}>
-                    <ProfileImage size={24}></ProfileImage>
+                    {
+                        comment.user.profile && <ProfileImage size={24} src={comment.user.profile}></ProfileImage>
+                    }
+                    {/* <ProfileImage size={24} src={comment.post.user.profile}></ProfileImage> */}
                     <Text style={{marginLeft: 5}}>{comment.userID}</Text>
                 </View>
                 <View style={{marginTop: 5}}>

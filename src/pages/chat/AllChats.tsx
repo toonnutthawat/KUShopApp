@@ -9,6 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from "@react-navigation/native";
 import { Chat } from "../../API";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React from "react";
 
 type RootStackParamList = {
     ChatPage: {chat: Chat}
@@ -41,7 +42,10 @@ function AllChats(){
         <Pressable key={index} onPress={() => navigation.navigate("ChatPage", {chat})}>
         <View style={styles.chatsContainer}>
             <View style={{marginRight: 10}}>
-                <ProfileImage size={20}></ProfileImage>
+                {
+                    (myUser.id !== chat.userID) ? <ProfileImage size={20} src={chat.user.profile}></ProfileImage> : <ProfileImage size={20} src={chat.user2.profile}></ProfileImage>
+                }
+                
             </View>
             {
                 (myUser.id !== chat.userID) ? <Text>{chat.userID}</Text> :

@@ -50,7 +50,7 @@ function ProfileImage({size , src } : { size: number, src?: string | null}){
     return(
         <View>
             {
-                src ? <Image style={styles.profile} source={{uri: dowloadedImg}}>
+                (src && (src !== null) )? <Image style={styles.profile} source={{uri: dowloadedImg}}>
 
                 </Image>
  

@@ -25,7 +25,7 @@ function ProfilePage() {
     const [dowloadedImg, setDowloadedImg] = useState("")
     const [isAdmin, setIsAdmin] = useState(false)
     const navigation = useNavigation()
-    console.log("selectedImage: ", selectedImage);
+    //console.log("selectedImage: ", selectedImage);
 
     useEffect(() => {
         console.log(dowloadedImg);

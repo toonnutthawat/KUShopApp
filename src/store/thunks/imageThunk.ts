@@ -13,8 +13,7 @@ const uploadImgToS3 = createAsyncThunk("uploadImgToS3" , async ({filenamePath , 
                         contentType: 'image/jpeg'
                     }
             }).result;
-
-            return result
+    return (await result).path
 })
 
 const dowloadImgFromS3 = createAsyncThunk("dowloadImgFromS3" , async (imgPath : string) => {
@@ -32,7 +31,7 @@ const dowloadImgFromS3 = createAsyncThunk("dowloadImgFromS3" , async (imgPath : 
                     setImg(base64data)
                 };
                 }
-                console.log("result",result);
+                //console.log("result",result);
                 return img
             } catch (error) {
                 console.log('Error ', error);

@@ -1,8 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, TextInput, Text, TouchableOpacity } from "react-native";
-import { useState } from "react";
-import { signIn, signOut } from "aws-amplify/auth";
+import { useEffect, useState } from "react";
+import { getCurrentUser, signIn, signOut } from "aws-amplify/auth";
 import KuShopTitle from "../components/KuShopTitle";
+
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -10,11 +11,8 @@ function Login() {
     const [errorMessage, setErrorMessage] = useState("");
     const navigation = useNavigation();
 
-    async function handleSignOut() {
-        await signOut();
-    }
-
     const handleSignIn = async () => {
+        await signOut()
         try {
             const response = await signIn({
                 username: username,
@@ -58,9 +56,9 @@ function Login() {
                 <TouchableOpacity className="bg-green-700 py-3 rounded-md items-center mt-2 shadow-md shadow-black" onPress={handleSignIn}>
                     <Text className="text-white font-bold text-lg">Login</Text>
                 </TouchableOpacity>
-                <TouchableOpacity className="bg-blue-500 py-3 rounded-md items-center mt-4 shadow-md shadow-black" onPress={handleSignOut}>
+                {/* <TouchableOpacity className="bg-blue-500 py-3 rounded-md items-center mt-4 shadow-md shadow-black" onPress={handleSignOut}>
                     <Text className="text-white font-bold">Sign Out</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity className="mt-4" onPress={() => navigation.navigate("SignUp" as never)}>
                     <Text className="text-blue-600 font-semibold text-center">Don't have an account? Sign Up</Text>
                 </TouchableOpacity>
