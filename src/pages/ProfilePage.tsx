@@ -160,7 +160,7 @@ function ProfilePage() {
 
         async function handleSignOut() {
             await signOut();
-            navigation.navigate("Login" as never);
+            navigation.navigate("Welcome" as never);
         }
         
     return (
