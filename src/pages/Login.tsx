@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, TextInput, Text, TouchableOpacity, TextStyle, StyleSheet } from "react-native";
+import { View, TextInput, Text, TouchableOpacity, TextStyle, StyleSheet, Pressable } from "react-native";
 import { Alert } from 'react-native'
 import { useState } from "react";
 import { signIn, signOut } from "aws-amplify/auth";
@@ -52,10 +52,16 @@ function Login() {
     return (
         <ScreenWrapper bg = {theme.colors.kuColor}> 
             <StatusBar style = "dark"></StatusBar>
-            <BackButton/>
             <View style = {styles.container}>
-                <Text style ={styles.welcomeText}>Hi,</Text>
-                <Text style ={styles.welcomeText}>WelCome Back</Text>
+            <BackButton/>
+
+                {/* Welcome */}
+                <View>
+                    <Text style ={styles.welcomeText}>Hey,</Text>
+                    <Text style ={styles.welcomeText}>WelCome Back</Text>
+                </View>
+
+                {/* form */}
                 <View style = {styles.form}>
                 <Input
                     icon = {<Icon name = "user" size = {26} strokeWidth = {1.6} />}
@@ -76,9 +82,22 @@ function Login() {
                 {errorMessage && <Text className="text-red-600 text-center mb-2">{errorMessage}</Text>}
                 <Button title = {'Login'} onPress={handleSignIn}/>
                 <Button title = {'Sign Out'} onPress={handleSignOut}/>
-                <TouchableOpacity className="mt-4" onPress={() => navigation.navigate("SignUp" as never)}>
+                {/* <TouchableOpacity className="mt-4" onPress={() => navigation.navigate("SignUp" as never)}>
                     <Text className="text-blue-600 font-semibold text-center">Don't have an account? Sign Up</Text>
                 </TouchableOpacity>
+                <Pressable onPress={() => navigation.navigate("SignUp" as never)}>
+                        <Text style={[styles.footerText, {color:theme.colors.primaryDark,fontWeight: theme.fonts.semibold as TextStyle['fontWeight']}]}>Sign up</Text>
+                </Pressable> */}
+
+                {/* footer */}
+                <View style={styles.footer}>
+                    <Text style = {styles.footerText}>
+                        Don't have an account?
+                    </Text>
+                    <Pressable onPress={() => navigation.navigate("SignUp" as never)}>
+                        <Text style={[styles.footerText, {color:theme.colors.primaryDark,fontWeight: theme.fonts.semibold as TextStyle['fontWeight']}]}>Sign up</Text>
+                    </Pressable>
+                </View>
             </View>
         </ScreenWrapper>
     );
