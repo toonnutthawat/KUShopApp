@@ -12,6 +12,7 @@ import { fetchUserAttributes } from 'aws-amplify/auth'
 import { decode } from 'base64-arraybuffer'
 import { uploadImgToS3 } from "../store/thunks/imageThunk";
 import Entypo from '@expo/vector-icons/Entypo';
+import { pickImage } from "../components/pickImage";
 
 const imgDir = FileSystem.documentDirectory + 'images/'
 
@@ -51,21 +52,10 @@ function ProfilePage() {
         fetch()
     }, [])
 
-    const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
+    const selectImage = async () => {
         setEditImg(true)
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ['images', 'videos'],
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-        console.log("result : ", result.assets[0]);
-
-        if (!result.canceled) {
-            setSelectedImage(result.assets[0]);
-        }
-
+        const image = await pickImage()
+        setSelectedImage(image)
     };
 
     const uploadIMG = async () => {
@@ -105,7 +95,7 @@ function ProfilePage() {
                         <ProfileImage size={100} src={userInfo.profile}></ProfileImage>
                 }
 
-                        <TouchableOpacity onPress={pickImage} className="absolute" style={{top: 90, left: 200}}>
+                        <TouchableOpacity onPress={selectImage} className="absolute" style={{top: 90, left: 200}}>
                             <View className="rounded-full p-2" style={{backgroundColor: "#004c27"}}>
                                 <Entypo name="camera" size={20} color="white"/>
                             </View>

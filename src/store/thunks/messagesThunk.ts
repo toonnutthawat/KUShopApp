@@ -30,7 +30,7 @@ const fetchMessage = createAsyncThunk("fetchMessages" , async (chatID : string) 
     return messagesWithUsers
 })
 
-const addMesage = createAsyncThunk("addMessage" , async ({chatID , messageContent} : {chatID : string , messageContent : string}) => {
+const addMesage = createAsyncThunk("addMessage" , async ({chatID , messageContent, imgPath} : {chatID : string , messageContent : string, imgPath?: string | null }) => {
     const user = await getCurrentUser()
     const response = await client.graphql({
         query: createMessage,
@@ -38,7 +38,8 @@ const addMesage = createAsyncThunk("addMessage" , async ({chatID , messageConten
             input: {
                 content: messageContent,
                 userID: user.username,
-                chatID: chatID
+                chatID: chatID,
+                image: imgPath
             }
         }
     })

@@ -108,6 +108,7 @@ type Message
   userID: String!
   chat: Chat! @belongsTo(fields: ["chatID"])
   chatID: ID! @index(name: "byChat")
+  image: String
 }
 
 

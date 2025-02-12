@@ -271,6 +271,7 @@ export const getMessage = /* GraphQL */ `query GetMessage($id: ID!) {
       __typename
     }
     chatID
+    image
     createdAt
     updatedAt
     __typename
@@ -291,6 +292,7 @@ export const listMessages = /* GraphQL */ `query ListMessages(
       content
       userID
       chatID
+      image
       createdAt
       updatedAt
       __typename
@@ -478,6 +480,7 @@ export const messagesByChatID = /* GraphQL */ `query MessagesByChatID(
       content
       userID
       chatID
+      image
       createdAt
       updatedAt
       __typename

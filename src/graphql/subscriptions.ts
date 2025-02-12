@@ -523,6 +523,7 @@ export const onCreateMessage = /* GraphQL */ `subscription OnCreateMessage(
       __typename
     }
     chatID
+    image
     createdAt
     updatedAt
     __typename
@@ -549,6 +550,7 @@ export const onUpdateMessage = /* GraphQL */ `subscription OnUpdateMessage(
       __typename
     }
     chatID
+    image
     createdAt
     updatedAt
     __typename
@@ -575,6 +577,7 @@ export const onDeleteMessage = /* GraphQL */ `subscription OnDeleteMessage(
       __typename
     }
     chatID
+    image
     createdAt
     updatedAt
     __typename

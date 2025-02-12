@@ -9,6 +9,7 @@ import * as FileSystem from 'expo-file-system'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { decode } from "base64-arraybuffer";
 import { uploadImgToS3 } from "../../store/thunks/imageThunk";
+import { pickImage } from "../../components/pickImage";
 
 function PostPage(){
     const userInfo = useAppSelector(state => state.users.myUser)
@@ -18,19 +19,9 @@ function PostPage(){
     const dispatch = useAppDispatch()
     const navigation = useNavigation()
 
-    const pickImage = async () => {
-            let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ['images', 'videos'],
-                allowsEditing: true,
-                aspect: [4, 3],
-                quality: 1,
-            });
-            console.log("result : ", result.assets[0]);
-    
-            if (!result.canceled) {
-                setSelectedImg(result.assets[0]);
-            }
-    
+    const selectImage = async () => {
+            const image = await pickImage()
+            setSelectedImg(image)
         };
     
     const uploadIMG = async () => {
@@ -66,7 +57,7 @@ function PostPage(){
                         selectedImg ? <Image source={{uri: selectedImg.uri}} style={styles.img}></Image>:
                         <Image source={require("../../../assets/defaultPostImg.png")} style={styles.img}></Image>
                     }
-                    <TouchableOpacity className="absolute right-4 top-4 bg-green-500 rounded-lg p-2" onPress={pickImage}>
+                    <TouchableOpacity className="absolute right-4 top-4 bg-green-500 rounded-lg p-2" onPress={selectImage}>
                         <FontAwesome6 name="add" size={24} color="#004c27"/>
                     </TouchableOpacity>
                     
