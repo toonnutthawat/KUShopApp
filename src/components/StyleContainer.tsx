@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from "../hook";
 import { fetchMyUser } from "../store/thunks/userThunk";
 import ScreenWrapper from "./ScreenWrapper";
 import { theme } from "../constants/theme";
+import BackButton from "./BackButton";
+import { wp } from "../helpers/common";
 
 
 
@@ -24,18 +26,20 @@ export function StyledContainer({ children }) {
 
     return (
         <ScreenWrapper bg = {theme.colors.kuColor}>
-        <ScrollView style={{flex: 1, backgroundColor: "#004d26"}}>
-            <View style={styles.container}>
-                <View style={{ display: 'flex', flexDirection: 'row', marginTop: 10, right: 40, position: 'absolute' }}>
-                    {
-                        userInfo && (
-                            <><ProfileImage size={20} src={userInfo.profile}></ProfileImage><Text style={{ color: 'white', marginLeft: 5 }}>{userInfo.id}</Text></>
-                        )
-                    }
+            
+                <View style={styles.container}>
+                    <View style={{ display: 'flex', flexDirection: 'row', marginTop: 10, right: 40, position: 'absolute' }}>
+
+                        {
+                            userInfo && (
+                                <><ProfileImage size={20} src={userInfo.profile}></ProfileImage><Text style={{ color: 'white', marginLeft: 5 }}>{userInfo.id}</Text></>
+                            )
+
+                        }
+                    </View>
+                    {children}
                 </View>
-                {children}
-            </View>
-        </ScrollView>
+          
         </ScreenWrapper>
     );
 }
@@ -53,14 +57,13 @@ const styles = StyleSheet.create({
     },
     homeBox: {
         backgroundColor: theme.colors.kuColor,
-        width: "85%",
+        width: "100%",
         borderRadius: 10,
         padding: 20,
         shadowColor: "#000",
-
         elevation: 5,
-        marginBottom: 20,
-        marginTop: 40,
+        marginBottom: 0,
+        marginTop: 30,
         display: 'flex',
         alignItems: 'center'
     },
