@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Pressable, ViewStyle, TextStyle } from 'react-native';
 import { theme } from '../constants/theme';
 import { hp } from '../helpers/common';
+import Loading from './Loading';
 
 interface ButtonProps {
     buttonStyle?: ViewStyle;
@@ -31,7 +32,7 @@ const Button: React.FC<ButtonProps> = ({
     if (loading) {
         return (
             <View style={[styles.button, buttonStyle, { backgroundColor: theme.colors.kuColor }]}>
-                
+                <Loading></Loading>
             </View>
         );
     }
