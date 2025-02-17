@@ -17,9 +17,16 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
 
     const handleSignIn = async () => {
+
+        if(!username.trim() || !password.trim()){
+            Alert.alert('Login', "please fill all the fields!")
+            return;
+        }
+        setLoading(true);
         await signOut()
         try {
             const response = await signIn({
@@ -35,7 +42,7 @@ function Login() {
             } else {
                 console.log("Fail to login");
                 setErrorMessage("Fail to login");
-            }
+            } setLoading(false);
         } catch (e) {
             setErrorMessage((e).message);
         }
@@ -72,7 +79,7 @@ function Login() {
                 />
                 </View>
                 {errorMessage && <Text className="text-red-600 text-center mb-2">{errorMessage}</Text>}
-                <Button title = {'Login'} onPress={handleSignIn}/>
+                <Button title = {'Login'}  loading = {loading} onPress={handleSignIn}/>
                 {/* <TouchableOpacity className="mt-4" onPress={() => navigation.navigate("SignUp" as never)}>
                     <Text className="text-blue-600 font-semibold text-center">Don't have an account? Sign Up</Text>
                 </TouchableOpacity>
