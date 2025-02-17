@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet,ScrollView ,TextInput,TextStyle } from "react-native";
 import KuShopTitle from "../components/KuShopTitle";
 import { getCurrentUser, signOut } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
@@ -9,6 +9,9 @@ import { StyledContainer, StyledHomeBox } from "../components/StyleContainer";
 import { fetchAllPosts } from "../store/thunks/postsThunk";
 import PostReusable from "../components/PostReusable";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { hp } from "../helpers/common";
+import { theme } from "../constants/theme";
+import Icon from "../../assets/icons";
 
 function Home() {
     const [term ,setTerm] = useState("")
@@ -29,21 +32,22 @@ function Home() {
 
     return (
         <StyledContainer>
+            
             <StyledHomeBox>
-                <KuShopTitle title="Welcome !" />
                 <MaterialIcons name="post-add" size={30} color="#004c27" className="absolute right-4 top-4" onPress={() => navigation.navigate("Post" as never)}/>
-                <View>
-                    <TextInput
-                        placeholder="search title"
-                        value={term}
-                        onChangeText={(value) => setTerm(value)}
-                        style={{ backgroundColor: 'white', width: 300, borderRadius: 20 }}
-                    >
-                    </TextInput>
-                </View>
-                {filteredMyPosts && filteredMyPosts.map((post, index) => (
-                    <PostReusable key={index} post={post} />
-                ))}
+                
+                <TextInput
+                    placeholder="search title"
+                    value={term}
+                    onChangeText={(value) => setTerm(value)}
+                    className="bg-gray-100 rounded-full px-4 h-12 mt-10 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300 w-full"
+                    placeholderTextColor="#555"
+                />
+                <ScrollView className="w-full flex-grow" showsVerticalScrollIndicator={false}>
+                    {filteredMyPosts.map((post, index) => (
+                        <PostReusable key={index} post={post} className="w-full"/>
+                    ))}
+                </ScrollView>
             </StyledHomeBox>
         </StyledContainer>
     );
@@ -99,6 +103,11 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
     },
+    welcomeText:{
+        fontSize: hp(4),
+        fontWeight: theme.fonts.bold as TextStyle['fontWeight'],
+        color: theme.colors.text,
+        }
 });
 
 export default Home;
