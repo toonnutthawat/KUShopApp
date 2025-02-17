@@ -26,7 +26,7 @@ const Welcome: React.FC = () => {
                 <View style={{gap:20}}>
                     <Text style={styles.title}>Welcome to KUShop Secondhand store!</Text>
                     <Text style={styles.punchline}>
-                        a place where you can buy cheap and reasonable price items!
+                        a place where you can find cheap and reasonable price items!
                     </Text>
                 </View>
 
