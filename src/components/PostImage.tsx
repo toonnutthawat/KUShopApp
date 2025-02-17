@@ -2,12 +2,13 @@ import { View , Image, StyleSheet } from "react-native";
 import { downloadData, getProperties } from 'aws-amplify/storage';
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hook";
+import { hp, wp } from "../helpers/common";
 
 function PostImage({size , src } : { size: number, src?: string | null}){
     const styles = StyleSheet.create({
         profile : {
-            width: size,
-            height: size,
+            width: wp(84),
+            height: hp(size),
             borderRadius: 10,
             marginTop: 10
         }
