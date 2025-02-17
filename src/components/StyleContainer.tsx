@@ -1,13 +1,13 @@
 // components/StyledContainers.js
 import React, { useEffect } from "react";
-import { View, StyleSheet, Text, ScrollView } from "react-native";
+import { View, StyleSheet, Text, ScrollView, TextStyle } from "react-native";
 import ProfileImage from "./ProfileImage";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { fetchMyUser } from "../store/thunks/userThunk";
 import ScreenWrapper from "./ScreenWrapper";
 import { theme } from "../constants/theme";
 import BackButton from "./BackButton";
-import { wp } from "../helpers/common";
+import { hp, wp } from "../helpers/common";
 
 
 
@@ -32,7 +32,7 @@ export function StyledContainer({ children }) {
 
                         {
                             userInfo && (
-                                <><ProfileImage size={20} src={userInfo.profile}></ProfileImage><Text style={{ color: 'white', marginLeft: 5 }}>{userInfo.id}</Text></>
+                                <><ProfileImage size={30} src={userInfo.profile}></ProfileImage><Text style={styles.title}>{userInfo.id}</Text></>
                             )
 
                         }
@@ -56,15 +56,22 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start", // Aligns content at the top
     },
     homeBox: {
-        backgroundColor: theme.colors.kuColor,
+        backgroundColor: theme.colors.dark,
         width: "100%",
         borderRadius: 10,
         padding: 20,
         shadowColor: "#000",
         elevation: 5,
         marginBottom: 0,
-        marginTop: 30,
+        marginTop: 50,
         display: 'flex',
         alignItems: 'center'
     },
+    title:{
+        fontSize: hp(2),
+        fontWeight: theme.fonts.semibold as TextStyle['fontWeight'],
+        color: theme.colors.textDark,
+        marginTop: 7,
+        marginLeft: 7
+    }
 });
