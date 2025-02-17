@@ -1,22 +1,20 @@
 import { View , Image, StyleSheet } from "react-native";
-import { downloadData } from 'aws-amplify/storage';
-import { getProperties } from 'aws-amplify/storage';
+import { downloadData, getProperties } from 'aws-amplify/storage';
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hook";
 
-function ProfileImage({size , src } : { size: number, src?: string | null}){
-
+function MessageImage({size , src } : { size: number, src: string }){
     const styles = StyleSheet.create({
         profile : {
             width: size,
             height: size,
-            borderRadius: 50
+            borderRadius: 10,
+            marginTop: 10,
+            marginBottom: 10
         }
     })
 
-    const dispatch = useAppDispatch()
     const [dowloadedImg, setDowloadedImg] = useState("")
-    const userInfo = useAppSelector(state => state.users.myUser)
     useEffect(() => {
         fetchedImageFromS3()
     },[])
@@ -49,20 +47,11 @@ function ProfileImage({size , src } : { size: number, src?: string | null}){
 
     return(
         <View>
-            {
-                (src && (src !== null) )? <Image style={styles.profile} source={{uri: dowloadedImg}}>
-
-                </Image>
- 
-                :
-
-                <Image style={styles.profile} source={require("../../assets/profile.jpeg")}>
-
-                </Image>
-            }
+            <Image style={styles.profile} source={{uri: dowloadedImg}}>
+            </Image>
         </View>
     )
 }
 
 
-export default ProfileImage;
+export default MessageImage;

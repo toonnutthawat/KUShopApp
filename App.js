@@ -122,7 +122,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Test" component={TestPage} />
           <Stack.Screen name="MyPosts" component={MyPosts} />
           <Stack.Screen name="Home"component={BottomTabs} options={{ headerShown: false }}/>

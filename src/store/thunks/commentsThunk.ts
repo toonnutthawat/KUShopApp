@@ -2,7 +2,7 @@ import { generateClient } from "@aws-amplify/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getCurrentUser } from "aws-amplify/auth";
 import { createComment } from "../../graphql/mutations";
-import { listComments } from "../../graphql/queries";
+import { getUser, listComments } from "../../graphql/queries";
 import { Post } from "../../API";
 
 const client = generateClient({authMode: "userPool"})
@@ -37,7 +37,18 @@ const fetchCommentByPost = createAsyncThunk("fetchCommentByPost", async (post : 
         ...comment,
         post: post,
     }));
-    return fetchedComments
+
+    const addUserwithComments = fetchedComments.map(async (comment) => {
+        const userResponse = await client.graphql({
+            query: getUser,
+            variables: {
+                id: comment.userID
+            }
+        });
+        return {...comment , user: userResponse.data.getUser}
+    })
+    const commentsWithUser = Promise.all(addUserwithComments)
+    return commentsWithUser
 })
 
 export { addComment , fetchCommentByPost}

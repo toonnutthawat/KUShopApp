@@ -4,6 +4,10 @@ import { View, StyleSheet, Text, ScrollView } from "react-native";
 import ProfileImage from "./ProfileImage";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { fetchMyUser } from "../store/thunks/userThunk";
+import ScreenWrapper from "./ScreenWrapper";
+import { theme } from "../constants/theme";
+
+
 
 export function StyledContainer({ children }) {
 
@@ -19,22 +23,45 @@ export function StyledContainer({ children }) {
     }, [])
 
     return (
-        <View className="flex-1 bg-kuBGColor p-4 pt-10">
-            <View className="flex-1 bg-kuBGColor p-4 pt-10 mt-2">
-                <View className="flex-row absolute right-10 mt-2">
-                      {userInfo && (
-                        <>
-                          <ProfileImage size={20} />
-                          <Text className="text-white ml-2 mt-1">{userInfo.id}</Text>
-                        </>
-                      )}
+        <ScreenWrapper bg = {theme.colors.kuColor}>
+        <ScrollView style={{flex: 1, backgroundColor: "#004d26"}}>
+            <View style={styles.container}>
+                <View style={{ display: 'flex', flexDirection: 'row', marginTop: 10, right: 40, position: 'absolute' }}>
+                    {
+                        userInfo && (
+                            <><ProfileImage size={20} src={userInfo.profile}></ProfileImage><Text style={{ color: 'white', marginLeft: 5 }}>{userInfo.id}</Text></>
+                        )
+                    }
                 </View>
                 {children}
             </View>
-        </View>
+        </ScrollView>
+        </ScreenWrapper>
     );
 }
 
 export function StyledHomeBox({ children }) {
-    return <View className="flex-1 w-full max-w-md bg-kuColor rounded-2xl p-4 pt-10 flex-1">{children}</View>;
+    return <View style={styles.homeBox}>{children}</View>;
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: theme.colors.kuColor,
+        alignItems: "center",
+        justifyContent: "flex-start", // Aligns content at the top
+    },
+    homeBox: {
+        backgroundColor: theme.colors.kuColor,
+        width: "85%",
+        borderRadius: 10,
+        padding: 20,
+        shadowColor: "#000",
+
+        elevation: 5,
+        marginBottom: 20,
+        marginTop: 40,
+        display: 'flex',
+        alignItems: 'center'
+    },
+});

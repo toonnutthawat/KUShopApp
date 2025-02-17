@@ -2,11 +2,14 @@ import { generateClient } from "@aws-amplify/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createPost, deletePost } from "../../graphql/mutations";
 import { getCurrentUser } from "aws-amplify/auth";
-import { listPosts } from "../../graphql/queries";
+import { getUser, listPosts } from "../../graphql/queries";
+import { Post, User } from "../../API";
 
 const client = generateClient({authMode: "userPool"})
 
-const addPost = createAsyncThunk("addPost", async ({titlePost , contentPost} : {titlePost : string , contentPost : string}) => {
+const addPost = createAsyncThunk("addPost", async ({titlePost , contentPost, imgPath} : 
+    {titlePost : string , contentPost : string, imgPath?: string | null}) => {
+
     try{
     const user = await getCurrentUser()
     const response = await client.graphql({
@@ -16,7 +19,8 @@ const addPost = createAsyncThunk("addPost", async ({titlePost , contentPost} : {
                 title: titlePost,
                 content: contentPost,
                 likes: 0,
-                userID: user.username
+                userID: user.username,
+                image: imgPath
             }
         }
     })
@@ -40,15 +44,32 @@ const fetchMyPosts = createAsyncThunk("fetchMyPosts", async () => {
             }
         }
     })
-    console.log("response :", response.data.listPosts.items);
-    return response.data.listPosts.items
+    const userPromises = response.data.listPosts.items.map(async (post) => {
+        const userResponse = await client.graphql({
+            query: getUser,
+            variables: { id: post.userID }
+        });
+        return { ...post, user: userResponse.data.getUser as User}; // Merge user details into post
+    });
+    const postsWithUsers = await Promise.all(userPromises);
+   
+    return postsWithUsers
 })
 
 const fetchAllPosts = createAsyncThunk("fetchAllPosts" , async () => {
     const response = await client.graphql({
         query: listPosts,
     })
-    return response.data.listPosts.items
+    const userPromises = response.data.listPosts.items.map(async (post) => {
+        const userResponse = await client.graphql({
+            query: getUser,
+            variables: { id: post.userID }
+        });
+        return { ...post, user: userResponse.data.getUser as User}; // Merge user details into post
+    });
+    const postsWithUsers = await Promise.all(userPromises);
+    
+    return postsWithUsers
 })
 
 const removePost = createAsyncThunk("removePost", async (id: string) => {

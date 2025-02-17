@@ -490,6 +490,7 @@ export const createMessage = /* GraphQL */ `mutation CreateMessage(
       __typename
     }
     chatID
+    image
     createdAt
     updatedAt
     __typename
@@ -516,6 +517,7 @@ export const updateMessage = /* GraphQL */ `mutation UpdateMessage(
       __typename
     }
     chatID
+    image
     createdAt
     updatedAt
     __typename
@@ -542,6 +544,7 @@ export const deleteMessage = /* GraphQL */ `mutation DeleteMessage(
       __typename
     }
     chatID
+    image
     createdAt
     updatedAt
     __typename

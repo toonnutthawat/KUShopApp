@@ -1,8 +1,9 @@
 import { generateClient } from "@aws-amplify/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getChat, listChats } from "../../graphql/queries";
+import { getChat, getUser, listChats } from "../../graphql/queries";
 import { getCurrentUser } from "aws-amplify/auth";
 import { createChat } from "../../graphql/mutations";
+import { User } from "../../API";
 
 const client = generateClient()
 
@@ -62,8 +63,23 @@ const fetchAllChats = createAsyncThunk("fetchAllChats", async () => {
             
         }
     })
-    console.log("allPost :", response.data.listChats.items);
-    return response.data.listChats.items
+        const userPromises = response.data.listChats.items.map(async (post) => {
+            const userResponse = await client.graphql({
+                query: getUser,
+                variables: { id: post.userID }
+            });
+            const userResponse2 = await client.graphql({
+                query: getUser,
+                variables: { id: post.userID2 }
+            });
+            
+            return { ...post, user: userResponse.data.getUser ,user2: userResponse2.data.getUser}; // Merge user details into post
+        });
+        const chatsWithUsers = await Promise.all(userPromises);
+
+        console.log(chatsWithUsers);
+        
+    return  chatsWithUsers
 })
 
 export { fetchMyChat , fetchAllChats }

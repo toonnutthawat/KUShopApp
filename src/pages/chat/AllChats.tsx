@@ -9,7 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from "@react-navigation/native";
 import { Chat } from "../../API";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { max } from "date-fns";
+import React from "react";
 
 type RootStackParamList = {
     ChatPage: {chat: Chat}
@@ -42,7 +42,10 @@ function AllChats(){
         <Pressable key={index} onPress={() => navigation.navigate("ChatPage", {chat})}>
         <View className="flex-row bg-white p-5 w-full rounded-lg items-center mt-2">
             <View style={{marginRight: 10}}>
-                <ProfileImage size={20}></ProfileImage>
+                {
+                    (myUser.id !== chat.userID) ? <ProfileImage size={20} src={chat.user.profile}></ProfileImage> : <ProfileImage size={20} src={chat.user2.profile}></ProfileImage>
+                }
+                
             </View>
             {
                 (myUser.id !== chat.userID) ? <Text>{chat.userID}</Text> :
@@ -56,7 +59,7 @@ function AllChats(){
     return(
         <StyledContainer>
             <StyledHomeBox>
-                <View className="w-full flex-grow">
+                <View style={{position: 'relative'}}>
                     {renderedAllChats}
                 </View>
             </StyledHomeBox>
@@ -64,5 +67,17 @@ function AllChats(){
     )
 }
 
+const styles = StyleSheet.create({
+    chatsContainer : {
+        display: 'flex',
+        flexDirection: 'row', 
+        backgroundColor:'white',
+        padding: 20,
+        width: 300,
+        borderRadius: 10,
+        alignItems: "center",
+        marginTop: 10
+    }
+})
 
 export default AllChats;

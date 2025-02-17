@@ -19,16 +19,8 @@ function Login() {
     const [errorMessage, setErrorMessage] = useState("");
     const navigation = useNavigation();
 
-    async function handleSignOut() {
-        await signOut();
-    }
-
     const handleSignIn = async () => {
-        if(!username || !password){
-            Alert.alert('Login', "please fill all the fields!")
-            return;
-        }
-        
+        await signOut()
         try {
             const response = await signIn({
                 username: username,
@@ -81,7 +73,6 @@ function Login() {
                 </View>
                 {errorMessage && <Text className="text-red-600 text-center mb-2">{errorMessage}</Text>}
                 <Button title = {'Login'} onPress={handleSignIn}/>
-                <Button title = {'Sign Out'} onPress={handleSignOut}/>
                 {/* <TouchableOpacity className="mt-4" onPress={() => navigation.navigate("SignUp" as never)}>
                     <Text className="text-blue-600 font-semibold text-center">Don't have an account? Sign Up</Text>
                 </TouchableOpacity>

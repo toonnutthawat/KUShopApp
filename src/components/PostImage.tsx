@@ -1,22 +1,19 @@
 import { View , Image, StyleSheet } from "react-native";
-import { downloadData } from 'aws-amplify/storage';
-import { getProperties } from 'aws-amplify/storage';
+import { downloadData, getProperties } from 'aws-amplify/storage';
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hook";
 
-function ProfileImage({size , src } : { size: number, src?: string | null}){
-
+function PostImage({size , src } : { size: number, src?: string | null}){
     const styles = StyleSheet.create({
         profile : {
             width: size,
             height: size,
-            borderRadius: 50
+            borderRadius: 10,
+            marginTop: 10
         }
     })
 
-    const dispatch = useAppDispatch()
     const [dowloadedImg, setDowloadedImg] = useState("")
-    const userInfo = useAppSelector(state => state.users.myUser)
     useEffect(() => {
         fetchedImageFromS3()
     },[])
@@ -56,7 +53,7 @@ function ProfileImage({size , src } : { size: number, src?: string | null}){
  
                 :
 
-                <Image style={styles.profile} source={require("../../assets/profile.jpeg")}>
+                <Image style={styles.profile} source={require("../../assets/defaultPostImg.png")}>
 
                 </Image>
             }
@@ -65,4 +62,4 @@ function ProfileImage({size , src } : { size: number, src?: string | null}){
 }
 
 
-export default ProfileImage;
+export default PostImage;

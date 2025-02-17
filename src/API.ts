@@ -114,6 +114,7 @@ export type ModelCommentConnection = {
 };
 
 export type Comment = {
+  user: any;
   __typename: "Comment",
   id: string,
   content: string,
@@ -173,6 +174,7 @@ export type Message = {
   userID: string,
   chat: Chat,
   chatID: string,
+  image?: string | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -341,12 +343,14 @@ export type CreateMessageInput = {
   content: string,
   userID: string,
   chatID: string,
+  image?: string | null,
 };
 
 export type ModelMessageConditionInput = {
   content?: ModelStringInput | null,
   userID?: ModelStringInput | null,
   chatID?: ModelIDInput | null,
+  image?: ModelStringInput | null,
   and?: Array< ModelMessageConditionInput | null > | null,
   or?: Array< ModelMessageConditionInput | null > | null,
   not?: ModelMessageConditionInput | null,
@@ -359,6 +363,7 @@ export type UpdateMessageInput = {
   content?: string | null,
   userID?: string | null,
   chatID?: string | null,
+  image?: string | null,
 };
 
 export type DeleteMessageInput = {
@@ -445,6 +450,7 @@ export type ModelMessageFilterInput = {
   content?: ModelStringInput | null,
   userID?: ModelStringInput | null,
   chatID?: ModelIDInput | null,
+  image?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelMessageFilterInput | null > | null,
@@ -566,6 +572,7 @@ export type ModelSubscriptionMessageFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   content?: ModelSubscriptionStringInput | null,
   chatID?: ModelSubscriptionIDInput | null,
+  image?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionMessageFilterInput | null > | null,
@@ -1044,6 +1051,7 @@ export type CreateMessageMutation = {
       updatedAt: string,
     },
     chatID: string,
+    image?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1069,6 +1077,7 @@ export type UpdateMessageMutation = {
       updatedAt: string,
     },
     chatID: string,
+    image?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1094,6 +1103,7 @@ export type DeleteMessageMutation = {
       updatedAt: string,
     },
     chatID: string,
+    image?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1414,6 +1424,7 @@ export type GetMessageQuery = {
       updatedAt: string,
     },
     chatID: string,
+    image?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1434,6 +1445,7 @@ export type ListMessagesQuery = {
       content: string,
       userID: string,
       chatID: string,
+      image?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -1579,6 +1591,7 @@ export type MessagesByChatIDQuery = {
       content: string,
       userID: string,
       chatID: string,
+      image?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -2089,6 +2102,7 @@ export type OnCreateMessageSubscription = {
       updatedAt: string,
     },
     chatID: string,
+    image?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2114,6 +2128,7 @@ export type OnUpdateMessageSubscription = {
       updatedAt: string,
     },
     chatID: string,
+    image?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2139,6 +2154,7 @@ export type OnDeleteMessageSubscription = {
       updatedAt: string,
     },
     chatID: string,
+    image?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,

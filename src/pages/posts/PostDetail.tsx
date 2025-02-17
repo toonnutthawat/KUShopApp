@@ -14,12 +14,14 @@ import { fetchAllPosts, fetchMyPosts } from "../../store/thunks/postsThunk";
 import Entypo from '@expo/vector-icons/Entypo';
 import { fetchMyChat } from "../../store/thunks/chatsThunk";
 import { useNavigation } from "@react-navigation/native";
+import PostImage from "../../components/PostImage";
 import { fetchMyUser } from "../../store/thunks/userThunk";
 
 function PostDetail({ route }) {
     const { post } : { post : Post} = route.params
     const formattedDate = format(new Date(post.createdAt), 'hh:mm a : PPP');
     const comments = useAppSelector(state => state.comments.data)
+    console.log("comments" , comments);
     const myUser = useAppSelector(state => state.users.myUser)
     const myChatWithPostID = useAppSelector(state => state.chats.myChat)
     const likeStatus = useAppSelector(state => state.likeStatus.data || null)
@@ -39,14 +41,6 @@ function PostDetail({ route }) {
         fetch()
     },[post])
 
-    useEffect(() => {
-        //dispatch(fetchMyUser())
-        const fetch = async () => {
-            await dispatch(fetchMyUser())
-        }
-        fetch()
-    }, [])
-
     const sentComment = async () => {
         await dispatch(addComment({
             postID: post.id,
@@ -64,10 +58,15 @@ function PostDetail({ route }) {
     if(!comments) return;
     const renderedComments = comments.map((comment,index) => {
         const commentDate = format(new Date(comment.createdAt), 'hh:mm a : PPP')
+        console.log(comment);
+        
         return(
             <View style={{backgroundColor: 'white', padding: 10, borderRadius: 10, marginTop: 10}} key={index}>
                 <View style={{display: 'flex' ,flexDirection: 'row'}}>
-                    <ProfileImage size={24}></ProfileImage>
+                    {
+                        comment.user.profile && <ProfileImage size={24} src={comment.user.profile}></ProfileImage>
+                    }
+                    {/* <ProfileImage size={24} src={comment.post.user.profile}></ProfileImage> */}
                     <Text style={{marginLeft: 5}}>{comment.userID}</Text>
                 </View>
                 <View style={{marginTop: 5}}>
@@ -90,13 +89,13 @@ function PostDetail({ route }) {
         <StyledContainer>
             <StyledHomeBox>
                 <View style={{ display: 'flex', alignItems: 'center' }}>
-                    <Image source={require("../../../assets/defaultPostImg.png")} style={{ width: 200, marginTop: 20 }} />
+                    <PostImage size={200} src={post.image}></PostImage>
                     <View style={[{ marginBottom: 20 }]}>
                         <Text style={[{ marginTop: 10 }, styles.text]}>หัวข้อ: {post.title}</Text>
                         <Text style={[{ marginTop: 10 }, styles.text]}>รายละเอียด: {post.content}</Text>
                         <Text style={[{ marginTop: 10 }, styles.text]}>โพสต์วันที่: {formattedDate}</Text>
                         <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 10 }}>
-                            <ProfileImage size={20} />
+                            <ProfileImage size={20} src={post.user.profile}/>
                             <Text style={[{ marginLeft: 10 }, styles.text]}>{post.userID}</Text>
                             {
                                 myUser.id !== post.userID && (
