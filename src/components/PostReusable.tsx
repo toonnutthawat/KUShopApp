@@ -33,12 +33,12 @@ const PostReusable = ({ post, isMyPosts, className }: { post: Post, isMyPosts?: 
     return (
         <Pressable onPress={() => navigation.navigate('PostDetail', { post })}>
             <View className={`bg-white w-full rounded-2xl mb-4 p-4 mt-5 ${className}`}>
+                <PostImage size={25} src={post.image}/>
                 { isMyPosts && 
-                <TouchableOpacity className="absolute top-2 right-2 bg-red-500 rounded-full w-6 h-6 flex items-center justify-center" onPress={removePostByID}>
+                <TouchableOpacity className="absolute top-2 right-2 bg-red-500 rounded-full w-10 h-10 flex items-center justify-center" onPress={removePostByID}>
                      <Text className="text-white text-xs">X</Text>
                 </TouchableOpacity>
                 }
-                <PostImage size={200} src={post.image}/>
                 <View className='mb-5'>
                     <Text className='mt-5 mb-2'>Title: {post.title}</Text>
                     {/* <Text style={{ marginTop: 5 }}>Content: {post.content}</Text> */}
