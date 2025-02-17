@@ -24,10 +24,8 @@ function MyPosts() {
     return (
         
         <StyledContainer>
-            
             <StyledHomeBox>
                 <Text className="text-2xl font-semibold text-black text-center mb-4">My Posts</Text>
-
                 <TextInput
                     placeholder="Search title"
                     value={term}
