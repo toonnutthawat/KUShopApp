@@ -32,10 +32,8 @@ function Home() {
 
     return (
         <StyledContainer>
-            
             <StyledHomeBox>
                 <MaterialIcons name="post-add" size={30} color="#004c27" className="absolute right-4 top-4" onPress={() => navigation.navigate("Post" as never)}/>
-                
                 <TextInput
                     placeholder="search title"
                     value={term}
