@@ -16,6 +16,7 @@ import { fetchMyChat } from "../../store/thunks/chatsThunk";
 import { useNavigation } from "@react-navigation/native";
 import PostImage from "../../components/PostImage";
 import { fetchMyUser } from "../../store/thunks/userThunk";
+import BackButton from "../../components/BackButton";
 
 function PostDetail({ route }) {
     const { post } : { post : Post} = route.params
@@ -88,8 +89,10 @@ function PostDetail({ route }) {
     return (
         <StyledContainer>
             <StyledHomeBox>
+                <BackButton/>
                 <View style={{ display: 'flex', alignItems: 'center' }}>
-                    <PostImage size={200} src={post.image}></PostImage>
+                    
+                    <PostImage size={35} src={post.image}></PostImage>
                     <View style={[{ marginBottom: 20 }]}>
                         <Text style={[{ marginTop: 10 }, styles.text]}>หัวข้อ: {post.title}</Text>
                         <Text style={[{ marginTop: 10 }, styles.text]}>รายละเอียด: {post.content}</Text>
