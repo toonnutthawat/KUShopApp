@@ -8,7 +8,7 @@ import ScreenWrapper from "./ScreenWrapper";
 import { theme } from "../constants/theme";
 import BackButton from "./BackButton";
 import { hp, wp } from "../helpers/common";
-
+import Header from '../components/Header'
 
 
 export function StyledContainer({ children }) {
@@ -26,10 +26,8 @@ export function StyledContainer({ children }) {
 
     return (
         <ScreenWrapper bg = {theme.colors.kuColor}>
-            
                 <View style={styles.container}>
                     <View style={{ display: 'flex', flexDirection: 'row', marginTop: 10, right: 40, position: 'absolute' }}>
-
                         {
                             userInfo && (
                                 <><ProfileImage size={30} src={userInfo.profile}></ProfileImage><Text style={styles.title}>{userInfo.id}</Text></>
@@ -39,7 +37,6 @@ export function StyledContainer({ children }) {
                     </View>
                     {children}
                 </View>
-          
         </ScreenWrapper>
     );
 }
@@ -56,14 +53,13 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start", // Aligns content at the top
     },
     homeBox: {
-        backgroundColor: theme.colors.dark,
+        backgroundColor: theme.colors.kuColor,
         width: "100%",
         borderRadius: 10,
         padding: 20,
         shadowColor: "#000",
         elevation: 5,
         marginBottom: 0,
-        marginTop: 50,
         display: 'flex',
         alignItems: 'center'
     },
