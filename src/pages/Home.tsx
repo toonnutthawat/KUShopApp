@@ -38,7 +38,7 @@ function Home() {
                     placeholder="search title"
                     value={term}
                     onChangeText={(value) => setTerm(value)}
-                    className="bg-gray-100 rounded-full px-4 h-12 mt-10 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300 w-full"
+                    className="bg-gray-100 rounded-full px-4 h-12 mt-10 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300 w-full mb-4"
                     placeholderTextColor="#555"
                 />
                 <ScrollView className="w-full flex-grow" showsVerticalScrollIndicator={false}>
