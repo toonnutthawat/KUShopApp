@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Button, Image, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, Button, Image, TouchableOpacity, TextStyle } from "react-native";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { useEffect, useState } from "react";
 import { editImgUser, fetchMyUser } from "../store/thunks/userThunk";
@@ -13,6 +13,10 @@ import { decode } from 'base64-arraybuffer'
 import { uploadImgToS3 } from "../store/thunks/imageThunk";
 import Entypo from '@expo/vector-icons/Entypo';
 import { pickImage } from "../components/pickImage";
+import { hp } from "../helpers/common";
+import { theme } from "../constants/theme";
+import Icon from "../../assets/icons";
+import Header from "../components/Header";
 
 const imgDir = FileSystem.documentDirectory + 'images/'
 
@@ -88,6 +92,7 @@ function ProfilePage() {
 
     return (
         <StyledContainer>
+            <Header title = "Profile"showBackButton={false}></Header>
             <StyledHomeBox>
                 {
                     (editImg && selectedImage) ? <Image source={{ uri: selectedImage.uri }} style={styles.profile}></Image> : 
@@ -125,16 +130,9 @@ function ProfilePage() {
                 <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => navigation.navigate("MyPosts" as never)}
-                    style={{
-                        backgroundColor: "#004c27",
-                        padding: 4,
-                        alignItems: 'center',
-                        borderRadius: 10,
-                        width: 200,
-                        marginTop: 20
-                    }}
+                    style={ styles.myPostStyles}
                 >
-                    <Text style={{ color: 'white' }}>MyPosts</Text>
+                    <Text style={styles.myPosttext}>MyPosts</Text>
                 </TouchableOpacity>
                 {
                     isAdmin && (
@@ -154,7 +152,7 @@ function ProfilePage() {
                         </TouchableOpacity>
                     )
                 }
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={handleSignOut}
                     style={{
@@ -167,6 +165,10 @@ function ProfilePage() {
                     }}
                 >
                     <Text style={{ color: 'white' }}>sign out</Text>
+                </TouchableOpacity> */}
+
+                <TouchableOpacity style = {styles.logoutButton} onPress={handleSignOut}>
+                    <Icon name = "logout" color = {theme.colors.rose}/>
                 </TouchableOpacity>
 
             </StyledHomeBox>
@@ -180,6 +182,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#004d26",
         alignItems: "center",
         justifyContent: "flex-start", // Aligns content at the top
+    },
+    logoutButton:{
+        padding:5,
+        borderRadius: theme.radius.sm,
+        backgroundColor: '#fee2e2',
+        marginTop: 30
     },
     homeBox: {
         display: "flex",
@@ -212,7 +220,21 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         width: 60,
-    }
+    },
+    myPostStyles: {
+        backgroundColor: "#004c27",
+        padding: 4,
+        alignItems: 'center',
+        borderRadius: 10,
+        width: 200,
+        marginTop: 20,
+        height: hp(3)
+    },
+    myPosttext: {
+        fontSize: hp(2),
+        color: 'white',
+        fontWeight: theme.fonts.semibold as TextStyle['fontWeight'],
+    },
 
 })
 
