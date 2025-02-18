@@ -33,10 +33,10 @@ function ProfileImage({size , src } : { size: number, src?: string | null}){
                 reader.readAsDataURL(blob);
                 reader.onloadend = async () => {
                     const base64data = reader.result as string;
-                    setDowloadedImg(base64data)
+                    setDowloadedImg(base64data)         
                 };
             }
-            console.log("result", result);
+            //console.log("result", result);
 
         } catch (error) {
             console.log('Error ', error);

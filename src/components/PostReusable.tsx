@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View, Image, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import ProfileImage from './ProfileImage';
@@ -9,6 +9,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAppDispatch } from '../hook';
 import { fetchAllPosts, removePost } from '../store/thunks/postsThunk';
 import PostImage from './PostImage';
+import { fetchedImageFromS3 } from './s3Utils';
 
 // Define the navigation stack types
 type RootStackParamList = {
@@ -23,7 +24,6 @@ type PostReusableNavigationProp = NativeStackNavigationProp<RootStackParamList, 
 const PostReusable = ({ post, isMyPosts }: { post: Post, isMyPosts?: Boolean | null }) => {
     const navigation = useNavigation<PostReusableNavigationProp>()
     const dispatch = useAppDispatch()
-    
 
     const removePostByID = async () => {
         await dispatch(removePost(post.id))

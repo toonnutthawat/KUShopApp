@@ -8,7 +8,6 @@ import PostReusable from "../../components/PostReusable";
 function MyPosts() {
     const myPosts = useAppSelector(state => state.posts.myPosts.data || [])
     const [term, setTerm] = useState("")
-    console.log("myPosts: ", myPosts)
     const dispatch = useAppDispatch()
 
     useEffect(() => {

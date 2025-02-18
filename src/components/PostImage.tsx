@@ -2,6 +2,7 @@ import { View , Image, StyleSheet } from "react-native";
 import { downloadData, getProperties } from 'aws-amplify/storage';
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hook";
+import { fetchedImageFromS3 } from "./s3Utils";
 
 function PostImage({size , src } : { size: number, src?: string | null}){
     const styles = StyleSheet.create({
@@ -14,9 +15,11 @@ function PostImage({size , src } : { size: number, src?: string | null}){
     })
 
     const [dowloadedImg, setDowloadedImg] = useState("")
+    
     useEffect(() => {
         fetchedImageFromS3()
-    },[])
+        console.log("fetchPostImg"); 
+    })
 
     async function fetchedImageFromS3() {
         if (!src) return;
@@ -30,10 +33,10 @@ function PostImage({size , src } : { size: number, src?: string | null}){
                 reader.readAsDataURL(blob);
                 reader.onloadend = async () => {
                     const base64data = reader.result as string;
-                    setDowloadedImg(base64data)
+                    setDowloadedImg(base64data)         
                 };
             }
-            console.log("result", result);
+            // console.log("result", result);
 
         } catch (error) {
             console.log('Error ', error);

@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import KuShopTitle from "../components/KuShopTitle";
 import { useAppDispatch } from "../hook";
 import { addUser } from "../store/thunks/userThunk";
+import { StyledContainer, StyledHomeBox } from "../components/StyleContainer";
 
 function ConfirmSignUpPage({ username , email}: { username: string , email: string}) {
     const [otp, setOtp] = useState("");
@@ -29,7 +30,9 @@ function ConfirmSignUpPage({ username , email}: { username: string , email: stri
     };
 
     return (
-        <View style={styles.container}>
+        <StyledContainer>
+            <StyledHomeBox>
+            <View style={styles.container}>
             <KuShopTitle title="Confirm Sign Up" />
             <View style={styles.card}>            
                 <TextInput
@@ -52,13 +55,15 @@ function ConfirmSignUpPage({ username , email}: { username: string , email: stri
                 <Text style={styles.buttonText}>Confirm Sign Up</Text>
             </TouchableOpacity>
         </View>
+            </StyledHomeBox>
+        </StyledContainer>
+        
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#004d26",
         alignItems: "center",
         justifyContent: "center",
         padding: 20,

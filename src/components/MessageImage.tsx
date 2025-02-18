@@ -17,7 +17,8 @@ function MessageImage({size , src } : { size: number, src: string }){
     const [dowloadedImg, setDowloadedImg] = useState("")
     useEffect(() => {
         fetchedImageFromS3()
-    },[])
+        console.log("fetchMessageImg");
+    })
 
     async function fetchedImageFromS3() {
         if (!src) return;
@@ -34,7 +35,7 @@ function MessageImage({size , src } : { size: number, src: string }){
                     setDowloadedImg(base64data)
                 };
             }
-            console.log("result", result);
+            //console.log("result", result);
 
         } catch (error) {
             console.log('Error ', error);
