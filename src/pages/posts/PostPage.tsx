@@ -39,6 +39,7 @@ function PostPage(){
                 await postItem(null)
                 console.log("No image selected");
             }
+            
         };
 
     const postItem = async (imgPath: string | null) => {

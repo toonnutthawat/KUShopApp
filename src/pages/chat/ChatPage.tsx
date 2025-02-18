@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     chatBubble: {
-        width: 200,
+        width: 250,
         display: 'flex',
         alignItems: 'center',
         marginTop: 10,

@@ -6,9 +6,10 @@ import PostReusable from "../../components/PostReusable";
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 
 function MyPosts() {
-    const myPosts = useAppSelector(state => state.posts.myPosts.data || []);
-    const [term, setTerm] = useState("");
-    const dispatch = useAppDispatch();
+
+    const myPosts = useAppSelector(state => state.posts.myPosts.data || [])
+    const [term, setTerm] = useState("")
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         const fetch = async () => {

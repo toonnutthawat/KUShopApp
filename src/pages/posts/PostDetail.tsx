@@ -59,14 +59,15 @@ function PostDetail({ route }) {
     if(!comments) return;
     const renderedComments = comments.map((comment,index) => {
         const commentDate = format(new Date(comment.createdAt), 'hh:mm a : PPP')
-        console.log(comment);
+        //console.log(comment.user.profile);
         
         return(
             <View style={{backgroundColor: 'white', padding: 10, borderRadius: 10, marginTop: 10}} key={index}>
                 <View style={{display: 'flex' ,flexDirection: 'row'}}>
-                    {
-                        comment.user.profile && <ProfileImage size={24} src={comment.user.profile}></ProfileImage>
-                    }
+                    {/* {
+                        (comment.user.profile) && <ProfileImage size={24} src={comment.user.profile}></ProfileImage>
+                    } */}
+                    <ProfileImage size={24}></ProfileImage>
                     {/* <ProfileImage size={24} src={comment.post.user.profile}></ProfileImage> */}
                     <Text style={{marginLeft: 5}}>{comment.userID}</Text>
                 </View>
