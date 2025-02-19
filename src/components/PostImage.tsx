@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { hp, wp } from "../helpers/common";
 import { fetchedImageFromS3 } from "./s3Utils";
+import { theme } from "../constants/theme";
 
 function PostImage({size , src } : { size: number, src?: string | null}){
     const styles = StyleSheet.create({
@@ -12,6 +13,12 @@ function PostImage({size , src } : { size: number, src?: string | null}){
             height: hp(size),
             borderRadius: 10,
             marginTop: 10
+        },
+        postMedia:{
+            height: hp(40),
+            width: '100%',
+            borderRadius: theme.radius.xl,
+            borderCurve : 'continuous'
         }
     })
 
