@@ -45,6 +45,7 @@ function Login() {
             } setLoading(false);
         } catch (e) {
             setErrorMessage((e).message);
+            setLoading(false);
         }
     };
 
