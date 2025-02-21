@@ -1,4 +1,4 @@
-import { Text ,View , Image, TextInput , StyleSheet, Button, TouchableOpacity} from "react-native";
+import { Text ,View , Image, TextInput , StyleSheet, TouchableOpacity} from "react-native";
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
@@ -10,6 +10,10 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { decode } from "base64-arraybuffer";
 import { uploadImgToS3 } from "../../store/thunks/imageThunk";
 import { pickImage } from "../../components/pickImage";
+import Input from "../../components/Input";
+import { wp } from "../../helpers/common";
+import Button from "../../components/Button";
+import Header from "../../components/Header";
 
 function PostPage(){
     const userInfo = useAppSelector(state => state.users.myUser)
@@ -18,6 +22,7 @@ function PostPage(){
     const [selectedImg , setSelectedImg] = useState<ImagePicker.ImagePickerAsset>()
     const dispatch = useAppDispatch()
     const navigation = useNavigation()
+    const [loading, setLoading] = useState(false);
 
     const selectImage = async () => {
             const image = await pickImage()
@@ -52,39 +57,32 @@ function PostPage(){
 
     return(
         <StyledContainer>
-            <StyledHomeBox>
-                <View>
+                <View style = {styles.container}>
+                    <Header title = "Create Post"/>
                     {
                         selectedImg ? <Image source={{uri: selectedImg.uri}} style={styles.img}></Image>:
                         <Image source={require("../../../assets/defaultPostImg.png")} style={styles.img}></Image>
                     }
-                    <TouchableOpacity className="absolute right-4 top-4 bg-green-500 rounded-lg p-2" onPress={selectImage}>
-                        <FontAwesome6 name="add" size={24} color="#004c27"/>
+                    <TouchableOpacity className="absolute right-4 top-4 bg-green-500 rounded-lg p-2 mt-8" onPress={selectImage}>
+                        <FontAwesome6 name="add"  size={24} color="#004c27"/>
                     </TouchableOpacity>
-                    
-                    <TextInput
-                        value={title}
-                        onChangeText={(value) => setTitle(value)}
-                        placeholder="title"
-                        style={styles.textInput}
-                    ></TextInput>
-                    <TextInput
-                        value={content}
-                        onChangeText={(value) => setContent(value)}
-                        placeholder="content"
-                        style={styles.textInput}
-                    ></TextInput>
-                    <View style={{marginTop: 20}}>
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            onPress={uploadIMG}
-                            style={{backgroundColor: "#004c27", padding: 4, alignItems: 'center', borderRadius: 10}}
-                            >
-                                <Text style={{color: 'white'}}>Post</Text>
-                        </TouchableOpacity>
+                    <View style = {styles.form}>
+                        <Input
+                            value={title}
+                            onChangeText={(value) => setTitle(value)}
+                            placeholder="title"
+                        />
+                        <Input
+                            value={content}
+                            onChangeText={(value) => setContent(value)}
+                            placeholder="content"
+                        />
+                         <View>
+                            <Button title = {'Post'}  loading = {loading} onPress={uploadIMG}/>
+                        </View>
                     </View>
                 </View>
-            </StyledHomeBox>
+            
         </StyledContainer>
     )
 }
@@ -94,12 +92,20 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 10,
         marginTop: 10
-
+    },
+    form:{
+        gap:25,
+    },
+    container :{
+        flex: 1,
+        marginBottom: 30,
+        paddingHorizontal: wp(4),
+        gap: 55,
     },
     img: {
         width: 300,
         height: 200,
-        borderRadius: 10
+        borderRadius: 10,
     }
 })
 
