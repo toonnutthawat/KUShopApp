@@ -25,7 +25,7 @@ type RootStackParamList = {
 type PostReusableNavigationProp = NativeStackNavigationProp<RootStackParamList, 'PostDetail'>;
 
 
-const PostReusable = ({ post, isMyPosts, className }: { post: Post, isMyPosts?: Boolean | null; className?: string }) => {
+const PostReusable = ({ post, isMyPosts }: { post: Post, isMyPosts?: Boolean | null;}) => {
     const navigation = useNavigation<PostReusableNavigationProp>()
     const dispatch = useAppDispatch()
 
@@ -82,7 +82,6 @@ const PostReusable = ({ post, isMyPosts, className }: { post: Post, isMyPosts?: 
             <View style = {styles.footer}>
                 <View style = {styles.footerButton}>
                     <Icon name = "heart" size = {24} color = {liked? theme.colors.rose: theme.colors.textLight}/>
-                    {/* <Text className='ml-2 mt-2'>{post.likes}</Text> */}
                     <Text style = {styles.count}>
                         {post.likes}
                     </Text>
@@ -90,7 +89,6 @@ const PostReusable = ({ post, isMyPosts, className }: { post: Post, isMyPosts?: 
 
             </View>
         </View>
-        // onPress={() => navigation.navigate('PostDetail', { post })}
     );
 };
 
@@ -151,7 +149,7 @@ const styles = StyleSheet.create({
     footer:{
         flexDirection: 'row',
         alignItems: 'center',
-        gap : 15
+        gap : 15,
     },
     footerButton:{
         marginLeft: 5,
@@ -165,16 +163,3 @@ const styles = StyleSheet.create({
 })
 
 export default PostReusable;
-
-
-                
-             
-                    {/* <Text className='mt-5 mb-2'>Title: {post.title}</Text> */}
-                    {/* <Text style={{ marginTop: 5 }}>Content: {post.content}</Text> */}
-                    {/* <View className="flex flex-row items-center mt-1 mb-2">
-                        <AntDesign name="like1" size={24} color="#004c27" />
-                        <Text className='ml-2 mt-2'>{post.likes}</Text>
-                    </View> */}
-                   
-                        {/* <ProfileImage size={hp(4.5)} src={post.user.profile} /> */}
-                        {/* <Text className='ml-2 mt-2'>{post.userID}</Text> */}
