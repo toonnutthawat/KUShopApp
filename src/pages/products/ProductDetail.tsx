@@ -93,6 +93,8 @@ function ProductDetail({ route }) {
                     <View style={[{ marginBottom: 20 }]}>
                         <Text style={[{ marginTop: 10 }, styles.text]}>หัวข้อ: {product.title}</Text>
                         <Text style={[{ marginTop: 10 }, styles.text]}>รายละเอียด: {product.content}</Text>
+                        <Text style={[{ marginTop: 10 }, styles.text]}>ประเภทสินค้า: {product.category}</Text>
+                        <Text style={[{ marginTop: 10 }, styles.text]}>ราคาสินค้า: {product.price} ฿</Text>
                         <Text style={[{ marginTop: 10 }, styles.text]}>โพสต์วันที่: {formattedDate}</Text>
                         <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 10 }}>
                             <ProfileImage size={20} src={product.user.profile}/>

@@ -59,6 +59,8 @@ export const getProduct = /* GraphQL */ `query GetProduct($id: ID!) {
     content
     likes
     image
+    price
+    category
     user {
       id
       email
@@ -98,6 +100,8 @@ export const listProducts = /* GraphQL */ `query ListProducts(
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -121,6 +125,8 @@ export const getComment = /* GraphQL */ `query GetComment($id: ID!) {
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -170,6 +176,8 @@ export const getLikeStatus = /* GraphQL */ `query GetLikeStatus($id: ID!) {
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -331,6 +339,8 @@ export const productsByUserID = /* GraphQL */ `query ProductsByUserID(
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt

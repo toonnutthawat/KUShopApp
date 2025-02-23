@@ -78,6 +78,8 @@ export const createProduct = /* GraphQL */ `mutation CreateProduct(
     content
     likes
     image
+    price
+    category
     user {
       id
       email
@@ -115,6 +117,8 @@ export const updateProduct = /* GraphQL */ `mutation UpdateProduct(
     content
     likes
     image
+    price
+    category
     user {
       id
       email
@@ -152,6 +156,8 @@ export const deleteProduct = /* GraphQL */ `mutation DeleteProduct(
     content
     likes
     image
+    price
+    category
     user {
       id
       email
@@ -192,6 +198,8 @@ export const createComment = /* GraphQL */ `mutation CreateComment(
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -221,6 +229,8 @@ export const updateComment = /* GraphQL */ `mutation UpdateComment(
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -250,6 +260,8 @@ export const deleteComment = /* GraphQL */ `mutation DeleteComment(
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -279,6 +291,8 @@ export const createLikeStatus = /* GraphQL */ `mutation CreateLikeStatus(
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -309,6 +323,8 @@ export const updateLikeStatus = /* GraphQL */ `mutation UpdateLikeStatus(
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -339,6 +355,8 @@ export const deleteLikeStatus = /* GraphQL */ `mutation DeleteLikeStatus(
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt

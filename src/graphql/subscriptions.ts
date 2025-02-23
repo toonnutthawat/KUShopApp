@@ -108,6 +108,8 @@ export const onCreateProduct = /* GraphQL */ `subscription OnCreateProduct(
     content
     likes
     image
+    price
+    category
     user {
       id
       email
@@ -145,6 +147,8 @@ export const onUpdateProduct = /* GraphQL */ `subscription OnUpdateProduct(
     content
     likes
     image
+    price
+    category
     user {
       id
       email
@@ -182,6 +186,8 @@ export const onDeleteProduct = /* GraphQL */ `subscription OnDeleteProduct(
     content
     likes
     image
+    price
+    category
     user {
       id
       email
@@ -222,6 +228,8 @@ export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -251,6 +259,8 @@ export const onUpdateComment = /* GraphQL */ `subscription OnUpdateComment(
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -280,6 +290,8 @@ export const onDeleteComment = /* GraphQL */ `subscription OnDeleteComment(
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -309,6 +321,8 @@ export const onCreateLikeStatus = /* GraphQL */ `subscription OnCreateLikeStatus
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -339,6 +353,8 @@ export const onUpdateLikeStatus = /* GraphQL */ `subscription OnUpdateLikeStatus
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -369,6 +385,8 @@ export const onDeleteLikeStatus = /* GraphQL */ `subscription OnDeleteLikeStatus
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt

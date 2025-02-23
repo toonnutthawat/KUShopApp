@@ -36,7 +36,9 @@ type Product
   title: String!
   content: String!
   likes: Int!
-  image: String
+  image: String!
+  price: Int!
+  category: String!
   user: User! @belongsTo(fields: ["userID"])
   userID: ID! @index(name: "byUser")
   comments: [Comment] @hasMany(indexName: "byProduct", fields: ["id"])

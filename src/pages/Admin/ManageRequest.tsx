@@ -27,7 +27,7 @@ function ManageRequest() {
         const formattedDate = format(new Date(user.createdAt), 'hh:mm a : PPP');
         return <View key={index} className="bg-white w-64 mb-4 p-8 rounded-lg">
             <View className="flex flex-row">
-                <ProfileImage size={20}></ProfileImage>
+                <ProfileImage size={20} src={user.profile}></ProfileImage>
                 <Text className="ml-4">{user.id}</Text>
             </View>
             <Text className="mt-2">email: {user.email}</Text>

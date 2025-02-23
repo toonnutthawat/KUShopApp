@@ -49,6 +49,9 @@ const ProductReusable = ({ product, isMyPosts, className }: { product: Product, 
                         <ProfileImage size={20} src={product.user.profile}/>
                         <Text className='ml-2 mt-2'>{product.userID}</Text>
                     </View>
+                    <View className='mt-1'>
+                        <Text className='text-4xl'>฿ {product.price}</Text>
+                    </View>
                 </View>
             </View>
         </Pressable>

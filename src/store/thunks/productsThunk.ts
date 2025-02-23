@@ -4,11 +4,12 @@ import { createProduct, deleteProduct } from "../../graphql/mutations";
 import { getCurrentUser } from "aws-amplify/auth";
 import { getUser, listProducts } from "../../graphql/queries";
 import { User } from "../../API";
+import { ProductCategory } from "../../types/ProductCategory";
 
 const client = generateClient({authMode: "userPool"})
 
-const addProduct = createAsyncThunk("addProduct", async ({ titlePost , contentPost, imgPath} : 
-    {titlePost : string , contentPost : string, imgPath?: string | null}) => {
+const addProduct = createAsyncThunk("addProduct", async ({ titlePost , contentPost, imgPath, productPrice , category} : 
+    {titlePost : string , contentPost : string, imgPath: string , productPrice: number , category: ProductCategory}) => {
 
     try{
     const user = await getCurrentUser()
@@ -20,7 +21,9 @@ const addProduct = createAsyncThunk("addProduct", async ({ titlePost , contentPo
                 content: contentPost,
                 likes: 0,
                 userID: user.username,
-                image: imgPath
+                image: imgPath,
+                price: productPrice,
+                category: category
             }
         }
     })
