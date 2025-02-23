@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addComment, fetchCommentByPost } from "../thunks/commentsThunk";
+import { addComment, fetchCommentByProduct } from "../thunks/commentsThunk";
 import { act } from "react";
 import { Comment } from "../../API";
 
@@ -18,10 +18,10 @@ const commentsSlice = createSlice({
             state.error = "fail to addComment"
             console.log("fail to add Comment")
         })
-        builder.addCase(fetchCommentByPost.fulfilled, (state,action) => {
+        builder.addCase(fetchCommentByProduct.fulfilled, (state,action) => {
             state.data = action.payload
         })
-        builder.addCase(fetchCommentByPost.rejected, (state) => {
+        builder.addCase(fetchCommentByProduct.rejected, (state) => {
             state.error = "fail to fetchComments"
             console.log("fail to fetchComments")
         })

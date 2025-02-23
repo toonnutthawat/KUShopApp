@@ -18,12 +18,12 @@ type User
   email: String!
   profile: String
   credit: CreditStatus!
-  posts: [Post] @hasMany(indexName: "byUser", fields: ["id"])
+  products: [Product] @hasMany(indexName: "byUser", fields: ["id"])
   chats: [Chat] @hasMany(indexName: "byUser", fields: ["id"])
   chats2: [Chat] @hasMany(indexName: "byUser2", fields: ["id"])
 }
 
-type Post
+type Product
   @model
   @auth(
     rules: [
@@ -39,8 +39,8 @@ type Post
   image: String
   user: User! @belongsTo(fields: ["userID"])
   userID: ID! @index(name: "byUser")
-  comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
-  likeStatuses: [LikeStatus] @hasMany(indexName: "byPost", fields: ["id"])
+  comments: [Comment] @hasMany(indexName: "byProduct", fields: ["id"])
+  likeStatuses: [LikeStatus] @hasMany(indexName: "byProduct", fields: ["id"])
 }
 
 type Comment
@@ -54,8 +54,8 @@ type Comment
   @aws_cognito_user_pools {
   id: ID!
   content: String!
-  post: Post! @belongsTo(fields: ["postID"])
-  postID: ID! @index(name: "byPost")
+  product: Product! @belongsTo(fields: ["productID"])
+  productID: ID! @index(name: "byProduct")
   userID: String!
 }
 
@@ -70,8 +70,8 @@ type LikeStatus
   @aws_cognito_user_pools { # Include this directive to enable Cognito User Pools
   id: ID!
   status: Boolean!
-  post: Post! @belongsTo(fields: ["postID"])
-  postID: ID! @index(name: "byPost")
+  product: Product! @belongsTo(fields: ["productID"])
+  productID: ID! @index(name: "byProduct")
   userID: String!
 }
 

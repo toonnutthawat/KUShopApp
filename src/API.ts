@@ -79,21 +79,21 @@ export type User = {
   email: string,
   profile?: string | null,
   credit: CreditStatus,
-  posts?: ModelPostConnection | null,
+  products?: ModelProductConnection | null,
   chats?: ModelChatConnection | null,
   chats2?: ModelChatConnection | null,
   createdAt: string,
   updatedAt: string,
 };
 
-export type ModelPostConnection = {
-  __typename: "ModelPostConnection",
-  items:  Array<Post | null >,
+export type ModelProductConnection = {
+  __typename: "ModelProductConnection",
+  items:  Array<Product | null >,
   nextToken?: string | null,
 };
 
-export type Post = {
-  __typename: "Post",
+export type Product = {
+  __typename: "Product",
   id: string,
   title: string,
   content: string,
@@ -114,12 +114,11 @@ export type ModelCommentConnection = {
 };
 
 export type Comment = {
-  user: User;
   __typename: "Comment",
   id: string,
   content: string,
-  post: Post,
-  postID: string,
+  product: Product,
+  productID: string,
   userID: string,
   createdAt: string,
   updatedAt: string,
@@ -135,8 +134,8 @@ export type LikeStatus = {
   __typename: "LikeStatus",
   id: string,
   status: boolean,
-  post: Post,
-  postID: string,
+  product: Product,
+  productID: string,
   userID: string,
   createdAt: string,
   updatedAt: string,
@@ -183,7 +182,7 @@ export type DeleteUserInput = {
   id: string,
 };
 
-export type CreatePostInput = {
+export type CreateProductInput = {
   id?: string | null,
   title: string,
   content: string,
@@ -192,15 +191,15 @@ export type CreatePostInput = {
   userID: string,
 };
 
-export type ModelPostConditionInput = {
+export type ModelProductConditionInput = {
   title?: ModelStringInput | null,
   content?: ModelStringInput | null,
   likes?: ModelIntInput | null,
   image?: ModelStringInput | null,
   userID?: ModelIDInput | null,
-  and?: Array< ModelPostConditionInput | null > | null,
-  or?: Array< ModelPostConditionInput | null > | null,
-  not?: ModelPostConditionInput | null,
+  and?: Array< ModelProductConditionInput | null > | null,
+  or?: Array< ModelProductConditionInput | null > | null,
+  not?: ModelProductConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
@@ -233,7 +232,7 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type UpdatePostInput = {
+export type UpdateProductInput = {
   id: string,
   title?: string | null,
   content?: string | null,
@@ -242,20 +241,20 @@ export type UpdatePostInput = {
   userID?: string | null,
 };
 
-export type DeletePostInput = {
+export type DeleteProductInput = {
   id: string,
 };
 
 export type CreateCommentInput = {
   id?: string | null,
   content: string,
-  postID: string,
+  productID: string,
   userID: string,
 };
 
 export type ModelCommentConditionInput = {
   content?: ModelStringInput | null,
-  postID?: ModelIDInput | null,
+  productID?: ModelIDInput | null,
   userID?: ModelStringInput | null,
   and?: Array< ModelCommentConditionInput | null > | null,
   or?: Array< ModelCommentConditionInput | null > | null,
@@ -267,7 +266,7 @@ export type ModelCommentConditionInput = {
 export type UpdateCommentInput = {
   id: string,
   content?: string | null,
-  postID?: string | null,
+  productID?: string | null,
   userID?: string | null,
 };
 
@@ -278,13 +277,13 @@ export type DeleteCommentInput = {
 export type CreateLikeStatusInput = {
   id?: string | null,
   status: boolean,
-  postID: string,
+  productID: string,
   userID: string,
 };
 
 export type ModelLikeStatusConditionInput = {
   status?: ModelBooleanInput | null,
-  postID?: ModelIDInput | null,
+  productID?: ModelIDInput | null,
   userID?: ModelStringInput | null,
   and?: Array< ModelLikeStatusConditionInput | null > | null,
   or?: Array< ModelLikeStatusConditionInput | null > | null,
@@ -304,7 +303,7 @@ export type ModelBooleanInput = {
 export type UpdateLikeStatusInput = {
   id: string,
   status?: boolean | null,
-  postID?: string | null,
+  productID?: string | null,
   userID?: string | null,
 };
 
@@ -395,7 +394,7 @@ export type ModelUserConnection = {
   nextToken?: string | null,
 };
 
-export type ModelPostFilterInput = {
+export type ModelProductFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
   content?: ModelStringInput | null,
@@ -404,15 +403,15 @@ export type ModelPostFilterInput = {
   userID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  and?: Array< ModelPostFilterInput | null > | null,
-  or?: Array< ModelPostFilterInput | null > | null,
-  not?: ModelPostFilterInput | null,
+  and?: Array< ModelProductFilterInput | null > | null,
+  or?: Array< ModelProductFilterInput | null > | null,
+  not?: ModelProductFilterInput | null,
 };
 
 export type ModelCommentFilterInput = {
   id?: ModelIDInput | null,
   content?: ModelStringInput | null,
-  postID?: ModelIDInput | null,
+  productID?: ModelIDInput | null,
   userID?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
@@ -424,7 +423,7 @@ export type ModelCommentFilterInput = {
 export type ModelLikeStatusFilterInput = {
   id?: ModelIDInput | null,
   status?: ModelBooleanInput | null,
-  postID?: ModelIDInput | null,
+  productID?: ModelIDInput | null,
   userID?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
@@ -490,7 +489,7 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
-export type ModelSubscriptionPostFilterInput = {
+export type ModelSubscriptionProductFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   title?: ModelSubscriptionStringInput | null,
   content?: ModelSubscriptionStringInput | null,
@@ -498,8 +497,8 @@ export type ModelSubscriptionPostFilterInput = {
   image?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionPostFilterInput | null > | null,
-  or?: Array< ModelSubscriptionPostFilterInput | null > | null,
+  and?: Array< ModelSubscriptionProductFilterInput | null > | null,
+  or?: Array< ModelSubscriptionProductFilterInput | null > | null,
   userID?: ModelStringInput | null,
 };
 
@@ -533,7 +532,7 @@ export type ModelSubscriptionIntInput = {
 export type ModelSubscriptionCommentFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   content?: ModelSubscriptionStringInput | null,
-  postID?: ModelSubscriptionIDInput | null,
+  productID?: ModelSubscriptionIDInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionCommentFilterInput | null > | null,
@@ -544,7 +543,7 @@ export type ModelSubscriptionCommentFilterInput = {
 export type ModelSubscriptionLikeStatusFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   status?: ModelSubscriptionBooleanInput | null,
-  postID?: ModelSubscriptionIDInput | null,
+  productID?: ModelSubscriptionIDInput | null,
   userID?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
@@ -592,8 +591,8 @@ export type UpdateUserMutation = {
     email: string,
     profile?: string | null,
     credit: CreditStatus,
-    posts?:  {
-      __typename: "ModelPostConnection",
+    products?:  {
+      __typename: "ModelProductConnection",
       nextToken?: string | null,
     } | null,
     chats?:  {
@@ -621,8 +620,8 @@ export type DeleteUserMutation = {
     email: string,
     profile?: string | null,
     credit: CreditStatus,
-    posts?:  {
-      __typename: "ModelPostConnection",
+    products?:  {
+      __typename: "ModelProductConnection",
       nextToken?: string | null,
     } | null,
     chats?:  {
@@ -638,14 +637,14 @@ export type DeleteUserMutation = {
   } | null,
 };
 
-export type CreatePostMutationVariables = {
-  input: CreatePostInput,
-  condition?: ModelPostConditionInput | null,
+export type CreateProductMutationVariables = {
+  input: CreateProductInput,
+  condition?: ModelProductConditionInput | null,
 };
 
-export type CreatePostMutation = {
-  createPost?:  {
-    __typename: "Post",
+export type CreateProductMutation = {
+  createProduct?:  {
+    __typename: "Product",
     id: string,
     title: string,
     content: string,
@@ -674,14 +673,14 @@ export type CreatePostMutation = {
   } | null,
 };
 
-export type UpdatePostMutationVariables = {
-  input: UpdatePostInput,
-  condition?: ModelPostConditionInput | null,
+export type UpdateProductMutationVariables = {
+  input: UpdateProductInput,
+  condition?: ModelProductConditionInput | null,
 };
 
-export type UpdatePostMutation = {
-  updatePost?:  {
-    __typename: "Post",
+export type UpdateProductMutation = {
+  updateProduct?:  {
+    __typename: "Product",
     id: string,
     title: string,
     content: string,
@@ -710,14 +709,14 @@ export type UpdatePostMutation = {
   } | null,
 };
 
-export type DeletePostMutationVariables = {
-  input: DeletePostInput,
-  condition?: ModelPostConditionInput | null,
+export type DeleteProductMutationVariables = {
+  input: DeleteProductInput,
+  condition?: ModelProductConditionInput | null,
 };
 
-export type DeletePostMutation = {
-  deletePost?:  {
-    __typename: "Post",
+export type DeleteProductMutation = {
+  deleteProduct?:  {
+    __typename: "Product",
     id: string,
     title: string,
     content: string,
@@ -756,8 +755,8 @@ export type CreateCommentMutation = {
     __typename: "Comment",
     id: string,
     content: string,
-    post:  {
-      __typename: "Post",
+    product:  {
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -767,7 +766,7 @@ export type CreateCommentMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    postID: string,
+    productID: string,
     userID: string,
     createdAt: string,
     updatedAt: string,
@@ -784,8 +783,8 @@ export type UpdateCommentMutation = {
     __typename: "Comment",
     id: string,
     content: string,
-    post:  {
-      __typename: "Post",
+    product:  {
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -795,7 +794,7 @@ export type UpdateCommentMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    postID: string,
+    productID: string,
     userID: string,
     createdAt: string,
     updatedAt: string,
@@ -812,8 +811,8 @@ export type DeleteCommentMutation = {
     __typename: "Comment",
     id: string,
     content: string,
-    post:  {
-      __typename: "Post",
+    product:  {
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -823,7 +822,7 @@ export type DeleteCommentMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    postID: string,
+    productID: string,
     userID: string,
     createdAt: string,
     updatedAt: string,
@@ -840,8 +839,8 @@ export type CreateLikeStatusMutation = {
     __typename: "LikeStatus",
     id: string,
     status: boolean,
-    post:  {
-      __typename: "Post",
+    product:  {
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -851,7 +850,7 @@ export type CreateLikeStatusMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    postID: string,
+    productID: string,
     userID: string,
     createdAt: string,
     updatedAt: string,
@@ -869,8 +868,8 @@ export type UpdateLikeStatusMutation = {
     __typename: "LikeStatus",
     id: string,
     status: boolean,
-    post:  {
-      __typename: "Post",
+    product:  {
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -880,7 +879,7 @@ export type UpdateLikeStatusMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    postID: string,
+    productID: string,
     userID: string,
     createdAt: string,
     updatedAt: string,
@@ -898,8 +897,8 @@ export type DeleteLikeStatusMutation = {
     __typename: "LikeStatus",
     id: string,
     status: boolean,
-    post:  {
-      __typename: "Post",
+    product:  {
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -909,7 +908,7 @@ export type DeleteLikeStatusMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    postID: string,
+    productID: string,
     userID: string,
     createdAt: string,
     updatedAt: string,
@@ -1121,8 +1120,8 @@ export type CreateUserMutation = {
     email: string,
     profile?: string | null,
     credit: CreditStatus,
-    posts?:  {
-      __typename: "ModelPostConnection",
+    products?:  {
+      __typename: "ModelProductConnection",
       nextToken?: string | null,
     } | null,
     chats?:  {
@@ -1149,8 +1148,8 @@ export type GetUserQuery = {
     email: string,
     profile?: string | null,
     credit: CreditStatus,
-    posts?:  {
-      __typename: "ModelPostConnection",
+    products?:  {
+      __typename: "ModelProductConnection",
       nextToken?: string | null,
     } | null,
     chats?:  {
@@ -1188,13 +1187,13 @@ export type ListUsersQuery = {
   } | null,
 };
 
-export type GetPostQueryVariables = {
+export type GetProductQueryVariables = {
   id: string,
 };
 
-export type GetPostQuery = {
-  getPost?:  {
-    __typename: "Post",
+export type GetProductQuery = {
+  getProduct?:  {
+    __typename: "Product",
     id: string,
     title: string,
     content: string,
@@ -1223,17 +1222,17 @@ export type GetPostQuery = {
   } | null,
 };
 
-export type ListPostsQueryVariables = {
-  filter?: ModelPostFilterInput | null,
+export type ListProductsQueryVariables = {
+  filter?: ModelProductFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListPostsQuery = {
-  listPosts?:  {
-    __typename: "ModelPostConnection",
+export type ListProductsQuery = {
+  listProducts?:  {
+    __typename: "ModelProductConnection",
     items:  Array< {
-      __typename: "Post",
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -1256,8 +1255,8 @@ export type GetCommentQuery = {
     __typename: "Comment",
     id: string,
     content: string,
-    post:  {
-      __typename: "Post",
+    product:  {
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -1267,7 +1266,7 @@ export type GetCommentQuery = {
       createdAt: string,
       updatedAt: string,
     },
-    postID: string,
+    productID: string,
     userID: string,
     createdAt: string,
     updatedAt: string,
@@ -1287,7 +1286,7 @@ export type ListCommentsQuery = {
       __typename: "Comment",
       id: string,
       content: string,
-      postID: string,
+      productID: string,
       userID: string,
       createdAt: string,
       updatedAt: string,
@@ -1305,8 +1304,8 @@ export type GetLikeStatusQuery = {
     __typename: "LikeStatus",
     id: string,
     status: boolean,
-    post:  {
-      __typename: "Post",
+    product:  {
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -1316,7 +1315,7 @@ export type GetLikeStatusQuery = {
       createdAt: string,
       updatedAt: string,
     },
-    postID: string,
+    productID: string,
     userID: string,
     createdAt: string,
     updatedAt: string,
@@ -1337,7 +1336,7 @@ export type ListLikeStatusesQuery = {
       __typename: "LikeStatus",
       id: string,
       status: boolean,
-      postID: string,
+      productID: string,
       userID: string,
       createdAt: string,
       updatedAt: string,
@@ -1453,19 +1452,19 @@ export type ListMessagesQuery = {
   } | null,
 };
 
-export type PostsByUserIDQueryVariables = {
+export type ProductsByUserIDQueryVariables = {
   userID: string,
   sortDirection?: ModelSortDirection | null,
-  filter?: ModelPostFilterInput | null,
+  filter?: ModelProductFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type PostsByUserIDQuery = {
-  postsByUserID?:  {
-    __typename: "ModelPostConnection",
+export type ProductsByUserIDQuery = {
+  productsByUserID?:  {
+    __typename: "ModelProductConnection",
     items:  Array< {
-      __typename: "Post",
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -1479,22 +1478,22 @@ export type PostsByUserIDQuery = {
   } | null,
 };
 
-export type CommentsByPostIDQueryVariables = {
-  postID: string,
+export type CommentsByProductIDQueryVariables = {
+  productID: string,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelCommentFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type CommentsByPostIDQuery = {
-  commentsByPostID?:  {
+export type CommentsByProductIDQuery = {
+  commentsByProductID?:  {
     __typename: "ModelCommentConnection",
     items:  Array< {
       __typename: "Comment",
       id: string,
       content: string,
-      postID: string,
+      productID: string,
       userID: string,
       createdAt: string,
       updatedAt: string,
@@ -1503,22 +1502,22 @@ export type CommentsByPostIDQuery = {
   } | null,
 };
 
-export type LikeStatusesByPostIDQueryVariables = {
-  postID: string,
+export type LikeStatusesByProductIDQueryVariables = {
+  productID: string,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelLikeStatusFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type LikeStatusesByPostIDQuery = {
-  likeStatusesByPostID?:  {
+export type LikeStatusesByProductIDQuery = {
+  likeStatusesByProductID?:  {
     __typename: "ModelLikeStatusConnection",
     items:  Array< {
       __typename: "LikeStatus",
       id: string,
       status: boolean,
-      postID: string,
+      productID: string,
       userID: string,
       createdAt: string,
       updatedAt: string,
@@ -1611,8 +1610,8 @@ export type OnCreateUserSubscription = {
     email: string,
     profile?: string | null,
     credit: CreditStatus,
-    posts?:  {
-      __typename: "ModelPostConnection",
+    products?:  {
+      __typename: "ModelProductConnection",
       nextToken?: string | null,
     } | null,
     chats?:  {
@@ -1640,8 +1639,8 @@ export type OnUpdateUserSubscription = {
     email: string,
     profile?: string | null,
     credit: CreditStatus,
-    posts?:  {
-      __typename: "ModelPostConnection",
+    products?:  {
+      __typename: "ModelProductConnection",
       nextToken?: string | null,
     } | null,
     chats?:  {
@@ -1669,8 +1668,8 @@ export type OnDeleteUserSubscription = {
     email: string,
     profile?: string | null,
     credit: CreditStatus,
-    posts?:  {
-      __typename: "ModelPostConnection",
+    products?:  {
+      __typename: "ModelProductConnection",
       nextToken?: string | null,
     } | null,
     chats?:  {
@@ -1686,14 +1685,14 @@ export type OnDeleteUserSubscription = {
   } | null,
 };
 
-export type OnCreatePostSubscriptionVariables = {
-  filter?: ModelSubscriptionPostFilterInput | null,
+export type OnCreateProductSubscriptionVariables = {
+  filter?: ModelSubscriptionProductFilterInput | null,
   userID?: string | null,
 };
 
-export type OnCreatePostSubscription = {
-  onCreatePost?:  {
-    __typename: "Post",
+export type OnCreateProductSubscription = {
+  onCreateProduct?:  {
+    __typename: "Product",
     id: string,
     title: string,
     content: string,
@@ -1722,14 +1721,14 @@ export type OnCreatePostSubscription = {
   } | null,
 };
 
-export type OnUpdatePostSubscriptionVariables = {
-  filter?: ModelSubscriptionPostFilterInput | null,
+export type OnUpdateProductSubscriptionVariables = {
+  filter?: ModelSubscriptionProductFilterInput | null,
   userID?: string | null,
 };
 
-export type OnUpdatePostSubscription = {
-  onUpdatePost?:  {
-    __typename: "Post",
+export type OnUpdateProductSubscription = {
+  onUpdateProduct?:  {
+    __typename: "Product",
     id: string,
     title: string,
     content: string,
@@ -1758,14 +1757,14 @@ export type OnUpdatePostSubscription = {
   } | null,
 };
 
-export type OnDeletePostSubscriptionVariables = {
-  filter?: ModelSubscriptionPostFilterInput | null,
+export type OnDeleteProductSubscriptionVariables = {
+  filter?: ModelSubscriptionProductFilterInput | null,
   userID?: string | null,
 };
 
-export type OnDeletePostSubscription = {
-  onDeletePost?:  {
-    __typename: "Post",
+export type OnDeleteProductSubscription = {
+  onDeleteProduct?:  {
+    __typename: "Product",
     id: string,
     title: string,
     content: string,
@@ -1804,8 +1803,8 @@ export type OnCreateCommentSubscription = {
     __typename: "Comment",
     id: string,
     content: string,
-    post:  {
-      __typename: "Post",
+    product:  {
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -1815,7 +1814,7 @@ export type OnCreateCommentSubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    postID: string,
+    productID: string,
     userID: string,
     createdAt: string,
     updatedAt: string,
@@ -1832,8 +1831,8 @@ export type OnUpdateCommentSubscription = {
     __typename: "Comment",
     id: string,
     content: string,
-    post:  {
-      __typename: "Post",
+    product:  {
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -1843,7 +1842,7 @@ export type OnUpdateCommentSubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    postID: string,
+    productID: string,
     userID: string,
     createdAt: string,
     updatedAt: string,
@@ -1860,8 +1859,8 @@ export type OnDeleteCommentSubscription = {
     __typename: "Comment",
     id: string,
     content: string,
-    post:  {
-      __typename: "Post",
+    product:  {
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -1871,7 +1870,7 @@ export type OnDeleteCommentSubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    postID: string,
+    productID: string,
     userID: string,
     createdAt: string,
     updatedAt: string,
@@ -1888,8 +1887,8 @@ export type OnCreateLikeStatusSubscription = {
     __typename: "LikeStatus",
     id: string,
     status: boolean,
-    post:  {
-      __typename: "Post",
+    product:  {
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -1899,7 +1898,7 @@ export type OnCreateLikeStatusSubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    postID: string,
+    productID: string,
     userID: string,
     createdAt: string,
     updatedAt: string,
@@ -1917,8 +1916,8 @@ export type OnUpdateLikeStatusSubscription = {
     __typename: "LikeStatus",
     id: string,
     status: boolean,
-    post:  {
-      __typename: "Post",
+    product:  {
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -1928,7 +1927,7 @@ export type OnUpdateLikeStatusSubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    postID: string,
+    productID: string,
     userID: string,
     createdAt: string,
     updatedAt: string,
@@ -1946,8 +1945,8 @@ export type OnDeleteLikeStatusSubscription = {
     __typename: "LikeStatus",
     id: string,
     status: boolean,
-    post:  {
-      __typename: "Post",
+    product:  {
+      __typename: "Product",
       id: string,
       title: string,
       content: string,
@@ -1957,7 +1956,7 @@ export type OnDeleteLikeStatusSubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    postID: string,
+    productID: string,
     userID: string,
     createdAt: string,
     updatedAt: string,

@@ -3,18 +3,18 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getCurrentUser } from "aws-amplify/auth";
 import { createComment } from "../../graphql/mutations";
 import { getUser, listComments } from "../../graphql/queries";
-import { Post } from "../../API";
+import { Product } from "../../API";
 
 const client = generateClient({authMode: "userPool"})
 
-const addComment = createAsyncThunk("addComment" , async ({postID , commentContent} : {postID : string , commentContent: string}) => {
+const addComment = createAsyncThunk("addComment" , async ({productID , commentContent} : {productID : string , commentContent: string}) => {
     const user = await getCurrentUser()
     const response = await client.graphql({
         query: createComment,
         variables: {
             input: {
                 content: commentContent,
-                postID: postID,
+                productID: productID,
                 userID: user.username,
             }
         }
@@ -22,20 +22,20 @@ const addComment = createAsyncThunk("addComment" , async ({postID , commentConte
     return response.data.createComment
 })
 
-const fetchCommentByPost = createAsyncThunk("fetchCommentByPost", async (post : Post) =>{
+const fetchCommentByProduct = createAsyncThunk("fetchCommentByProduct", async (product : Product) =>{
     const response = await client.graphql({
         query: listComments,
         variables: {
             filter: {
-                postID: {
-                    eq: post.id
+                productID: {
+                    eq: product.id
                 }
             }
         }
     })
     const fetchedComments = response.data.listComments.items.map((comment) => ({
         ...comment,
-        post: post,
+        product: product,
     }));
 
     const addUserwithComments = fetchedComments.map(async (comment) => {
@@ -51,4 +51,4 @@ const fetchCommentByPost = createAsyncThunk("fetchCommentByPost", async (post : 
     return commentsWithUser
 })
 
-export { addComment , fetchCommentByPost}
+export { addComment , fetchCommentByProduct}

@@ -12,9 +12,9 @@ import { Provider } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProfilePage from "./src/pages/ProfilePage";
 import Icon from "react-native-vector-icons/Ionicons";
-import PostPage from "./src/pages/posts/PostPage";
-import MyPosts from "./src/pages/posts/MyPosts";
-import PostDetail from "./src/pages/posts/PostDetail";
+import PostPage from "./src/pages/products/PostPage";
+import MyPosts from "./src/pages/products/MyProducts";
+import PostDetail from "./src/pages/products/ProductDetail";
 import AllChats from "./src/pages/chat/AllChats";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -24,6 +24,8 @@ import AllProducts from "./src/pages/shop/AllProducts";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import AddProduct from "./src/pages/shop/AddProduct";
 import ManageRequest from "./src/pages/Admin/ManageRequest";
+import ProductDetail from "./src/pages/products/ProductDetail";
+import MyProducts from "./src/pages/products/MyProducts";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -79,8 +81,8 @@ function BottomTabs() {
         }}
       />
       <Tab.Screen
-        name="MyPosts"
-        component={MyPosts}
+        name="MyProducts"
+        component={MyProducts}
         options={{
           tabBarButton: () => null, // Hide the tab button completely
           tabBarIcon: () => <></>, // Hide the icon
@@ -88,8 +90,8 @@ function BottomTabs() {
         }}
       />
       <Tab.Screen
-        name="PostDetail"
-        component={PostDetail}
+        name="ProductDetail"
+        component={ProductDetail}
         options={{
           tabBarButton: () => null, // Hide the tab button completely
           tabBarIcon: () => <></>, // Hide the icon
@@ -124,7 +126,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Test" component={TestPage} />
-          <Stack.Screen name="MyPosts" component={MyPosts} />
+          <Stack.Screen name="MyProducts" component={MyProducts} />
           <Stack.Screen name="Home"component={BottomTabs} options={{ headerShown: false }}/>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="SignUp" component={SignUpPage} />

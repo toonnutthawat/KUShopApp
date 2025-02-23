@@ -2,16 +2,16 @@ import { generateClient } from "@aws-amplify/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getCurrentUser } from "aws-amplify/auth";
 import { getLikeStatus, listLikeStatuses } from "../../graphql/queries";
-import { createLikeStatus, updateLikeStatus, updatePost } from "../../graphql/mutations";
+import { createLikeStatus, updateLikeStatus , updateProduct } from "../../graphql/mutations";
 
 const client = generateClient()
 
-const fetchLikeStatus = createAsyncThunk("fetchLikeStatus", async (postId : string) => {
+const fetchLikeStatus = createAsyncThunk("fetchLikeStatus", async (productID : string) => {
     const user = getCurrentUser()
     const response = await client.graphql({
         query: getLikeStatus,
         variables: {
-            id: postId + ":" + (await user).username
+            id: productID + ":" + (await user).username
         }
     })
     if(response.data.getLikeStatus === null){
@@ -19,9 +19,9 @@ const fetchLikeStatus = createAsyncThunk("fetchLikeStatus", async (postId : stri
             query: createLikeStatus,
             variables: {
                 input: {
-                    id: postId + ":" + (await user).username,
+                    id: productID + ":" + (await user).username,
                     status: false,
-                    postID: postId,
+                    productID: productID,
                     userID: (await user).username
                 }
             }
@@ -32,12 +32,12 @@ const fetchLikeStatus = createAsyncThunk("fetchLikeStatus", async (postId : stri
     return response.data.getLikeStatus
 })
 
-const changeLikeStatus = createAsyncThunk("changeLikeStatus", async (postID : string) => {
+const changeLikeStatus = createAsyncThunk("changeLikeStatus", async (productID : string) => {
     const user = await getCurrentUser()
     const fetchedLikeStatus = await client.graphql({
         query: getLikeStatus,
         variables: {
-            id: postID + ":" + user.username
+            id: productID + ":" + user.username
         }
     })
 
@@ -45,7 +45,7 @@ const changeLikeStatus = createAsyncThunk("changeLikeStatus", async (postID : st
         query: updateLikeStatus,
         variables: {
             input: {
-                id:postID + ":" + user.username,
+                id:productID + ":" + user.username,
                 status: !fetchedLikeStatus.data.getLikeStatus.status
             }
         }
@@ -54,13 +54,13 @@ const changeLikeStatus = createAsyncThunk("changeLikeStatus", async (postID : st
     return response.data.updateLikeStatus
 })
 
-const updateTotalLikes = createAsyncThunk("updateTotalLikes", async (postID : string) => {
+const updateTotalLikes = createAsyncThunk("updateTotalLikes", async (productID : string) => {
     const list = await client.graphql({
         query: listLikeStatuses,
         variables: {
             filter: {
-                postID: {
-                    eq: postID
+                productID: {
+                    eq: productID
                 },
                 status: {
                     eq: true
@@ -69,15 +69,15 @@ const updateTotalLikes = createAsyncThunk("updateTotalLikes", async (postID : st
         }
     })
     const response = await client.graphql({
-        query: updatePost,
+        query: updateProduct,
         variables: {
             input: {
-                id: postID,
+                id: productID,
                 likes: list.data.listLikeStatuses.items.length
             }
         }
     })
-    return response.data.updatePost
+    return response.data.updateProduct
 })
 
 

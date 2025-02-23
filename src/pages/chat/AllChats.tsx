@@ -39,8 +39,8 @@ function AllChats(){
     if(!allChats) return;
     const renderedAllChats = allChats.map((chat,index) => {
         return (
-        <Pressable key={index} onPress={() => navigation.navigate("ChatPage", {chat})}>
-        <View className="flex-row bg-white p-5 w-full rounded-lg items-center mt-2">
+        <Pressable key={index} onPress={() => navigation.navigate("ChatPage", {chat})} className="w-64">
+        <View className="flex-row bg-white p-5 rounded-lg items-center mt-2">
             <View style={{marginRight: 10}}>
                 {
                     (myUser.id !== chat.userID) ? <ProfileImage size={20} src={chat.user.profile}></ProfileImage> : <ProfileImage size={20} src={chat.user2.profile}></ProfileImage>

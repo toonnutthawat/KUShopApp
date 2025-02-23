@@ -19,6 +19,7 @@ function ProfileImage({size , src } : { size: number, src?: string | null}){
     const userInfo = useAppSelector(state => state.users.myUser)
     useEffect(() => {
         fetchedImageFromS3()
+        console.log("fetchProfileImg");
     },[])
 
     async function fetchedImageFromS3() {

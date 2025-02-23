@@ -2,7 +2,7 @@ import { Text ,View , Image, TextInput , StyleSheet, Button, TouchableOpacity} f
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
-import { addPost, fetchMyPosts } from "../../store/thunks/postsThunk";
+import { addProduct , fetchMyProducts } from "../../store/thunks/productsThunk";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker'
 import * as FileSystem from 'expo-file-system'
@@ -27,7 +27,7 @@ function PostPage(){
     const uploadIMG = async () => {
             if (selectedImg) {
                 console.log("IF in Image");
-                const filename = `public/post/${selectedImg.fileName}` + '.png';
+                const filename = `public/product/${selectedImg.fileName}` + '.png';
                 await postItem(filename)
                 const fileBase64 = await FileSystem.readAsStringAsync(selectedImg.uri, {
                     encoding: FileSystem.EncodingType.Base64
@@ -43,11 +43,11 @@ function PostPage(){
         };
 
     const postItem = async (imgPath: string | null) => {
-        await dispatch(addPost({titlePost: title , contentPost: content, imgPath: imgPath}))
+        await dispatch(addProduct({titlePost: title , contentPost: content, imgPath: imgPath}))
         setContent("")
         setTitle("")
-        await dispatch(fetchMyPosts())
-        navigation.navigate("MyPosts" as never)
+        await dispatch(fetchMyProducts())
+        navigation.navigate("MyProducts" as never)
     }
 
     return(
