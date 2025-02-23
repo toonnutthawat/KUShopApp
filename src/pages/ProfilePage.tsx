@@ -100,7 +100,7 @@ function ProfilePage() {
                         <ProfileImage size={100} src={userInfo.profile}></ProfileImage>
                 }
 
-                        <TouchableOpacity onPress={selectImage} className="absolute" style={{top: 90, left: 200}}>
+                        <TouchableOpacity onPress={selectImage} className="absolute" style={{top: 90, left: 220}}>
                             <View className="rounded-full p-2" style={{backgroundColor: "#004c27"}}>
                                 <Entypo name="camera" size={20} color="white"/>
                             </View>
@@ -129,10 +129,10 @@ function ProfilePage() {
                 }
                 <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={() => navigation.navigate("MyPosts" as never)}
+                    onPress={() => navigation.navigate("MyProducts" as never)}
                     style={ styles.myPostStyles}
                 >
-                    <Text style={styles.myPosttext}>MyPosts</Text>
+                    <Text style={styles.myPosttext}>MyProducts</Text>
                 </TouchableOpacity>
                 {
                     isAdmin && (

@@ -6,26 +6,27 @@ import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { fetchMyUser } from "../store/thunks/userThunk";
 import { StyledContainer, StyledHomeBox } from "../components/StyleContainer";
-import { fetchAllPosts } from "../store/thunks/postsThunk";
-import PostReusable from "../components/PostReusable";
+import {  fetchAllProducts } from "../store/thunks/productsThunk";
+import PostReusable from "../components/ProductReusable";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { hp } from "../helpers/common";
 import { theme } from "../constants/theme";
 import Icon from "../../assets/icons";
+import ProductReusable from "../components/ProductReusable";
 
 function Home() {
     const [term ,setTerm] = useState("")
     const navigation = useNavigation();
     const dispatch = useAppDispatch()
-    const allPosts = useAppSelector(state => state.posts.allPosts.data || [])
+    const allProducts = useAppSelector(state => state.products.allProducts.data || [])
     
 
-    if(!allPosts) return;
-    const filteredMyPosts = allPosts.filter((post) => post.title.toLowerCase().includes(term.toLowerCase()))
+    if(!allProducts) return;
+    const filteredMyProducts = allProducts.filter((post) => post.title.toLowerCase().includes(term.toLowerCase()))
 
     useEffect(() => {
         const fetch = async () => {
-            await dispatch(fetchAllPosts())
+            await dispatch(fetchAllProducts())
         }
         fetch()
     }, []);
@@ -42,8 +43,8 @@ function Home() {
                     placeholderTextColor="#555"
                 />
                 <ScrollView className="w-full flex-grow" showsVerticalScrollIndicator={false}>
-                    {filteredMyPosts.map((post, index) => (
-                        <PostReusable key={index} post={post}/>
+                    {filteredMyProducts.map((product, index) => (
+                        <ProductReusable key={index} product={product} className="w-full"/>
                     ))}
                 </ScrollView>
             </StyledHomeBox>

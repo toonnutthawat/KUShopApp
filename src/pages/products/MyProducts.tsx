@@ -1,19 +1,20 @@
 import { Text, View, TextInput,ScrollView } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { useEffect, useState } from "react";
-import { fetchMyPosts } from "../../store/thunks/postsThunk";
-import PostReusable from "../../components/PostReusable";
+import { fetchMyProducts } from "../../store/thunks/productsThunk";
+import PostReusable from "../../components/ProductReusable";
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
+import ProductReusable from "../../components/ProductReusable";
 
-function MyPosts() {
+function MyProducts() {
 
-    const myPosts = useAppSelector(state => state.posts.myPosts.data || [])
+    const myPosts = useAppSelector(state => state.products.myProducts.data || [])
     const [term, setTerm] = useState("")
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         const fetch = async () => {
-            await dispatch(fetchMyPosts());
+            await dispatch(fetchMyProducts());
         };
         fetch();
     }, []);
@@ -36,8 +37,8 @@ function MyPosts() {
                 />
                 <ScrollView className="w-full flex-grow" showsVerticalScrollIndicator={false}>
                     {filteredMyPosts.length > 0 ? (
-                        filteredMyPosts.map((post, index) => (
-                            <PostReusable key={index} post={post} isMyPosts={true} />
+                        filteredMyPosts.map((product, index) => (
+                            <ProductReusable key={index} product={product} isMyPosts={true} />
                         ))
                     ) : (
                         <Text className="text-center text-gray-400 mt-4">No posts found</Text>
@@ -48,4 +49,4 @@ function MyPosts() {
     );
 }
 
-export default MyPosts;
+export default MyProducts;

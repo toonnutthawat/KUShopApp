@@ -17,7 +17,7 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser(
     email
     profile
     credit
-    posts {
+    products {
       nextToken
       __typename
     }
@@ -47,7 +47,7 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser(
     email
     profile
     credit
-    posts {
+    products {
       nextToken
       __typename
     }
@@ -77,7 +77,7 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser(
     email
     profile
     credit
-    posts {
+    products {
       nextToken
       __typename
     }
@@ -98,16 +98,18 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser(
   APITypes.OnDeleteUserSubscriptionVariables,
   APITypes.OnDeleteUserSubscription
 >;
-export const onCreatePost = /* GraphQL */ `subscription OnCreatePost(
-  $filter: ModelSubscriptionPostFilterInput
+export const onCreateProduct = /* GraphQL */ `subscription OnCreateProduct(
+  $filter: ModelSubscriptionProductFilterInput
   $userID: String
 ) {
-  onCreatePost(filter: $filter, userID: $userID) {
+  onCreateProduct(filter: $filter, userID: $userID) {
     id
     title
     content
     likes
     image
+    price
+    category
     user {
       id
       email
@@ -132,19 +134,21 @@ export const onCreatePost = /* GraphQL */ `subscription OnCreatePost(
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreatePostSubscriptionVariables,
-  APITypes.OnCreatePostSubscription
+  APITypes.OnCreateProductSubscriptionVariables,
+  APITypes.OnCreateProductSubscription
 >;
-export const onUpdatePost = /* GraphQL */ `subscription OnUpdatePost(
-  $filter: ModelSubscriptionPostFilterInput
+export const onUpdateProduct = /* GraphQL */ `subscription OnUpdateProduct(
+  $filter: ModelSubscriptionProductFilterInput
   $userID: String
 ) {
-  onUpdatePost(filter: $filter, userID: $userID) {
+  onUpdateProduct(filter: $filter, userID: $userID) {
     id
     title
     content
     likes
     image
+    price
+    category
     user {
       id
       email
@@ -169,19 +173,21 @@ export const onUpdatePost = /* GraphQL */ `subscription OnUpdatePost(
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdatePostSubscriptionVariables,
-  APITypes.OnUpdatePostSubscription
+  APITypes.OnUpdateProductSubscriptionVariables,
+  APITypes.OnUpdateProductSubscription
 >;
-export const onDeletePost = /* GraphQL */ `subscription OnDeletePost(
-  $filter: ModelSubscriptionPostFilterInput
+export const onDeleteProduct = /* GraphQL */ `subscription OnDeleteProduct(
+  $filter: ModelSubscriptionProductFilterInput
   $userID: String
 ) {
-  onDeletePost(filter: $filter, userID: $userID) {
+  onDeleteProduct(filter: $filter, userID: $userID) {
     id
     title
     content
     likes
     image
+    price
+    category
     user {
       id
       email
@@ -206,8 +212,8 @@ export const onDeletePost = /* GraphQL */ `subscription OnDeletePost(
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeletePostSubscriptionVariables,
-  APITypes.OnDeletePostSubscription
+  APITypes.OnDeleteProductSubscriptionVariables,
+  APITypes.OnDeleteProductSubscription
 >;
 export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
   $filter: ModelSubscriptionCommentFilterInput
@@ -216,18 +222,20 @@ export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
   onCreateComment(filter: $filter, userID: $userID) {
     id
     content
-    post {
+    product {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
       __typename
     }
-    postID
+    productID
     userID
     createdAt
     updatedAt
@@ -245,18 +253,20 @@ export const onUpdateComment = /* GraphQL */ `subscription OnUpdateComment(
   onUpdateComment(filter: $filter, userID: $userID) {
     id
     content
-    post {
+    product {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
       __typename
     }
-    postID
+    productID
     userID
     createdAt
     updatedAt
@@ -274,18 +284,20 @@ export const onDeleteComment = /* GraphQL */ `subscription OnDeleteComment(
   onDeleteComment(filter: $filter, userID: $userID) {
     id
     content
-    post {
+    product {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
       __typename
     }
-    postID
+    productID
     userID
     createdAt
     updatedAt
@@ -303,18 +315,20 @@ export const onCreateLikeStatus = /* GraphQL */ `subscription OnCreateLikeStatus
   onCreateLikeStatus(filter: $filter, username: $username) {
     id
     status
-    post {
+    product {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
       __typename
     }
-    postID
+    productID
     userID
     createdAt
     updatedAt
@@ -333,18 +347,20 @@ export const onUpdateLikeStatus = /* GraphQL */ `subscription OnUpdateLikeStatus
   onUpdateLikeStatus(filter: $filter, username: $username) {
     id
     status
-    post {
+    product {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
       __typename
     }
-    postID
+    productID
     userID
     createdAt
     updatedAt
@@ -363,18 +379,20 @@ export const onDeleteLikeStatus = /* GraphQL */ `subscription OnDeleteLikeStatus
   onDeleteLikeStatus(filter: $filter, username: $username) {
     id
     status
-    post {
+    product {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
       __typename
     }
-    postID
+    productID
     userID
     createdAt
     updatedAt

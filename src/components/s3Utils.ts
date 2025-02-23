@@ -1,6 +1,6 @@
 import { downloadData } from 'aws-amplify/storage';
 import { useEffect } from 'react';
-import { fetchAllPosts, fetchMyPosts } from '../store/thunks/postsThunk';
+import { fetchAllPosts, fetchMyPosts } from '../store/thunks/productsThunk';
 import { useAppDispatch } from '../hook';
 
 export async function fetchedImageFromS3(src?: string): Promise<string | null> {

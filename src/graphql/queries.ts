@@ -14,7 +14,7 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
     email
     profile
     credit
-    posts {
+    products {
       nextToken
       __typename
     }
@@ -52,13 +52,15 @@ export const listUsers = /* GraphQL */ `query ListUsers(
   }
 }
 ` as GeneratedQuery<APITypes.ListUsersQueryVariables, APITypes.ListUsersQuery>;
-export const getPost = /* GraphQL */ `query GetPost($id: ID!) {
-  getPost(id: $id) {
+export const getProduct = /* GraphQL */ `query GetProduct($id: ID!) {
+  getProduct(id: $id) {
     id
     title
     content
     likes
     image
+    price
+    category
     user {
       id
       email
@@ -82,19 +84,24 @@ export const getPost = /* GraphQL */ `query GetPost($id: ID!) {
     __typename
   }
 }
-` as GeneratedQuery<APITypes.GetPostQueryVariables, APITypes.GetPostQuery>;
-export const listPosts = /* GraphQL */ `query ListPosts(
-  $filter: ModelPostFilterInput
+` as GeneratedQuery<
+  APITypes.GetProductQueryVariables,
+  APITypes.GetProductQuery
+>;
+export const listProducts = /* GraphQL */ `query ListProducts(
+  $filter: ModelProductFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -104,23 +111,28 @@ export const listPosts = /* GraphQL */ `query ListPosts(
     __typename
   }
 }
-` as GeneratedQuery<APITypes.ListPostsQueryVariables, APITypes.ListPostsQuery>;
+` as GeneratedQuery<
+  APITypes.ListProductsQueryVariables,
+  APITypes.ListProductsQuery
+>;
 export const getComment = /* GraphQL */ `query GetComment($id: ID!) {
   getComment(id: $id) {
     id
     content
-    post {
+    product {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
       __typename
     }
-    postID
+    productID
     userID
     createdAt
     updatedAt
@@ -140,7 +152,7 @@ export const listComments = /* GraphQL */ `query ListComments(
     items {
       id
       content
-      postID
+      productID
       userID
       createdAt
       updatedAt
@@ -158,18 +170,20 @@ export const getLikeStatus = /* GraphQL */ `query GetLikeStatus($id: ID!) {
   getLikeStatus(id: $id) {
     id
     status
-    post {
+    product {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
       __typename
     }
-    postID
+    productID
     userID
     createdAt
     updatedAt
@@ -190,7 +204,7 @@ export const listLikeStatuses = /* GraphQL */ `query ListLikeStatuses(
     items {
       id
       status
-      postID
+      productID
       userID
       createdAt
       updatedAt
@@ -305,14 +319,14 @@ export const listMessages = /* GraphQL */ `query ListMessages(
   APITypes.ListMessagesQueryVariables,
   APITypes.ListMessagesQuery
 >;
-export const postsByUserID = /* GraphQL */ `query PostsByUserID(
+export const productsByUserID = /* GraphQL */ `query ProductsByUserID(
   $userID: ID!
   $sortDirection: ModelSortDirection
-  $filter: ModelPostFilterInput
+  $filter: ModelProductFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  postsByUserID(
+  productsByUserID(
     userID: $userID
     sortDirection: $sortDirection
     filter: $filter
@@ -325,6 +339,8 @@ export const postsByUserID = /* GraphQL */ `query PostsByUserID(
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
@@ -335,18 +351,18 @@ export const postsByUserID = /* GraphQL */ `query PostsByUserID(
   }
 }
 ` as GeneratedQuery<
-  APITypes.PostsByUserIDQueryVariables,
-  APITypes.PostsByUserIDQuery
+  APITypes.ProductsByUserIDQueryVariables,
+  APITypes.ProductsByUserIDQuery
 >;
-export const commentsByPostID = /* GraphQL */ `query CommentsByPostID(
-  $postID: ID!
+export const commentsByProductID = /* GraphQL */ `query CommentsByProductID(
+  $productID: ID!
   $sortDirection: ModelSortDirection
   $filter: ModelCommentFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  commentsByPostID(
-    postID: $postID
+  commentsByProductID(
+    productID: $productID
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit
@@ -355,7 +371,7 @@ export const commentsByPostID = /* GraphQL */ `query CommentsByPostID(
     items {
       id
       content
-      postID
+      productID
       userID
       createdAt
       updatedAt
@@ -366,18 +382,18 @@ export const commentsByPostID = /* GraphQL */ `query CommentsByPostID(
   }
 }
 ` as GeneratedQuery<
-  APITypes.CommentsByPostIDQueryVariables,
-  APITypes.CommentsByPostIDQuery
+  APITypes.CommentsByProductIDQueryVariables,
+  APITypes.CommentsByProductIDQuery
 >;
-export const likeStatusesByPostID = /* GraphQL */ `query LikeStatusesByPostID(
-  $postID: ID!
+export const likeStatusesByProductID = /* GraphQL */ `query LikeStatusesByProductID(
+  $productID: ID!
   $sortDirection: ModelSortDirection
   $filter: ModelLikeStatusFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  likeStatusesByPostID(
-    postID: $postID
+  likeStatusesByProductID(
+    productID: $productID
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit
@@ -386,7 +402,7 @@ export const likeStatusesByPostID = /* GraphQL */ `query LikeStatusesByPostID(
     items {
       id
       status
-      postID
+      productID
       userID
       createdAt
       updatedAt
@@ -398,8 +414,8 @@ export const likeStatusesByPostID = /* GraphQL */ `query LikeStatusesByPostID(
   }
 }
 ` as GeneratedQuery<
-  APITypes.LikeStatusesByPostIDQueryVariables,
-  APITypes.LikeStatusesByPostIDQuery
+  APITypes.LikeStatusesByProductIDQueryVariables,
+  APITypes.LikeStatusesByProductIDQuery
 >;
 export const chatsByUserID = /* GraphQL */ `query ChatsByUserID(
   $userID: ID!

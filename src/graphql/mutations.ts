@@ -17,7 +17,7 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
     email
     profile
     credit
-    posts {
+    products {
       nextToken
       __typename
     }
@@ -47,7 +47,7 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
     email
     profile
     credit
-    posts {
+    products {
       nextToken
       __typename
     }
@@ -68,16 +68,18 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
   APITypes.DeleteUserMutationVariables,
   APITypes.DeleteUserMutation
 >;
-export const createPost = /* GraphQL */ `mutation CreatePost(
-  $input: CreatePostInput!
-  $condition: ModelPostConditionInput
+export const createProduct = /* GraphQL */ `mutation CreateProduct(
+  $input: CreateProductInput!
+  $condition: ModelProductConditionInput
 ) {
-  createPost(input: $input, condition: $condition) {
+  createProduct(input: $input, condition: $condition) {
     id
     title
     content
     likes
     image
+    price
+    category
     user {
       id
       email
@@ -102,19 +104,21 @@ export const createPost = /* GraphQL */ `mutation CreatePost(
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreatePostMutationVariables,
-  APITypes.CreatePostMutation
+  APITypes.CreateProductMutationVariables,
+  APITypes.CreateProductMutation
 >;
-export const updatePost = /* GraphQL */ `mutation UpdatePost(
-  $input: UpdatePostInput!
-  $condition: ModelPostConditionInput
+export const updateProduct = /* GraphQL */ `mutation UpdateProduct(
+  $input: UpdateProductInput!
+  $condition: ModelProductConditionInput
 ) {
-  updatePost(input: $input, condition: $condition) {
+  updateProduct(input: $input, condition: $condition) {
     id
     title
     content
     likes
     image
+    price
+    category
     user {
       id
       email
@@ -139,19 +143,21 @@ export const updatePost = /* GraphQL */ `mutation UpdatePost(
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdatePostMutationVariables,
-  APITypes.UpdatePostMutation
+  APITypes.UpdateProductMutationVariables,
+  APITypes.UpdateProductMutation
 >;
-export const deletePost = /* GraphQL */ `mutation DeletePost(
-  $input: DeletePostInput!
-  $condition: ModelPostConditionInput
+export const deleteProduct = /* GraphQL */ `mutation DeleteProduct(
+  $input: DeleteProductInput!
+  $condition: ModelProductConditionInput
 ) {
-  deletePost(input: $input, condition: $condition) {
+  deleteProduct(input: $input, condition: $condition) {
     id
     title
     content
     likes
     image
+    price
+    category
     user {
       id
       email
@@ -176,8 +182,8 @@ export const deletePost = /* GraphQL */ `mutation DeletePost(
   }
 }
 ` as GeneratedMutation<
-  APITypes.DeletePostMutationVariables,
-  APITypes.DeletePostMutation
+  APITypes.DeleteProductMutationVariables,
+  APITypes.DeleteProductMutation
 >;
 export const createComment = /* GraphQL */ `mutation CreateComment(
   $input: CreateCommentInput!
@@ -186,18 +192,20 @@ export const createComment = /* GraphQL */ `mutation CreateComment(
   createComment(input: $input, condition: $condition) {
     id
     content
-    post {
+    product {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
       __typename
     }
-    postID
+    productID
     userID
     createdAt
     updatedAt
@@ -215,18 +223,20 @@ export const updateComment = /* GraphQL */ `mutation UpdateComment(
   updateComment(input: $input, condition: $condition) {
     id
     content
-    post {
+    product {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
       __typename
     }
-    postID
+    productID
     userID
     createdAt
     updatedAt
@@ -244,18 +254,20 @@ export const deleteComment = /* GraphQL */ `mutation DeleteComment(
   deleteComment(input: $input, condition: $condition) {
     id
     content
-    post {
+    product {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
       __typename
     }
-    postID
+    productID
     userID
     createdAt
     updatedAt
@@ -273,18 +285,20 @@ export const createLikeStatus = /* GraphQL */ `mutation CreateLikeStatus(
   createLikeStatus(input: $input, condition: $condition) {
     id
     status
-    post {
+    product {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
       __typename
     }
-    postID
+    productID
     userID
     createdAt
     updatedAt
@@ -303,18 +317,20 @@ export const updateLikeStatus = /* GraphQL */ `mutation UpdateLikeStatus(
   updateLikeStatus(input: $input, condition: $condition) {
     id
     status
-    post {
+    product {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
       __typename
     }
-    postID
+    productID
     userID
     createdAt
     updatedAt
@@ -333,18 +349,20 @@ export const deleteLikeStatus = /* GraphQL */ `mutation DeleteLikeStatus(
   deleteLikeStatus(input: $input, condition: $condition) {
     id
     status
-    post {
+    product {
       id
       title
       content
       likes
       image
+      price
+      category
       userID
       createdAt
       updatedAt
       __typename
     }
-    postID
+    productID
     userID
     createdAt
     updatedAt
@@ -563,7 +581,7 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
     email
     profile
     credit
-    posts {
+    products {
       nextToken
       __typename
     }
