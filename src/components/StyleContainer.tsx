@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         padding: 20,
         shadowColor: "#000",
         elevation: 5,
-        marginBottom: 0,
+        marginBottom: hp(7.7),
         display: 'flex',
         alignItems: 'center'
     },
