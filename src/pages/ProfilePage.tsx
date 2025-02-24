@@ -32,9 +32,6 @@ function ProfilePage() {
     const navigation = useNavigation()
     //console.log("selectedImage: ", selectedImage);
 
-    useEffect(() => {
-        console.log(dowloadedImg);
-    }, [dowloadedImg]);
 
     useEffect(() => {
         const fetch = async () => {

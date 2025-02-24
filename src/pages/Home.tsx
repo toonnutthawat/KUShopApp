@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet,ScrollView ,TextInput,TextStyle } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet,ScrollView ,TextInput,TextStyle, Pressable } from "react-native";
 import KuShopTitle from "../components/KuShopTitle";
 import { getCurrentUser, signOut } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
@@ -13,27 +13,51 @@ import { hp } from "../helpers/common";
 import { theme } from "../constants/theme";
 import Icon from "../../assets/icons";
 import ProductReusable from "../components/ProductReusable";
+import ProductCategoryTab from "../components/ProductCategoryTab";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 function Home() {
     const [term ,setTerm] = useState("")
     const navigation = useNavigation();
     const dispatch = useAppDispatch()
+    const [selectedCategory, setSelectedCategory] = useState("");
     const allProducts = useAppSelector(state => state.products.allProducts.data || [])
-    
 
     if(!allProducts) return;
     const filteredMyProducts = allProducts.filter((post) => post.title.toLowerCase().includes(term.toLowerCase()))
 
     useEffect(() => {
         const fetch = async () => {
-            await dispatch(fetchAllProducts())
+            await dispatch(fetchAllProducts({category: null}))
+            console.log("fetchAllProducts");
         }
         fetch()
     }, []);
 
+    useEffect(() => {
+        if(selectedCategory) {
+        const fetch = async () => {
+            await dispatch(fetchAllProducts({category: selectedCategory}))
+        }
+        
+        fetch()
+        }
+    }, [selectedCategory]);
+
+    const handleCategorySelect = (category: string) => {
+        setSelectedCategory(category);
+    };
+
     return (
         <StyledContainer>
             <StyledHomeBox>
+                {
+                    selectedCategory && (
+                        <Pressable  className="absolute left-4 top-4" onPress={() => dispatch(fetchAllProducts({category: null}))}>
+                            <Ionicons name="arrow-back-circle" size={30} color="black"/>
+                        </Pressable>
+                    )
+                }
                 <MaterialIcons name="post-add" size={30} color="#004c27" className="absolute right-4 top-4" onPress={() => navigation.navigate("Post" as never)}/>
                 <TextInput
                     placeholder="search title"
@@ -43,6 +67,7 @@ function Home() {
                     placeholderTextColor="#555"
                 />
                 <ScrollView className="w-full flex-grow" showsVerticalScrollIndicator={false}>
+                    <ProductCategoryTab onSelectCategory={handleCategorySelect}></ProductCategoryTab>
                     {filteredMyProducts.map((product, index) => (
                         <ProductReusable key={index} product={product} className="w-full"/>
                     ))}
