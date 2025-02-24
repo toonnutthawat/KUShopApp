@@ -61,29 +61,22 @@ const ProductReusable = ({ product, isMyPosts, className }: { product: Product, 
 
             <View style = {styles.content}>
                 <View style = {styles.postBody}>
-                    <Text>{product.content}</Text>
+                    <Text style = {styles.titleText} numberOfLines={1}>{product.title}</Text>
                 </View>
 
-                <PostImage  size={25} src={product.image} />
+                <PostImage size={25} src={product.image} />
+                    <View className='mt-1'>
+                            <Text style = {styles.priceText}>฿ {product.price}</Text>
+                    </View>
 
                 { isMyPosts && 
                 <TouchableOpacity className="absolute top-2 right-2 bg-red-500 rounded-full w-10 h-10 flex items-center justify-center" onPress={removeProductByID}>
                      <Text className="text-white text-xs">X</Text>
                 </TouchableOpacity>
-                }
+                }   
             </View>
             
-            {/* like */}
-            <View style = {styles.footer}>
-                    <View style = {styles.footerButton}>
-                        <Icon name = "heart" size = {24} color = {liked? theme.colors.rose: theme.colors.textLight}/>
-                        {/* <Text className='ml-2 mt-2'>{post.likes}</Text> */}
-                        <Text style = {styles.count}>
-                            {product.likes}
-                        </Text>
-                    </View>
-            </View>
- 
+    
         </TouchableOpacity>
 
 
@@ -138,6 +131,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center'
     },
+    priceText:{
+        fontSize:18,
+        fontWeight: theme.fonts.bold as TextStyle['fontWeight']
+    },
     header:{
         flexDirection: 'row',
         justifyContent:'space-between'
@@ -182,6 +179,9 @@ const styles = StyleSheet.create({
     },
     count:{
 
+    },
+    titleText:{
+        fontWeight: theme.fonts.medium as TextStyle['fontWeight']
     }
 })
 
