@@ -1,4 +1,4 @@
-import { View , Image, StyleSheet } from "react-native";
+import { View , Image, StyleSheet, ImageStyle  } from "react-native";
 import { downloadData, getProperties } from 'aws-amplify/storage';
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hook";
@@ -6,19 +6,21 @@ import { hp, wp } from "../helpers/common";
 import { fetchedImageFromS3 } from "./s3Utils";
 import { theme } from "../constants/theme";
 
-function PostImage({size , src } : { size: number, src?: string | null}){
+interface PostImageProps {
+    size: number;
+    src?: string | null;
+    style?: ImageStyle | ImageStyle[]; // Accepts custom styles
+  }
+  function PostImage({ size, src, style }: PostImageProps) {
+    
     const styles = StyleSheet.create({
-        profile : {
-            width: wp(84),
-            height: hp(size),
-            borderRadius: 10,
-            marginTop: 10
-        },
-        postMedia:{
-            height: hp(40),
+        ImageStyles : {
             width: '100%',
+            height: hp(size) / 2,
             borderRadius: theme.radius.xl,
-            borderCurve : 'continuous'
+            borderCurve : 'continuous',
+            marginTop: 10,
+            marginBottom: 5,
         }
     })
 
@@ -57,14 +59,12 @@ function PostImage({size , src } : { size: number, src?: string | null}){
 
     return(
         <View>
-            {
-                (src && (src !== null) )? <Image style={styles.profile} source={{uri: dowloadedImg}}>
-
-                </Image>
+            {(src && (src !== null) )? 
+            <Image style={[styles.ImageStyles, style]} source={{uri: dowloadedImg}} ></Image>
  
                 :
 
-                <Image style={styles.profile} source={require("../../assets/defaultPostImg.png")}>
+                <Image style={[styles.ImageStyles, style]} source={require("../../assets/defaultPostImg.png")}>
 
                 </Image>
             }
