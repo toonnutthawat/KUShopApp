@@ -90,17 +90,24 @@ function ProductDetail({ route }) {
     return (
 
         <StyledContainer>
+          <StyledHomeBox>
             <BackButton backButtonStyle={styles.backButt}/> 
-            <ScrollView>
+            <ScrollView style={{height :hp(100)}}>
 
               {/* Product Image */}
               <PostImage size={2} src={product.image} style={styles.image} ></PostImage>
               
               {/* Price & Title */}
               <View style={styles.detailsContainer}>
-                <Text style={styles.price}>฿{product.price}</Text>
-                <Text style={styles.title}>{product.title}</Text>
-                <Text style={styles.condition}>NONE</Text>
+                <Text className = 'mb-1' style={styles.price}>฿{product.price}</Text>
+                <Text className = 'mb-1' style={styles.title}>{product.title}</Text>
+                <Text style={styles.condition}>{product.category}</Text>
+                  <View style={styles.detailsContainer}>
+                        
+                        <Text style={styles.productDescription}>{product.content}</Text>
+                        
+                  </View>
+
               </View>
         
               {/* Product Specs */}
@@ -143,6 +150,7 @@ function ProductDetail({ route }) {
                           </View>
                 </View>
             </ScrollView>
+            </StyledHomeBox>
         </StyledContainer>
 
         // <StyledContainer>
@@ -214,13 +222,14 @@ function ProductDetail({ route }) {
 
 const styles = StyleSheet.create({
   container: {
-    
+    flexDirection:'row',
+    alignItems: 'center',
   },
   image: {
-    width: wp(100) - 20,
-    height: (hp(55)) * 0.6,
+    width: hp(40),
+    height: (hp(50)) * 0.6,
     borderRadius: theme.radius.xl,
-    resizeMode: "contain" // OR use "cover"
+    resizeMode: "cover" // OR use "cover"
   },
   detailsContainer: {
     paddingVertical: 10,
@@ -236,7 +245,7 @@ const styles = StyleSheet.create({
     color: "#555",
   },
   backButt:{
-    marginLeft: hp(1)
+    // marginLeft: hp(1)
   },
   condition: {
     fontSize: 14,
@@ -278,7 +287,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   quickActionText: {
-    fontSize: 14,
+    fontSize: 13,
     color: "#333",
   },
   buttonContainer: {
@@ -293,6 +302,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#007bff",
     width: "48%",
   },
+  productDescription: {
+    fontSize: 16,
+    color: theme.colors.textDark,
+    marginBottom: 15,
+  }
 });
 
 export default ProductDetail
