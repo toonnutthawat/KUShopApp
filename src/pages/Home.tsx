@@ -42,7 +42,7 @@ function Home() {
                     className="bg-gray-100 rounded-full px-4 h-12 mt-10 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300 w-full mb-4"
                     placeholderTextColor="#555"
                 />
-                <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', gap: hp(0.5)}} showsVerticalScrollIndicator={false}>
+                <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', marginLeft: 7, gap: 3}} showsVerticalScrollIndicator={false}>
                     {filteredMyProducts.map((product, index) => (
                         <View key={index} style={{ width: hp(20), height: wp(55), marginBottom: hp(3.3)}}>
                             <ProductReusable key={index} product={product} />
