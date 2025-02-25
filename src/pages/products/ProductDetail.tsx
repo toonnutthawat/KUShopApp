@@ -1,4 +1,4 @@
-import { View, Image, Text, StyleSheet, Pressable, TextInput, TouchableOpacity, ScrollView } from "react-native"
+import { View, Image, Text, StyleSheet, Pressable, TextInput, TouchableOpacity, ScrollView, TextStyle, Linking, Platform } from "react-native"
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import ProfileImage from "../../components/ProfileImage";
@@ -86,7 +86,22 @@ function ProductDetail({ route }) {
         await dispatch(fetchLikeStatus(product.id))
         await dispatch(updateTotalLikes(product.id))
     }
+
+    const makeCall = (phoneNumber) => {
+      if (!phoneNumber) {
+        console.warn('No phone number provided');
+        return;
+      }
     
+      let dialNumber = '';
+      if (Platform.OS === 'android') {
+        dialNumber = `tel:${phoneNumber}`;
+      } else {
+        dialNumber = `telprompt:${phoneNumber}`;
+      }
+    
+      Linking.openURL(dialNumber).catch((err) => console.error('Error opening dialer', err));
+    };
     return (
 
         <StyledContainer>
@@ -99,44 +114,49 @@ function ProductDetail({ route }) {
               
               {/* Price & Title */}
               <View style={styles.detailsContainer}>
-                <Text className = 'mb-1' style={styles.price}>฿{product.price}</Text>
-                <Text className = 'mb-1' style={styles.title}>{product.title}</Text>
+                <Text className = 'mt-1' style={styles.price}>฿{product.price}</Text>
+                <Text className = 'mt-1' style={styles.title}>{product.title}</Text>
                 <Text style={styles.condition}>{product.category}</Text>
-                  <View style={styles.detailsContainer}>
-                        
-                        <Text style={styles.productDescription}>{product.content}</Text>
-                        
-                  </View>
-
               </View>
         
-              {/* Product Specs */}
+              {/* Product Details */}
               <View style={styles.specsContainer}>
-                <View style={styles.specRow}>
-                  <Text style={styles.specLabel}>Brand:</Text>
-                  <Text style={styles.specValue}>แบรนด์</Text>
-                </View>
-                <View style={styles.specRow}>
-                  <Text style={styles.specLabel}>Model:</Text>
-                  <Text style={styles.specValue}>รุ่น</Text>
-                </View>
-                <View style={styles.specRow}>
-                  <Text style={styles.specLabel}>Capacity:</Text>
-                  <Text style={styles.specValue}>ความจุ</Text>
-                </View>
+                  <Text style={styles.title}>ProductDetail: </Text>
+                  <Text style = {styles.content}>{product.content}</Text>
               </View>
-        
-              {/* Quick Actions */}
-              <View style={styles.quickActions}>
-                {["ของยังอยู่ไหม?", "ลดได้ไหม?", "ผ่อนได้ไหม?", "นัดรับได้ที่ไหน?"].map((text, index) => (
-                  <TouchableOpacity key={index} style={styles.quickActionBtn}>
-                    <Text style={styles.quickActionText}>{text}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
+
+              <Text style={[{ marginTop: 10 }, styles.text]}>ลงขายเมื่อ: {formattedDate}</Text>
+
             
               {/* Contact Buttons */}
-              <View style={styles.buttonContainer}>
+
+              <View  className = 'mt-5' style = {styles.memberCard}>
+                <ProfileImage size={hp(6)} src={product.user.profile}/>
+                <Text className = 'mt-2' style={styles.memberId}>{product.userID}</Text>
+
+                <Text style={styles.membershipDuration}>
+          Member for 13 years, 4 months, 23 days.
+        </Text>
+
+                <View style={styles.buttonContainer}>
+
+                  { myUser.id !== product.userID && (
+                      <Pressable style={styles.chatButton} onPress={checkUserChatWithFriendID}>
+                          <Text style={styles.chatText}>Chat</Text>
+                      </Pressable>
+                    )
+                  }
+
+                  { myUser.id !== product.userID && (
+                      <Pressable style={styles.callButton} onPress ={() => makeCall('0917366898')}>
+                          <Text style={styles.callText}>Call</Text>
+                      </Pressable>
+                    )
+                  }
+                </View>
+                 
+              </View>
+              {/* <View style={styles.buttonContainer}>
                 <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 10 }}>
                               <ProfileImage size={20} src={product.user.profile}/>
                               <Text style={[{ marginLeft: 10 }]}>{product.userID}</Text>
@@ -148,7 +168,8 @@ function ProductDetail({ route }) {
                                   )
                               }
                           </View>
-                </View>
+                </View> */}
+                
             </ScrollView>
             </StyledHomeBox>
         </StyledContainer>
@@ -235,41 +256,37 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   price: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 20,
+    fontWeight: theme.fonts.bold as TextStyle['fontWeight'],
     color: "#222",
   },
   title: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#555",
+    fontSize: 20,
+    fontWeight: theme.fonts.extraBold as TextStyle['fontWeight'],
+    marginBottom: 5, 
   },
   backButt:{
     // marginLeft: hp(1)
   },
   condition: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#888",
   },
   specsContainer: {
-    backgroundColor: "#f9f9f9",
-    padding: 10,
+    marginBottom: 10,
     borderRadius: 8,
     marginVertical: 10,
   },
+  content:{
+    fontSize: 20,
+    color: "#333", // Optional: Adjust text color
+    
+  },
   specRow: {
+    height: hp(5),
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: 3,
-  },
-  specLabel: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#666",
-  },
-  specValue: {
-    fontSize: 14,
-    color: "#333",
   },
   quickActions: {
     flexDirection: "row",
@@ -286,26 +303,62 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
     alignItems: "center",
   },
-  quickActionText: {
-    fontSize: 13,
-    color: "#333",
-  },
   buttonContainer: {
-    alignItems: "center",
-    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 15,
   },
   chatButton: {
-    borderColor: "#007bff",
-    width: hp(25),
-  },
-  callButton: {
-    backgroundColor: "#007bff",
-    width: "48%",
+    flex: 1,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: theme.colors.kuBGColor,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginRight: 5,
   },
   productDescription: {
     fontSize: 16,
     color: theme.colors.textDark,
     marginBottom: 15,
+  },
+  text:{
+    fontSize: 16,
+  },
+  memberCard:{
+    backgroundColor: '#F5F5F5',
+    padding: 15,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3, // For Android shadow
+  },
+  memberId:{
+    fontSize: 16,
+    color: '#4F4F4F',
+    marginBottom: 5,
+  },
+  chatText: {
+    color: theme.colors.kuBGColor,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  callButton: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: theme.colors.kuBGColor,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  callText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  membershipDuration: {
+    fontSize: 16,
+    color: '#828282',
   }
 });
 
