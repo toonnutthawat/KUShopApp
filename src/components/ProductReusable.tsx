@@ -29,7 +29,7 @@ const ProductReusable = ({ product, isMyPosts, className }: { product: Product, 
 
     const removeProductByID = async () => {
         await dispatch(removeProduct(product.id))
-        await dispatch(fetchAllProducts())
+        await dispatch(fetchAllProducts(null))
     }
 
     const createAt = moment(product.createdAt).format('MMM D');

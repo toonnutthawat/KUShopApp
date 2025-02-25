@@ -77,7 +77,7 @@ const fetchAllChats = createAsyncThunk("fetchAllChats", async () => {
         });
         const chatsWithUsers = await Promise.all(userPromises);
 
-        console.log(chatsWithUsers);
+        //console.log(chatsWithUsers);
         
     return  chatsWithUsers
 })

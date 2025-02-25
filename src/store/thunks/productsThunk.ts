@@ -59,10 +59,30 @@ const fetchMyProducts = createAsyncThunk("fetchMyProducts", async () => {
     return productsWithUsers
 })
 
-const fetchAllProducts = createAsyncThunk("fetchAllProducts" , async () => {
-    const response = await client.graphql({
-        query: listProducts,
+const fetchAllProducts = createAsyncThunk("fetchAllProducts" , async ( {category} : {category: string | null}) => {
+    try{
+    let response
+    if(category) {
+        response = await client.graphql({
+            query: listProducts,
+            variables: {
+                filter: {
+                    category: {
+                        eq: category
+                    }
+                }
+            }
+        })
+    }
+    else{
+        response = await client.graphql({
+        query: listProducts
     })
+    }
+
+   
+    
+    
     const userPromises = response.data.listProducts.items.map(async (product) => {
         const userResponse = await client.graphql({
             query: getUser,
@@ -73,6 +93,11 @@ const fetchAllProducts = createAsyncThunk("fetchAllProducts" , async () => {
     const productsWithUsers = await Promise.all(userPromises);
     
     return productsWithUsers
+    }
+    catch(error){
+        console.log(error);
+        
+    }
 })
 
 const removeProduct = createAsyncThunk("removeProduct", async (id: string) => {
