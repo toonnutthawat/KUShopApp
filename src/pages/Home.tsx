@@ -48,12 +48,17 @@ function Home() {
         setSelectedCategory(category);
     };
 
+    const backToAllProduct = async () => {
+        await dispatch(fetchAllProducts({category: null}))
+        setSelectedCategory(null)
+    }
+
     return (
         <StyledContainer>
             <StyledHomeBox>
                 {
                     selectedCategory && (
-                        <Pressable  className="absolute left-4 top-4" onPress={() => dispatch(fetchAllProducts({category: null}))}>
+                        <Pressable  className="absolute left-4 top-4" onPress={backToAllProduct}>
                             <Ionicons name="arrow-back-circle" size={30} color="black"/>
                         </Pressable>
                     )
