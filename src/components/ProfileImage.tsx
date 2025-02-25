@@ -3,14 +3,19 @@ import { downloadData } from 'aws-amplify/storage';
 import { getProperties } from 'aws-amplify/storage';
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hook";
+import { theme } from "../constants/theme";
+import { hp } from "../helpers/common";
 
-function ProfileImage({size , src } : { size: number, src?: string | null}){
+function ProfileImage({size = hp(4.5) , src } : { size: number, src?: string | null}){
 
     const styles = StyleSheet.create({
         profile : {
             width: size,
             height: size,
-            borderRadius: 50
+            borderRadius: theme.radius.md,
+            borderCurve: 'continuous',
+            borderColor:theme.colors.darkLight,
+            borderWidth: 1
         }
     })
 
