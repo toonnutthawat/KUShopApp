@@ -13,7 +13,7 @@ import { pickImage } from "../../components/pickImage";
 import { CreditStatus } from "../../API";
 import { changeCreditStatus } from "../../store/thunks/userThunk";
 import RNPickerSelect from 'react-native-picker-select';
-import { Picker } from "@react-native-picker/picker";
+import DropDownPicker from 'react-native-dropdown-picker';
 import { ProductCategory } from "../../types/ProductCategory";
 
 function PostPage() {
@@ -21,11 +21,18 @@ function PostPage() {
     const [content, setContent] = useState("")
     const [title, setTitle] = useState("")
     const [price, setPrice] = useState("")
+    const [open, setOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<ProductCategory | undefined>(undefined);
     const [selectedImg, setSelectedImg] = useState<ImagePicker.ImagePickerAsset>()
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const dispatch = useAppDispatch()
     const navigation = useNavigation()
+    const [items, setItems] = useState(
+        Object.values(ProductCategory).map((category) => ({
+          label: category,
+          value: category
+        }))
+      );
 
     const selectImage = async () => {
         const image = await pickImage()
@@ -117,7 +124,7 @@ function PostPage() {
                             placeholder="content"
                             style={styles.textInput}
                         ></TextInput>
-                         <View style={styles.textInput}>
+                         {/* <View style={styles.textInput}>
                             <RNPickerSelect
                                 onValueChange={(value) => setSelectedCategory(value)}
                                 items={Object.values(ProductCategory).map((category) => ({
@@ -125,6 +132,17 @@ function PostPage() {
                                     value: category,
                                 }))}
                             />
+                        </View> */}
+                        <View style={styles.textInput}>
+                           <DropDownPicker
+                                 open={open}
+                                 value={selectedCategory}
+                                 items={items}
+                                 setOpen={setOpen}
+                                 setValue={setSelectedCategory}
+                                 setItems={setItems}     
+                           />
+
                         </View>
                         <TextInput
                             keyboardType="numeric"
@@ -166,8 +184,8 @@ const styles = StyleSheet.create({
     textInput: {
         backgroundColor: 'white',
         borderRadius: 10,
-        marginTop: 10
-
+        marginTop: 10,
+        width: 300
     },
     img: {
         width: 300,
