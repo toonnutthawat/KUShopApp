@@ -134,9 +134,7 @@ function ProductDetail({ route }) {
                 <ProfileImage size={hp(6)} src={product.user.profile}/>
                 <Text className = 'mt-2' style={styles.memberId}>{product.userID}</Text>
 
-                <Text style={styles.membershipDuration}>
-          Member for 13 years, 4 months, 23 days.
-        </Text>
+                <Text style={styles.membershipDuration}> Member for 13 years, 4 months, 23 days.</Text>
 
                 <View style={styles.buttonContainer}>
 
@@ -156,20 +154,6 @@ function ProductDetail({ route }) {
                 </View>
                  
               </View>
-              {/* <View style={styles.buttonContainer}>
-                <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 10 }}>
-                              <ProfileImage size={20} src={product.user.profile}/>
-                              <Text style={[{ marginLeft: 10 }]}>{product.userID}</Text>
-                              {
-                                  myUser.id !== product.userID && (
-                                      <Pressable onPress={checkUserChatWithFriendID}>
-                                          <Entypo name="chat" size={30} color="#004c27"  style={{marginLeft: 20}}/>
-                                      </Pressable>
-                                  )
-                              }
-                          </View>
-                </View> */}
-                
             </ScrollView>
             </StyledHomeBox>
         </StyledContainer>
