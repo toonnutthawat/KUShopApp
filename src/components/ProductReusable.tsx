@@ -12,7 +12,7 @@ import { fetchedImageFromS3 } from './s3Utils';
 import { theme } from '../constants/theme';
 import { hp, wp } from '../helpers/common';
 import Icon from '../../assets/icons';
-import moment from 'moment';
+import { format } from 'date-fns'
 // Define the navigation stack types
 type RootStackParamList = {
     ProductDetail: { product: Product };
@@ -31,8 +31,7 @@ const ProductReusable = ({ product, isMyPosts, className }: { product: Product, 
         await dispatch(removeProduct(product.id))
         await dispatch(fetchAllProducts(null))
     }
-
-    const createAt = moment(product.createdAt).format('MMM D');
+    const createAt = format(new Date(product.createdAt), 'MMM dd');
 
     const shadowStyles={
         shadowOffset:{
