@@ -59,7 +59,7 @@ function Home() {
                 {
                     selectedCategory && (
                         <Pressable  className="absolute left-4 top-4" onPress={backToAllProduct}>
-                            <Ionicons name="arrow-back-circle" size={30} color="black"/>
+                            <Icon name = "arrowLeft" strokeWidth= {2.5} color = {theme.colors.text}></Icon>
                         </Pressable>
                     )
                 }
@@ -71,10 +71,11 @@ function Home() {
                     className="bg-gray-100 rounded-full px-4 h-12 mt-10 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300 w-full mb-4"
                     placeholderTextColor="#555"
                 />
+
                 <ScrollView  contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1.9),justifyContent: 'center'}} className="w-full flex-grow" showsVerticalScrollIndicator={false}>
                     <ProductCategoryTab onSelectCategory={handleCategorySelect}></ProductCategoryTab>
                     {filteredMyProducts.map((product, index) => (
-                        <View key={index} style={{ width: hp(20), height: wp(55), marginBottom: hp(3.3)}}>
+                        <View key={index} style={{ width: hp(20), height: wp(55), marginBottom: hp(5)}}>
                             <ProductReusable key={index} product={product} />
                         </View>
                     ))}
