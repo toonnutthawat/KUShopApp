@@ -1,6 +1,6 @@
 import { generateClient } from "@aws-amplify/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createProduct, deleteProduct } from "../../graphql/mutations";
+import { createProduct, deleteProduct, updateProduct } from "../../graphql/mutations";
 import { getCurrentUser } from "aws-amplify/auth";
 import { getUser, listProducts } from "../../graphql/queries";
 import { ProductStatus, User } from "../../API";
@@ -111,4 +111,18 @@ const removeProduct = createAsyncThunk("removeProduct", async (id: string) => {
     return response.data.deleteProduct
 })
 
-export { addProduct , fetchMyProducts , fetchAllProducts , removeProduct }
+const changeToSoldProductStatus = createAsyncThunk("changeToSoldProductStatus", async (productID : string) => {
+    const response = await client.graphql({
+        query: updateProduct,
+        variables: {
+            input: {
+                id: productID,
+                status: ProductStatus.SOLD,
+
+            }
+        }
+    })
+    return response.data.updateProduct
+})
+
+export { addProduct , fetchMyProducts , fetchAllProducts , removeProduct , changeToSoldProductStatus}
