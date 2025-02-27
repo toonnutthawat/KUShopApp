@@ -9,7 +9,7 @@ import { StyledContainer, StyledHomeBox } from "../components/StyleContainer";
 import {  fetchAllProducts } from "../store/thunks/productsThunk";
 import PostReusable from "../components/ProductReusable";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { hp } from "../helpers/common";
+import { hp, wp } from "../helpers/common";
 import { theme } from "../constants/theme";
 import Icon from "../../assets/icons";
 import ProductReusable from "../components/ProductReusable";
@@ -71,12 +71,15 @@ function Home() {
                     className="bg-gray-100 rounded-full px-4 h-12 mt-10 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300 w-full mb-4"
                     placeholderTextColor="#555"
                 />
-                <ScrollView className="w-full flex-grow" showsVerticalScrollIndicator={false}>
+                <ScrollView  contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1.9),justifyContent: 'center'}} className="w-full flex-grow" showsVerticalScrollIndicator={false}>
                     <ProductCategoryTab onSelectCategory={handleCategorySelect}></ProductCategoryTab>
                     {filteredMyProducts.map((product, index) => (
-                        <ProductReusable key={index} product={product} className="w-full"/>
+                        <View key={index} style={{ width: hp(20), height: wp(55), marginBottom: hp(3.3)}}>
+                            <ProductReusable key={index} product={product} />
+                        </View>
                     ))}
-                </ScrollView>
+                </ScrollView>                        
+
             </StyledHomeBox>
         </StyledContainer>
     );

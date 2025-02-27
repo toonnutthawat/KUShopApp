@@ -1,18 +1,21 @@
 import React from 'react'
-import {Pressable ,StyleSheet, Text, View } from 'react-native'
+import {Pressable ,StyleSheet, Text, ViewStyle } from 'react-native'
 import { theme } from '../constants/theme'
 import Icon from '../../assets/icons'
 import { useNavigation } from "@react-navigation/native";
 
-
-const BackButton = ({size = 26}) => {
+interface BackButtonProps {
+    size?: 26,
+    backButtonStyle?: ViewStyle;
+}
+const BackButton: React.FC<BackButtonProps> = ({size = 26, backButtonStyle }) => {
     const navigation = useNavigation();
 
     return (
-        <Pressable style = {styles.button} onPress={() => navigation.goBack()}> 
+        <Pressable style = {[styles.button, backButtonStyle]} onPress={() => navigation.goBack()}> 
             <Icon name = "arrowLeft" strokeWidth= {2.5} size = {size} color = {theme.colors.text}></Icon>
         </Pressable>
-    )
+    ) 
 }
 
 export default BackButton

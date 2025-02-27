@@ -29,9 +29,9 @@ export function StyledContainer({ children }) {
                 <View style={styles.container}>
                     <View style={{ display: 'flex', flexDirection: 'row', marginTop: 10, right: 40, position: 'absolute' }}>
                         {
-                            userInfo && (
-                                <><ProfileImage size={30} src={userInfo.profile}></ProfileImage><Text style={styles.title}>{userInfo.id}</Text></>
-                            )
+                            // userInfo && (
+                            //     <><ProfileImage size={30} src={userInfo.profile}></ProfileImage><Text style={styles.title}>{userInfo.id}</Text></>
+                            // )
 
                         }
                     </View>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         padding: 20,
         shadowColor: "#000",
         elevation: 5,
-        marginBottom: 0,
+        marginBottom: hp(7.7),
         display: 'flex',
         alignItems: 'center'
     },
