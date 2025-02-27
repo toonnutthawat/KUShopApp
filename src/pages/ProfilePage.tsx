@@ -17,6 +17,7 @@ import { hp } from "../helpers/common";
 import { theme } from "../constants/theme";
 import Icon from "../../assets/icons";
 import Header from "../components/Header";
+import { fetchFavoriteProducts } from "../store/thunks/productsThunk";
 
 const imgDir = FileSystem.documentDirectory + 'images/'
 
@@ -130,6 +131,13 @@ function ProfilePage() {
                     style={ styles.myPostStyles}
                 >
                     <Text style={styles.myPosttext}>MyProducts</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => navigation.navigate("MyFavoriteProducts" as never)}
+                    style={styles.myPostStyles}
+                >
+                    <Text style={styles.myPosttext}>Favorite Products</Text>
                 </TouchableOpacity>
                 {
                     isAdmin && (

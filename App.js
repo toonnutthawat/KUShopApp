@@ -26,6 +26,7 @@ import AddProduct from "./src/pages/shop/AddProduct";
 import ManageRequest from "./src/pages/Admin/ManageRequest";
 import ProductDetail from "./src/pages/products/ProductDetail";
 import MyProducts from "./src/pages/products/MyProducts";
+import MyFavoriteProducts from "./src/pages/products/MyFavoriteProducts";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -53,7 +54,7 @@ function BottomTabs() {
         tabBarActiveTintColor: "#004c27",
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
-          width: 1000, // Adjust the height of the tab bar
+          width: 1100, // Adjust the height of the tab bar
         },
         headerShown: false, // Set headerShown to false for all tabs
       })}
@@ -65,6 +66,15 @@ function BottomTabs() {
       <Tab.Screen
         name="Post"
         component={PostPage}
+        options={{
+          tabBarButton: () => null, // Hide the tab button completely
+          tabBarIcon: () => <></>, // Hide the icon
+          tabBarLabel: () => null, // Hide the label
+        }}
+      />
+      <Tab.Screen
+        name="MyFavoriteProducts"
+        component={MyFavoriteProducts}
         options={{
           tabBarButton: () => null, // Hide the tab button completely
           tabBarIcon: () => <></>, // Hide the icon

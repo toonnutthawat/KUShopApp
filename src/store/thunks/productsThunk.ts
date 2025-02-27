@@ -2,8 +2,8 @@ import { generateClient } from "@aws-amplify/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createProduct, deleteProduct, updateProduct } from "../../graphql/mutations";
 import { getCurrentUser } from "aws-amplify/auth";
-import { getUser, listProducts } from "../../graphql/queries";
-import { ProductStatus, User } from "../../API";
+import { getProduct, getUser, listLikeStatuses, listProducts } from "../../graphql/queries";
+import { Product, ProductStatus, User } from "../../API";
 import { ProductCategory } from "../../types/ProductCategory";
 
 const client = generateClient({authMode: "userPool"})
@@ -101,6 +101,53 @@ const fetchAllProducts = createAsyncThunk("fetchAllProducts" , async ( {category
     }
 })
 
+const fetchFavoriteProducts = createAsyncThunk("fetchFavoriteProduct", async () => {
+    try{
+    const user = await getCurrentUser()
+    const favoriteStatusLists = await client.graphql({
+        query: listLikeStatuses,
+        variables: {
+            filter: {
+                userID: {
+                    eq: user.username
+                },
+                status: {
+                    eq: true
+                }
+            }
+        }
+    })
+    console.log("favoriteStatusLists : ",favoriteStatusLists);
+    
+    let favoriteProductList = []
+
+    for(let i = 0; i < favoriteStatusLists.data.listLikeStatuses.items.length; i++){
+        const response = await client.graphql({
+            query: getProduct,
+            variables: {
+                id: favoriteStatusLists.data.listLikeStatuses.items[i].productID
+            }
+        })
+
+        console.log(`[${i}]`,response.data.getProduct);
+        
+
+        const product = response.data.getProduct;
+    
+        favoriteProductList.push(product);
+      }
+      console.log("favoriteProducts: ", favoriteProductList);
+
+      return favoriteProductList;
+    }
+    
+    catch(error){
+        console.log((error as Error).message);
+        
+    }
+    }
+    )
+
 const removeProduct = createAsyncThunk("removeProduct", async (id: string) => {
     const response = await client.graphql({
         query: deleteProduct,
@@ -125,4 +172,4 @@ const changeToSoldProductStatus = createAsyncThunk("changeToSoldProductStatus", 
     return response.data.updateProduct
 })
 
-export { addProduct , fetchMyProducts , fetchAllProducts , removeProduct , changeToSoldProductStatus}
+export { addProduct , fetchMyProducts , fetchAllProducts , removeProduct , changeToSoldProductStatus ,fetchFavoriteProducts}
