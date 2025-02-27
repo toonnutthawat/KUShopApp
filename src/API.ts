@@ -100,6 +100,7 @@ export type Product = {
   likes: number,
   image: string,
   price: number,
+  status: ProductStatus,
   category: string,
   user: User,
   userID: string,
@@ -108,6 +109,12 @@ export type Product = {
   createdAt: string,
   updatedAt: string,
 };
+
+export enum ProductStatus {
+  AVAILABLE = "AVAILABLE",
+  SOLD = "SOLD",
+}
+
 
 export type ModelCommentConnection = {
   __typename: "ModelCommentConnection",
@@ -191,6 +198,7 @@ export type CreateProductInput = {
   likes: number,
   image: string,
   price: number,
+  status: ProductStatus,
   category: string,
   userID: string,
 };
@@ -201,6 +209,7 @@ export type ModelProductConditionInput = {
   likes?: ModelIntInput | null,
   image?: ModelStringInput | null,
   price?: ModelIntInput | null,
+  status?: ModelProductStatusInput | null,
   category?: ModelStringInput | null,
   userID?: ModelIDInput | null,
   and?: Array< ModelProductConditionInput | null > | null,
@@ -220,6 +229,11 @@ export type ModelIntInput = {
   between?: Array< number | null > | null,
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
+};
+
+export type ModelProductStatusInput = {
+  eq?: ProductStatus | null,
+  ne?: ProductStatus | null,
 };
 
 export type ModelIDInput = {
@@ -245,6 +259,7 @@ export type UpdateProductInput = {
   likes?: number | null,
   image?: string | null,
   price?: number | null,
+  status?: ProductStatus | null,
   category?: string | null,
   userID?: string | null,
 };
@@ -409,6 +424,7 @@ export type ModelProductFilterInput = {
   likes?: ModelIntInput | null,
   image?: ModelStringInput | null,
   price?: ModelIntInput | null,
+  status?: ModelProductStatusInput | null,
   category?: ModelStringInput | null,
   userID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
@@ -506,6 +522,7 @@ export type ModelSubscriptionProductFilterInput = {
   likes?: ModelSubscriptionIntInput | null,
   image?: ModelSubscriptionStringInput | null,
   price?: ModelSubscriptionIntInput | null,
+  status?: ModelSubscriptionStringInput | null,
   category?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
@@ -663,6 +680,7 @@ export type CreateProductMutation = {
     likes: number,
     image: string,
     price: number,
+    status: ProductStatus,
     category: string,
     user:  {
       __typename: "User",
@@ -701,6 +719,7 @@ export type UpdateProductMutation = {
     likes: number,
     image: string,
     price: number,
+    status: ProductStatus,
     category: string,
     user:  {
       __typename: "User",
@@ -739,6 +758,7 @@ export type DeleteProductMutation = {
     likes: number,
     image: string,
     price: number,
+    status: ProductStatus,
     category: string,
     user:  {
       __typename: "User",
@@ -781,6 +801,7 @@ export type CreateCommentMutation = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -811,6 +832,7 @@ export type UpdateCommentMutation = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -841,6 +863,7 @@ export type DeleteCommentMutation = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -871,6 +894,7 @@ export type CreateLikeStatusMutation = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -902,6 +926,7 @@ export type UpdateLikeStatusMutation = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -933,6 +958,7 @@ export type DeleteLikeStatusMutation = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -1230,6 +1256,7 @@ export type GetProductQuery = {
     likes: number,
     image: string,
     price: number,
+    status: ProductStatus,
     category: string,
     user:  {
       __typename: "User",
@@ -1271,6 +1298,7 @@ export type ListProductsQuery = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -1297,6 +1325,7 @@ export type GetCommentQuery = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -1348,6 +1377,7 @@ export type GetLikeStatusQuery = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -1509,6 +1539,7 @@ export type ProductsByUserIDQuery = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -1739,6 +1770,7 @@ export type OnCreateProductSubscription = {
     likes: number,
     image: string,
     price: number,
+    status: ProductStatus,
     category: string,
     user:  {
       __typename: "User",
@@ -1777,6 +1809,7 @@ export type OnUpdateProductSubscription = {
     likes: number,
     image: string,
     price: number,
+    status: ProductStatus,
     category: string,
     user:  {
       __typename: "User",
@@ -1815,6 +1848,7 @@ export type OnDeleteProductSubscription = {
     likes: number,
     image: string,
     price: number,
+    status: ProductStatus,
     category: string,
     user:  {
       __typename: "User",
@@ -1857,6 +1891,7 @@ export type OnCreateCommentSubscription = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -1887,6 +1922,7 @@ export type OnUpdateCommentSubscription = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -1917,6 +1953,7 @@ export type OnDeleteCommentSubscription = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -1947,6 +1984,7 @@ export type OnCreateLikeStatusSubscription = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -1978,6 +2016,7 @@ export type OnUpdateLikeStatusSubscription = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,
@@ -2009,6 +2048,7 @@ export type OnDeleteLikeStatusSubscription = {
       likes: number,
       image: string,
       price: number,
+      status: ProductStatus,
       category: string,
       userID: string,
       createdAt: string,

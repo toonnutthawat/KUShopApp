@@ -4,6 +4,11 @@ enum CreditStatus {
   ACCEPTED,
 }
 
+enum ProductStatus {
+  AVAILABLE,
+  SOLD
+}
+
 type User
   @model
   @auth(
@@ -38,6 +43,7 @@ type Product
   likes: Int!
   image: String!
   price: Int!
+  status: ProductStatus!
   category: String!
   user: User! @belongsTo(fields: ["userID"])
   userID: ID! @index(name: "byUser")

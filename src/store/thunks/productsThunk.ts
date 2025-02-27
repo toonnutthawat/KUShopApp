@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createProduct, deleteProduct } from "../../graphql/mutations";
 import { getCurrentUser } from "aws-amplify/auth";
 import { getUser, listProducts } from "../../graphql/queries";
-import { User } from "../../API";
+import { ProductStatus, User } from "../../API";
 import { ProductCategory } from "../../types/ProductCategory";
 
 const client = generateClient({authMode: "userPool"})
@@ -23,7 +23,8 @@ const addProduct = createAsyncThunk("addProduct", async ({ titlePost , contentPo
                 userID: user.username,
                 image: imgPath,
                 price: productPrice,
-                category: category
+                category: category,
+                status: ProductStatus.AVAILABLE
             }
         }
     })

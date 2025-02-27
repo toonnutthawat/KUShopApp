@@ -54,6 +54,7 @@ function PostPage() {
             let imageData = decode(fileBase64)
             await dispatch(uploadImgToS3({ filenamePath: filename, data: imageData }))
             setSelectedImg(null)
+            setErrorMessage("")
         } else {
             console.log("No image selected");
         }
@@ -168,7 +169,7 @@ function PostPage() {
                                     { backgroundColor: "#A9A9A9" } : 
                                     { backgroundColor: "#004c27" } // Disabled button style
                                 ]}
-                                disabled={!title || !content || !price || !selectedCategory || !selectedImg} // Disable button if any required field is null
+                                 // Disable button if any required field is null
                             >
                                 <Text style={{ color: 'white' }}>Post</Text>
                             </TouchableOpacity>
