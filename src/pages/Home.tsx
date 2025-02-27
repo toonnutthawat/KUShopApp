@@ -22,16 +22,17 @@ function Home() {
     const dispatch = useAppDispatch()
     const [selectedCategory, setSelectedCategory] = useState("");
     const allProducts = useAppSelector(state => state.products.allProducts.data || [])
-
+    const [loading, setLoading] = useState(false);
     if(!allProducts) return;
     const filteredMyProducts = allProducts.filter((post) => post.title.toLowerCase().includes(term.toLowerCase()))
-
+    
     useEffect(() => {
         const fetch = async () => {
             await dispatch(fetchAllProducts({category: null}))
             console.log("fetchAllProducts");
         }
         fetch()
+        
     }, []);
 
     useEffect(() => {
@@ -67,7 +68,7 @@ function Home() {
                     placeholderTextColor="#555"
                 />
 
-                <ScrollView  contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', marginLeft: 7, gap: 3}} className="w-full flex-grow" showsVerticalScrollIndicator={false}>
+                <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', justifyContent : 'center', gap: hp(1) }} showsVerticalScrollIndicator={false}>
                     <ProductCategoryTab onSelectCategory={handleCategorySelect}></ProductCategoryTab>
 
                     {filteredMyProducts.map((product, index) => (
