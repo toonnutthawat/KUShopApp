@@ -16,6 +16,7 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser(
     id
     email
     profile
+    phone
     credit
     products {
       nextToken
@@ -46,6 +47,7 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser(
     id
     email
     profile
+    phone
     credit
     products {
       nextToken
@@ -76,6 +78,7 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser(
     id
     email
     profile
+    phone
     credit
     products {
       nextToken
@@ -115,6 +118,7 @@ export const onCreateProduct = /* GraphQL */ `subscription OnCreateProduct(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -155,6 +159,7 @@ export const onUpdateProduct = /* GraphQL */ `subscription OnUpdateProduct(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -195,6 +200,7 @@ export const onDeleteProduct = /* GraphQL */ `subscription OnDeleteProduct(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -428,6 +434,7 @@ export const onCreateChat = /* GraphQL */ `subscription OnCreateChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -438,6 +445,7 @@ export const onCreateChat = /* GraphQL */ `subscription OnCreateChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -468,6 +476,7 @@ export const onUpdateChat = /* GraphQL */ `subscription OnUpdateChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -478,6 +487,7 @@ export const onUpdateChat = /* GraphQL */ `subscription OnUpdateChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -508,6 +518,7 @@ export const onDeleteChat = /* GraphQL */ `subscription OnDeleteChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -518,6 +529,7 @@ export const onDeleteChat = /* GraphQL */ `subscription OnDeleteChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt

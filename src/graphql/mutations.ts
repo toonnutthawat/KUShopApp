@@ -16,6 +16,7 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
     id
     email
     profile
+    phone
     credit
     products {
       nextToken
@@ -46,6 +47,7 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
     id
     email
     profile
+    phone
     credit
     products {
       nextToken
@@ -85,6 +87,7 @@ export const createProduct = /* GraphQL */ `mutation CreateProduct(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -125,6 +128,7 @@ export const updateProduct = /* GraphQL */ `mutation UpdateProduct(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -165,6 +169,7 @@ export const deleteProduct = /* GraphQL */ `mutation DeleteProduct(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -397,6 +402,7 @@ export const createChat = /* GraphQL */ `mutation CreateChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -407,6 +413,7 @@ export const createChat = /* GraphQL */ `mutation CreateChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -436,6 +443,7 @@ export const updateChat = /* GraphQL */ `mutation UpdateChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -446,6 +454,7 @@ export const updateChat = /* GraphQL */ `mutation UpdateChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -475,6 +484,7 @@ export const deleteChat = /* GraphQL */ `mutation DeleteChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -485,6 +495,7 @@ export const deleteChat = /* GraphQL */ `mutation DeleteChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -589,6 +600,7 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
     id
     email
     profile
+    phone
     credit
     products {
       nextToken

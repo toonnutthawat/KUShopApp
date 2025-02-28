@@ -10,7 +10,7 @@ import Home from "./src/pages/Home";
 import { store } from "./src/store/index.ts";
 import { Provider } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import ProfilePage from "./src/pages/ProfilePage";
+import ProfilePage from "./src/pages/profile/ProfilePage";
 import Icon from "react-native-vector-icons/Ionicons";
 import PostPage from "./src/pages/products/PostPage";
 import MyPosts from "./src/pages/products/MyProducts";

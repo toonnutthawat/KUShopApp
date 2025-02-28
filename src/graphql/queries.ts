@@ -13,6 +13,7 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
     id
     email
     profile
+    phone
     credit
     products {
       nextToken
@@ -42,6 +43,7 @@ export const listUsers = /* GraphQL */ `query ListUsers(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -66,6 +68,7 @@ export const getProduct = /* GraphQL */ `query GetProduct($id: ID!) {
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -234,6 +237,7 @@ export const getChat = /* GraphQL */ `query GetChat($id: ID!) {
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -244,6 +248,7 @@ export const getChat = /* GraphQL */ `query GetChat($id: ID!) {
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt

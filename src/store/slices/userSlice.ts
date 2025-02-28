@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../API";
-import { addUser, changeCreditStatus, editImgUser, fetchMyUser, fetchPendingStatusUsers } from "../thunks/userThunk";
+import { addUser, changeCreditStatus, changePhoneNumber, editImgUser, fetchMyUser, fetchPendingStatusUsers } from "../thunks/userThunk";
 
 const userSlice = createSlice({
     name: "user",
@@ -33,6 +33,11 @@ const userSlice = createSlice({
         builder.addCase(changeCreditStatus.fulfilled, (state,action) => {
             if(state.myUser){
                 state.myUser.credit = action.payload.credit
+            }
+        })
+        builder.addCase(changePhoneNumber.fulfilled, (state,action) => {
+            if(state.myUser){
+                state.myUser.phone = action.payload.phone
             }
         })
         builder.addCase(fetchPendingStatusUsers.fulfilled, (state,action) => {

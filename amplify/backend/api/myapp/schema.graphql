@@ -22,6 +22,7 @@ type User
   id: ID!
   email: String!
   profile: String
+  phone: String
   credit: CreditStatus!
   products: [Product] @hasMany(indexName: "byUser", fields: ["id"])
   chats: [Chat] @hasMany(indexName: "byUser", fields: ["id"])

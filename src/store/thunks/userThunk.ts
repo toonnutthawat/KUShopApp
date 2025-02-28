@@ -78,6 +78,28 @@ const changeCreditStatus = createAsyncThunk("changeCreditStatus" , async ({userI
   return response.data.updateUser
 })
 
+const changePhoneNumber = createAsyncThunk("changePhoneNumber" , async ({phoneNumber} : {phoneNumber: string}) => {
+  try{
+  const user = await getCurrentUser()
+  const response = await privateClient.graphql({
+    query: updateUser,
+    variables: {
+      input: {
+        id: user.username,
+        phone: phoneNumber
+      }
+    }
+  })
+  console.log(response);
+  
+  return response.data.updateUser
+}
+catch(e){
+  console.log((e as Error).message);
+  
+}
+})
+
 const fetchPendingStatusUsers = createAsyncThunk("fetchPendingStatusUsers" , async () => {
   const response = await privateClient.graphql({
     query: listUsers,
@@ -92,4 +114,4 @@ const fetchPendingStatusUsers = createAsyncThunk("fetchPendingStatusUsers" , asy
   return response.data.listUsers.items
 })
 
-export { addUser, fetchMyUser , editImgUser , changeCreditStatus, fetchPendingStatusUsers };
+export { addUser, fetchMyUser , editImgUser , changeCreditStatus, fetchPendingStatusUsers , changePhoneNumber};
