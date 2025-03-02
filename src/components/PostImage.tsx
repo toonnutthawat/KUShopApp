@@ -60,7 +60,7 @@ interface PostImageProps {
     return(
         <View>
             {(src && (src !== null) )? 
-            <Image style={[styles.ImageStyles, style]} source={{uri: dowloadedImg}} ></Image>
+                <Image style={[styles.ImageStyles, style]} source={{uri: dowloadedImg}} className="self-center"></Image>
  
                 :
 

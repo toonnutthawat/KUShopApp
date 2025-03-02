@@ -23,6 +23,10 @@ function SignUpPage() {
     const navigation = useNavigation();
 
     const handleSignUp = async () => {
+        if (!email.endsWith("@ku.th")) {
+            setErrorMessage("Email must end with @ku.th");
+            return;
+        }
         try {
             const { nextStep } = await signUp({
                 username: username,

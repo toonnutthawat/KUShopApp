@@ -13,6 +13,7 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
     id
     email
     profile
+    phone
     credit
     products {
       nextToken
@@ -42,6 +43,7 @@ export const listUsers = /* GraphQL */ `query ListUsers(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -60,11 +62,13 @@ export const getProduct = /* GraphQL */ `query GetProduct($id: ID!) {
     likes
     image
     price
+    status
     category
     user {
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -101,6 +105,7 @@ export const listProducts = /* GraphQL */ `query ListProducts(
       likes
       image
       price
+      status
       category
       userID
       createdAt
@@ -126,6 +131,7 @@ export const getComment = /* GraphQL */ `query GetComment($id: ID!) {
       likes
       image
       price
+      status
       category
       userID
       createdAt
@@ -177,6 +183,7 @@ export const getLikeStatus = /* GraphQL */ `query GetLikeStatus($id: ID!) {
       likes
       image
       price
+      status
       category
       userID
       createdAt
@@ -230,6 +237,7 @@ export const getChat = /* GraphQL */ `query GetChat($id: ID!) {
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -240,6 +248,7 @@ export const getChat = /* GraphQL */ `query GetChat($id: ID!) {
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -340,6 +349,7 @@ export const productsByUserID = /* GraphQL */ `query ProductsByUserID(
       likes
       image
       price
+      status
       category
       userID
       createdAt

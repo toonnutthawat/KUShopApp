@@ -49,12 +49,17 @@ function Home() {
         setSelectedCategory(category);
     };
 
+    const backToAllProduct = async () => {
+        await dispatch(fetchAllProducts({category: null}))
+        setSelectedCategory(null)
+    }
+
     return (
         <StyledContainer>
             <StyledHomeBox>
                 {
                     selectedCategory && (
-                        <Pressable  className="absolute left-4 top-4" onPress={() => dispatch(fetchAllProducts({category: null}))}>
+                        <Pressable  className="absolute left-4 top-4" onPress={backToAllProduct}>
                             <Icon name = "arrowLeft" strokeWidth= {2.5} color = {theme.colors.text}></Icon>
                         </Pressable>
                     )
@@ -68,11 +73,11 @@ function Home() {
                     placeholderTextColor="#555"
                 />
 
-                <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', justifyContent : 'center', gap: hp(1) }} showsVerticalScrollIndicator={false}>
-                    <ProductCategoryTab onSelectCategory={handleCategorySelect}></ProductCategoryTab>
+                <ScrollView  contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1),justifyContent: 'center'}} className="w-full flex-grow" showsVerticalScrollIndicator={false}>
 
+                    <ProductCategoryTab onSelectCategory={handleCategorySelect}></ProductCategoryTab>
                     {filteredMyProducts.map((product, index) => (
-                        <View key={index} style={{ width: hp(20), height: wp(55), marginBottom: hp(3.3)}}>
+                        <View key={index} style={{ width: hp(20), height: wp(55), marginBottom: hp(5)}}>
                             <ProductReusable key={index} product={product} />
                         </View>
                     ))}

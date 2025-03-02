@@ -2,17 +2,18 @@ import React, { useEffect } from 'react';
 import { Text, View, Image, StyleSheet, Pressable, TouchableOpacity, TextStyle } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import ProfileImage from './ProfileImage';
-import {  Product } from '../API';
+import {  Product, ProductStatus } from '../API';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAppDispatch } from '../hook';
-import { fetchAllProducts , removeProduct } from '../store/thunks/productsThunk';
+import { changeToSoldProductStatus, fetchAllProducts , removeProduct } from '../store/thunks/productsThunk';
 import PostImage from './PostImage';
 import { fetchedImageFromS3 } from './s3Utils';
 import { theme } from '../constants/theme';
 import { hp, wp } from '../helpers/common';
 import Icon from '../../assets/icons';
-import { format } from 'date-fns'
+import { format } from 'date-fns';
+
 // Define the navigation stack types
 type RootStackParamList = {
     ProductDetail: { product: Product };
@@ -29,6 +30,11 @@ const ProductReusable = ({ product, isMyPosts, className }: { product: Product, 
 
     const removeProductByID = async () => {
         await dispatch(removeProduct(product.id))
+        await dispatch(fetchAllProducts(null))
+    }
+
+    const changeProductStatus = async () => {
+        await dispatch(changeToSoldProductStatus(product.id))
         await dispatch(fetchAllProducts(null))
     }
     const createAt = format(new Date(product.createdAt), 'MMM dd');
@@ -56,23 +62,42 @@ const ProductReusable = ({ product, isMyPosts, className }: { product: Product, 
                         <Text style = {styles.postTime}>{createAt}</Text>
                     </View>
                 </View>
+                { isMyPosts && 
+                <>
+                <TouchableOpacity className="absolute top-0 right-2 bg-red-500 rounded-full w-10 h-10 flex items-center justify-center" onPress={removeProductByID}>
+                     <Text className="text-white text-xs">X</Text>
+                </TouchableOpacity>
+                </>
+                }   
             </View>
 
             <View style = {styles.content}>
                 <View style = {styles.postBody}>
                     <Text style = {styles.titleText} numberOfLines={1}>{product.title}</Text>
                 </View>
-
-                <PostImage size={25} src={product.image} />
+                <View className='flex justify-center'>
+                {
+                     (product.status === ProductStatus.SOLD) && (
+                        <View className='absolute z-10 bg-slate-400 opacity-75 
+                        flex items-center justify-center rounded-lg' style={{width: '100%', height: '100%'}}>
+                            <Text className='text-white'>Out of Stock</Text>
+                        </View>
+                     )
+                    }
+                    <PostImage size={25} src={product.image}/>
+                </View>
                     <View className='mt-1'>
                             <Text style = {styles.priceText}>฿ {product.price}</Text>
                     </View>
+            </View>
+            <View>
 
-                { isMyPosts && 
-                <TouchableOpacity className="absolute top-2 right-2 bg-red-500 rounded-full w-10 h-10 flex items-center justify-center" onPress={removeProductByID}>
-                     <Text className="text-white text-xs">X</Text>
+                { (isMyPosts && (product.status === ProductStatus.AVAILABLE)) && 
+
+            <TouchableOpacity className='bg-blue-500 p-2 flex items-center rounded-lg' style={{width: 80}} onPress={changeProductStatus}>
+                    <Text className='text-white'>Sold</Text>
                 </TouchableOpacity>
-                }   
+                }
             </View>
             
     

@@ -16,6 +16,7 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
     id
     email
     profile
+    phone
     credit
     products {
       nextToken
@@ -46,6 +47,7 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
     id
     email
     profile
+    phone
     credit
     products {
       nextToken
@@ -79,11 +81,13 @@ export const createProduct = /* GraphQL */ `mutation CreateProduct(
     likes
     image
     price
+    status
     category
     user {
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -118,11 +122,13 @@ export const updateProduct = /* GraphQL */ `mutation UpdateProduct(
     likes
     image
     price
+    status
     category
     user {
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -157,11 +163,13 @@ export const deleteProduct = /* GraphQL */ `mutation DeleteProduct(
     likes
     image
     price
+    status
     category
     user {
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -199,6 +207,7 @@ export const createComment = /* GraphQL */ `mutation CreateComment(
       likes
       image
       price
+      status
       category
       userID
       createdAt
@@ -230,6 +239,7 @@ export const updateComment = /* GraphQL */ `mutation UpdateComment(
       likes
       image
       price
+      status
       category
       userID
       createdAt
@@ -261,6 +271,7 @@ export const deleteComment = /* GraphQL */ `mutation DeleteComment(
       likes
       image
       price
+      status
       category
       userID
       createdAt
@@ -292,6 +303,7 @@ export const createLikeStatus = /* GraphQL */ `mutation CreateLikeStatus(
       likes
       image
       price
+      status
       category
       userID
       createdAt
@@ -324,6 +336,7 @@ export const updateLikeStatus = /* GraphQL */ `mutation UpdateLikeStatus(
       likes
       image
       price
+      status
       category
       userID
       createdAt
@@ -356,6 +369,7 @@ export const deleteLikeStatus = /* GraphQL */ `mutation DeleteLikeStatus(
       likes
       image
       price
+      status
       category
       userID
       createdAt
@@ -388,6 +402,7 @@ export const createChat = /* GraphQL */ `mutation CreateChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -398,6 +413,7 @@ export const createChat = /* GraphQL */ `mutation CreateChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -427,6 +443,7 @@ export const updateChat = /* GraphQL */ `mutation UpdateChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -437,6 +454,7 @@ export const updateChat = /* GraphQL */ `mutation UpdateChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -466,6 +484,7 @@ export const deleteChat = /* GraphQL */ `mutation DeleteChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -476,6 +495,7 @@ export const deleteChat = /* GraphQL */ `mutation DeleteChat(
       id
       email
       profile
+      phone
       credit
       createdAt
       updatedAt
@@ -580,6 +600,7 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
     id
     email
     profile
+    phone
     credit
     products {
       nextToken

@@ -1,27 +1,32 @@
-import { Text, View, StyleSheet, Button, Image, TouchableOpacity, TextStyle } from "react-native";
-import { useAppDispatch, useAppSelector } from "../hook";
+import { Text, View, StyleSheet, Button, Image, TouchableOpacity, TextStyle, Pressable } from "react-native";
+import { useAppDispatch, useAppSelector } from "../../hook";
 import { useEffect, useState } from "react";
-import { editImgUser, fetchMyUser } from "../store/thunks/userThunk";
-import ProfileImage from "../components/ProfileImage";
+import { editImgUser, fetchMyUser } from "../../store/thunks/userThunk";
+import ProfileImage from "../../components/ProfileImage";
 import * as ImagePicker from 'expo-image-picker'
 import * as FileSystem from 'expo-file-system'
-import { StyledContainer, StyledHomeBox } from "../components/StyleContainer";
+import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 import { useNavigation } from "@react-navigation/native";
 import { signOut } from "aws-amplify/auth";
 import { fetchUserAttributes } from 'aws-amplify/auth'
 import { decode } from 'base64-arraybuffer'
-import { uploadImgToS3 } from "../store/thunks/imageThunk";
+import { uploadImgToS3 } from "../../store/thunks/imageThunk";
 import Entypo from '@expo/vector-icons/Entypo';
-import { pickImage } from "../components/pickImage";
-import { hp } from "../helpers/common";
-import { theme } from "../constants/theme";
-import Icon from "../../assets/icons";
-import Header from "../components/Header";
+import { pickImage } from "../../components/pickImage";
+import { hp } from "../../helpers/common";
+import { theme } from "../../constants/theme";
+import Icon from "../../../assets/icons";
+import Header from "../../components/Header";
+import { fetchFavoriteProducts } from "../../store/thunks/productsThunk";
+import Feather from '@expo/vector-icons/Feather';
+import EditPhoneNumber from "./EditPhoneNumber";
 
 const imgDir = FileSystem.documentDirectory + 'images/'
 
 function ProfilePage() {
     const userInfo = useAppSelector(state => state.users.myUser)
+    console.log(userInfo);
+    
     const [images, setImages] = useState<string[]>()
     const dispatch = useAppDispatch()
     const [editImg, setEditImg] = useState(false)
@@ -30,8 +35,7 @@ function ProfilePage() {
     const [dowloadedImg, setDowloadedImg] = useState("")
     const [isAdmin, setIsAdmin] = useState(false)
     const navigation = useNavigation()
-    //console.log("selectedImage: ", selectedImage);
-
+    const [editPhone, setEditPhone] = useState(false)
 
     useEffect(() => {
         const fetch = async () => {
@@ -82,28 +86,41 @@ function ProfilePage() {
         navigation.navigate("Login" as never);
     }
 
-    function cancelEditImg(){
+    function cancelEditImg() {
         setEditImg(false)
         setSelectedImage(null)
     }
 
+    function onEditPhone() {
+        setEditPhone(false)
+    }
+
     return (
         <StyledContainer>
-            <Header title = "Profile"showBackButton={false}></Header>
+            <Header title="Profile" showBackButton={false}></Header>
+            {editPhone &&
+                <Pressable className="absolute left-4 top-4" onPress={() => setEditPhone(false)}>
+                    <Icon name="arrowLeft" strokeWidth={2.5} color={theme.colors.text}></Icon>
+                </Pressable>
+            }
             <StyledHomeBox>
                 {
-                    (editImg && selectedImage) ? <Image source={{ uri: selectedImage.uri }} style={styles.profile}></Image> : 
-                    
-                        <ProfileImage size={100} src={userInfo.profile}></ProfileImage>
+                    (editImg && selectedImage) ? (
+                        <Image source={{ uri: selectedImage.uri }} style={styles.profile} />
+                    ) : userInfo.profile ? (
+                        <ProfileImage size={100} src={userInfo.profile} />
+                    ) : (
+                        <ProfileImage size={100} />
+                    )
                 }
 
-                        <TouchableOpacity onPress={selectImage} className="absolute" style={{top: 90, left: 220}}>
-                            <View className="rounded-full p-2" style={{backgroundColor: "#004c27"}}>
-                                <Entypo name="camera" size={20} color="white"/>
-                            </View>
-                        </TouchableOpacity>
-                    
-    
+                <TouchableOpacity onPress={selectImage} className="absolute" style={{ top: 90, left: 220 }}>
+                    <View className="rounded-full p-2" style={{ backgroundColor: "#004c27" }}>
+                        <Entypo name="camera" size={20} color="white" />
+                    </View>
+                </TouchableOpacity>
+
+
                 {
                     selectedImage && (
                         <View className="flex flex-row mt-4">
@@ -112,62 +129,60 @@ function ProfilePage() {
                         </View>
                     )
                 }
-                {
-                    userInfo && (
-                        <View style={{ marginTop: 20 }}>
-                            <Text>
-                                username : {userInfo.id}
-                            </Text>
-                            <Text>
-                                email : {userInfo.email}
-                            </Text>
-                        </View>
-                    )
-                }
-                <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => navigation.navigate("MyProducts" as never)}
-                    style={ styles.myPostStyles}
-                >
-                    <Text style={styles.myPosttext}>MyProducts</Text>
-                </TouchableOpacity>
-                {
-                    isAdmin && (
+
+                {!editPhone ? (
+                    <>
+                        {userInfo && (
+                            <View style={{ marginTop: 20 }}>
+                                <Text>username : {userInfo.id}</Text>
+                                <Text>email : {userInfo.email}</Text>
+                                <View className="flex flex-row">
+                                    <Text>phone number : {userInfo.phone}</Text>
+                                    <Pressable onPress={() => setEditPhone(true)} className="ml-2">
+                                        <Feather name="edit" size={20} color="black" />
+                                    </Pressable>
+                                </View>
+                            </View>
+                        )}
+
                         <TouchableOpacity
                             activeOpacity={0.8}
-                            onPress={() => navigation.navigate("ManageStatusRequest" as never)}
-                            style={{
-                                backgroundColor: "#004c27",
-                                padding: 4,
-                                alignItems: 'center',
-                                borderRadius: 10,
-                                width: 200,
-                                marginTop: 20
-                            }}
+                            onPress={() => navigation.navigate("MyProducts" as never)}
+                            style={styles.myPostStyles}
                         >
-                            <Text style={{ color: 'white' }}>Manage Status Request</Text>
+                            <Text style={styles.myPosttext}>MyProducts</Text>
                         </TouchableOpacity>
-                    )
-                }
-                {/* <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={handleSignOut}
-                    style={{
-                        backgroundColor: "red",
-                        padding: 4,
-                        alignItems: 'center',
-                        borderRadius: 10,
-                        width: 200,
-                        marginTop: 20
-                    }}
-                >
-                    <Text style={{ color: 'white' }}>sign out</Text>
-                </TouchableOpacity> */}
 
-                <TouchableOpacity style = {styles.logoutButton} onPress={handleSignOut}>
-                    <Icon name = "logout" color = {theme.colors.rose}/>
-                </TouchableOpacity>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={() => navigation.navigate("MyFavoriteProducts" as never)}
+                            style={styles.myPostStyles}
+                        >
+                            <Text style={styles.myPosttext}>Favorite Products</Text>
+                        </TouchableOpacity>
 
+                        {isAdmin && (
+                            <TouchableOpacity
+                                activeOpacity={0.8}
+                                onPress={() => navigation.navigate("ManageStatusRequest" as never)}
+                                style={{
+                                    backgroundColor: "#004c27",
+                                    padding: 4,
+                                    alignItems: "center",
+                                    borderRadius: 10,
+                                    width: 200,
+                                    marginTop: 20,
+                                }}
+                            >
+                                <Text style={{ color: "white" }}>Manage Status Request</Text>
+                            </TouchableOpacity>
+                        )}
+
+                        <TouchableOpacity style={styles.logoutButton} onPress={handleSignOut}>
+                            <Icon name="logout" color={theme.colors.rose} />
+                        </TouchableOpacity>
+                    </>
+                ) : <EditPhoneNumber handleEditPhone={onEditPhone}></EditPhoneNumber>}
             </StyledHomeBox>
         </StyledContainer>
     )
@@ -180,8 +195,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-start", // Aligns content at the top
     },
-    logoutButton:{
-        padding:5,
+    logoutButton: {
+        padding: 5,
         borderRadius: theme.radius.sm,
         backgroundColor: '#fee2e2',
         marginTop: 30
