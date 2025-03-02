@@ -58,11 +58,11 @@ function AllChats(){
     })
     return(
         <StyledContainer>
-            <StyledHomeBox>
-                <View style={{position: 'relative'}}>
+            
+                <View style={styles.chatsContainer}>
                     {renderedAllChats}
                 </View>
-            </StyledHomeBox>
+            
         </StyledContainer>
     )
 }
@@ -70,13 +70,8 @@ function AllChats(){
 const styles = StyleSheet.create({
     chatsContainer : {
         display: 'flex',
-        flexDirection: 'row', 
-        backgroundColor:'white',
-        padding: 20,
-        width: 300,
         borderRadius: 10,
         alignItems: "center",
-        marginTop: 10
     }
 })
 

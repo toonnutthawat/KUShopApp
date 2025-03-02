@@ -26,6 +26,7 @@ import AddProduct from "./src/pages/shop/AddProduct";
 import ManageRequest from "./src/pages/Admin/ManageRequest";
 import ProductDetail from "./src/pages/products/ProductDetail";
 import MyProducts from "./src/pages/products/MyProducts";
+// import ChatTestPage from "./src/pages/products/ChatTestPage";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -124,15 +125,15 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Test" component={TestPage} />
-          <Stack.Screen name="MyProducts" component={MyProducts} />
-          <Stack.Screen name="Home"component={BottomTabs} options={{ headerShown: false }}/>
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="SignUp" component={SignUpPage} />
-          <Stack.Screen name="Welcome" component={WelcomePage} />
-          <Stack.Screen name="ConfirmSignUp" component={ConfirmSignUpPage} />
-        </Stack.Navigator>
+          <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Test" component={TestPage} />
+            <Stack.Screen name="MyProducts" component={MyProducts} />
+            <Stack.Screen name="Home"component={BottomTabs} options={{ headerShown: false }}/>
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="SignUp" component={SignUpPage} />
+            <Stack.Screen name="Welcome" component={WelcomePage} />
+            <Stack.Screen name="ConfirmSignUp" component={ConfirmSignUpPage} />
+          </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   );

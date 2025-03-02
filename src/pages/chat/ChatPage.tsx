@@ -24,6 +24,7 @@ import { theme } from "../../constants/theme";
 import { Ionicons, Entypo } from "@expo/vector-icons";
 import { Platform } from "react-native";
 import Icon from "../../../assets/icons";
+import Button from "../../components/Button";
 
 function ChatPage({ route }) {
     const { chat }: { chat: Chat } = route.params
@@ -167,7 +168,20 @@ function ChatPage({ route }) {
                             </View>
                     
                             <View style={styles.chatInputContainer}>
-                                    {!selectedImg ? (
+                                    {selectedImg ? (
+                                        <>
+                                            <Image 
+                                                source={{ uri: selectedImg.uri }} 
+                                                style={{ width: 200, height: 100, borderRadius: 10 }} 
+                                            />
+                                            <TouchableOpacity onPress={() => setSelectedImg(null)} style={styles.removeButton}>
+                                                    <Icon name="delete" size={33} color="red" />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity onPress={sentMessage} style={styles.sendButtonforImage}>
+                                                <Icon name="send" size={24} color={theme.colors.kuColor} />
+                                            </TouchableOpacity>
+                                        </>
+                                    ) : (
                                         <>
                                             <TextInput
                                                 style={styles.chatInput}
@@ -177,17 +191,12 @@ function ChatPage({ route }) {
                                                 onChangeText={(value) => setNewMessage(value)}
                                                 onPress={handleButtonPress}
                                             />
-                                            {newMessage.trim().length > 0 && (
+                                            {(newMessage.trim().length > 0 || selectedImg) && (
                                                 <TouchableOpacity onPress={sentMessage} style={styles.sendButton}>
                                                     <Icon name="send" size={15} color={theme.colors.kuColor} />
                                                 </TouchableOpacity>
                                             )}
                                         </>
-                                    ) : (
-                                        <Image 
-                                            source={{ uri: selectedImg.uri }} 
-                                            style={{ width: 200, height: 100, borderRadius: 10 }} 
-                                        />
                                     )}
                             </View>
 
@@ -278,7 +287,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         borderRadius: 10,
         width: 200
-
     },
     button: {
         backgroundColor: '#004c27',
@@ -335,6 +343,17 @@ const styles = StyleSheet.create({
         padding: 6,
         borderRadius: 15,
     },
+    sendButtonforImage:{
+        marginLeft:'auto',
+        backgroundColor: "#007AFF",
+        padding: 10,
+        borderRadius: 15,
+    },
+    removeButton: {
+        marginLeft:"auto",
+        borderRadius: 10,
+        padding: 5,
+    }
 });
 
 export default ChatPage;
