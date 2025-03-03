@@ -62,46 +62,47 @@ function EditPhoneNumber({handleEditPhone}){
             setOtpSent(true);
         } else if (nextStep.updateAttributeStep === 'DONE') {
             console.log("Phone number was successfully updated.");
-            handleSendUserAttributeVerificationCode("phone_number")
-            setPhoneVerified(true);
-            //handleEditPhone()
-        }
-    }
-
-    async function handleSendUserAttributeVerificationCode(
-        key: VerifiableUserAttributeKey
-      ) {
-        try {
-          await sendUserAttributeVerificationCode({
-            userAttributeKey: key
-          });
-          setOtpSent(true);
-          console.log("sent success");
-
-        } catch (error) {
-          console.log(error);
-        }
-      }
-
-    async function handleConfirmOtp() {
-        try {
-            await confirmUserAttribute({
-                userAttributeKey: "phone_number",
-                confirmationCode: otp,
-            });
-            alert("Phone number verified successfully!");
             await dispatch(changePhoneNumber({phoneNumber: phone}))
             await dispatch(fetchMyUser())
+            //handleSendUserAttributeVerificationCode("phone_number")
+            setPhoneVerified(true);
             handleEditPhone()
-        } catch (error) {
-            console.log(error);
-            setErrorMessage("Invalid OTP. Please try again.");
         }
     }
+
+    // async function handleSendUserAttributeVerificationCode(
+    //     key: VerifiableUserAttributeKey
+    //   ) {
+    //     try {
+    //       await sendUserAttributeVerificationCode({
+    //         userAttributeKey: key
+    //       });
+    //       setOtpSent(true);
+    //       console.log("sent success");
+
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   }
+
+    // async function handleConfirmOtp() {
+    //     try {
+    //         await confirmUserAttribute({
+    //             userAttributeKey: "phone_number",
+    //             confirmationCode: otp,
+    //         });
+    //         alert("Phone number verified successfully!");
+    //         await dispatch(changePhoneNumber({phoneNumber: phone}))
+    //         await dispatch(fetchMyUser())
+    //         handleEditPhone()
+    //     } catch (error) {
+    //         console.log(error);
+    //         setErrorMessage("Invalid OTP. Please try again.");
+    //     }
+    // }
 
     return(
         <View className="mt-4">
-            { !phoneVerified ? (
             <View>
                 <View>
                     <Text>phone number</Text>
@@ -126,40 +127,10 @@ function EditPhoneNumber({handleEditPhone}){
                         marginTop: 10
                     }}
                 >
-                        <Text style={{ color: "white", fontWeight: "bold" }}>Request for verification code</Text>
+                        <Text style={{ color: "white", fontWeight: "bold" }}>Confirm</Text>
                     </TouchableOpacity>
-                </View>)
-            :
-            <View>
-                {otpSent && (
-                        <View>
-                            <Text>Enter OTP</Text>
-                            <TextInput
-                                className="bg-white rounded-lg"
-                                style={{ width: hp(30) }}
-                                value={otp}
-                                onChangeText={(value) => setOtp(value)}
-                                placeholder="Enter OTP"
-                                keyboardType="number-pad"
-                            />
-                            <TouchableOpacity
-                                onPress={handleConfirmOtp}
-                                style={{
-                                    backgroundColor: "#004c27",
-                                    padding: 10,
-                                    borderRadius: 8,
-                                    alignItems: "center",
-                                    marginTop: 10
-                                }}
-                            >
-                                <Text style={{ color: "white", fontWeight: "bold" }}>
-                                    Verify OTP
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
-            </View>
-            }
+                </View>
+            
         </View>
     )
 }
