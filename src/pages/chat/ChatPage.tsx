@@ -21,6 +21,8 @@ import MessageImage from "../../components/MessageImage";
 
 function ChatPage({ route }) {
     const { chat }: { chat: Chat } = route.params
+    console.log("chat :", chat);
+    
     const messages = useAppSelector(state => state.messages.data || [])
     const [newMessage, setNewMessage] = useState("")
     const sortedMessages = [...messages].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
