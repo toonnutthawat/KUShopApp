@@ -62,11 +62,9 @@ function EditPhoneNumber({handleEditPhone}){
             setOtpSent(true);
         } else if (nextStep.updateAttributeStep === 'DONE') {
             console.log("Phone number was successfully updated.");
-           // handleSendUserAttributeVerificationCode("phone_number")
-            await dispatch(changePhoneNumber({phoneNumber: phone}))
-            await dispatch(fetchMyUser())
+            handleSendUserAttributeVerificationCode("phone_number")
             setPhoneVerified(true);
-            handleEditPhone()
+            //handleEditPhone()
         }
     }
 
@@ -77,6 +75,9 @@ function EditPhoneNumber({handleEditPhone}){
           await sendUserAttributeVerificationCode({
             userAttributeKey: key
           });
+          setOtpSent(true);
+          console.log("sent success");
+
         } catch (error) {
           console.log(error);
         }
@@ -89,7 +90,9 @@ function EditPhoneNumber({handleEditPhone}){
                 confirmationCode: otp,
             });
             alert("Phone number verified successfully!");
-            setPhoneVerified(true);
+            await dispatch(changePhoneNumber({phoneNumber: phone}))
+            await dispatch(fetchMyUser())
+            handleEditPhone()
         } catch (error) {
             console.log(error);
             setErrorMessage("Invalid OTP. Please try again.");
