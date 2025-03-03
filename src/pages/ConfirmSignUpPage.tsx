@@ -6,6 +6,8 @@ import KuShopTitle from "../components/KuShopTitle";
 import { useAppDispatch } from "../hook";
 import { addUser } from "../store/thunks/userThunk";
 import { StyledContainer, StyledHomeBox } from "../components/StyleContainer";
+import Header from "../components/Header";
+import { hp, wp } from "../helpers/common";
 
 function ConfirmSignUpPage({ username , email}: { username: string , email: string}) {
     const [otp, setOtp] = useState("");
@@ -31,31 +33,31 @@ function ConfirmSignUpPage({ username , email}: { username: string , email: stri
 
     return (
         <StyledContainer>
-            <StyledHomeBox>
+            <Header title="ยืนยัน OTP" showBackButton={false}></Header>
             <View style={styles.container}>
-            <KuShopTitle title="Confirm Sign Up" />
-            <View style={styles.card}>            
-                <TextInput
-                    placeholder="Enter OTP"
-                    value={otp}
-                    onChangeText={(value) => setOtp(value)}
-                    style={styles.input}
-                />
-            </View>
-            {errorMessage && (
-                <View style={styles.errorContainer}>
-                    <Text style={styles.errorText}>{errorMessage}</Text>
+                <KuShopTitle title="" />
+                <View style={styles.card}>            
+                    <TextInput
+                        placeholder="กรอกรหัสยืนยัน OTP"
+                        value={otp}
+                        onChangeText={(value) => setOtp(value)}
+                        style={styles.input}
+                    />
                 </View>
-            )}
-            <TouchableOpacity
-                style={[styles.button, otp === "" && styles.disabledButton]}
-                disabled={otp === ""}
-                onPress={handleConfirmSignUp}
-            >
-                <Text style={styles.buttonText}>Confirm Sign Up</Text>
-            </TouchableOpacity>
+                {errorMessage && (
+                    <View style={styles.errorContainer}>
+                        <Text style={styles.errorText}>{errorMessage}</Text>
+                    </View>
+                )}
+                <TouchableOpacity
+                    style={[styles.button, otp === "" && styles.disabledButton]}
+                    disabled={otp === ""}
+                    onPress={handleConfirmSignUp}
+                >
+                    <Text style={styles.buttonText}>ยืนยัน OTP</Text>
+                </TouchableOpacity>
         </View>
-            </StyledHomeBox>
+            
         </StyledContainer>
         
     );
@@ -63,14 +65,13 @@ function ConfirmSignUpPage({ username , email}: { username: string , email: stri
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 20,
+        flex:1,
+        paddingHorizontal:wp(5),
+        alignItems:'center'
     },
     card: {
         backgroundColor: "#ffffff",
-        width: "85%",
+        width: "100%",
         borderRadius: 10,
         padding: 15,
         shadowColor: "#000",
@@ -79,6 +80,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
         marginVertical: 20,
+        paddingHorizontal: wp(15)
     },
     input: {
         borderBottomWidth: 1,
@@ -111,6 +113,7 @@ const styles = StyleSheet.create({
         color: "#ffffff",
         fontSize: 16,
         fontWeight: "bold",
+        alignItems:'center'
     },
 });
 
