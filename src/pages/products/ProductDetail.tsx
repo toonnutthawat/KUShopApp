@@ -203,7 +203,7 @@ function ProductDetail({ route }) {
               }
 
               {myUser.id !== product.userID && (
-                <Pressable style={styles.callButton} onPress={() => makeCall('0917366898')}>
+                <Pressable style={styles.callButton} onPress={() => makeCall(product.user.phone)}>
                   <Text style={styles.callText}>Call</Text>
                 </Pressable>
               )
