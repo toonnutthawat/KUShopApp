@@ -34,13 +34,14 @@ function ProductDetail({ route }) {
   const { product }: { product: Product } = route.params
   const formattedDate = format(new Date(product.createdAt), 'hh:mm a : PPP');
   const comments = useAppSelector(state => state.comments.data)
-  console.log("comments", comments);
+  //console.log("comments", comments);
   const myUser = useAppSelector(state => state.users.myUser)
   //const myChatWithPostID = useAppSelector(state => state.chats.myChat)
   const likeStatus = useAppSelector(state => state.likeStatus.data)
   const myChat = useAppSelector(state => state.chats.myChat)
   const [loading, setLoading] = useState(false);
-  console.log("likeStatus", likeStatus);
+  const [chatTriggered, setChatTriggered] = useState(false);
+  //console.log("likeStatus", likeStatus);
 
   const totalLikes = useAppSelector(state => state.products.allProducts.data.find((fetchProduct) => fetchProduct.id === product.id))
   const [showComments, setShowComments] = useState(false)
@@ -67,10 +68,24 @@ function ProductDetail({ route }) {
   }
 
   const checkUserChatWithFriendID = async () => {
-    await dispatch(fetchMyChat(product.userID))
-    console.log("myChat",myChat);
-    navigation.navigate("ChatPage", { chat: myChat })
+    await dispatch(fetchMyChat(product.userID));
+    //await dispatch(fetchMyChat(product.userID));
+    console.log("myChat", myChat);
+    setChatTriggered(true);
+    navigation.navigate("ChatPage", { chat: myChat });
   }
+
+  useEffect(() => {
+    const fetchChat = async () => {
+      if (chatTriggered) {
+        await dispatch(fetchMyChat(product.userID));
+        console.log("myChat", myChat);
+        navigation.navigate("ChatPage", { chat: myChat });
+        setChatTriggered(false); // Reset the state after running
+      }
+    };
+    fetchChat();
+  }, [chatTriggered]);
 
   if (!comments) return;
   const renderedComments = comments.map((comment, index) => {
