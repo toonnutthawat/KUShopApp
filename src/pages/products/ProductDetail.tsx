@@ -41,6 +41,8 @@ function ProductDetail({ route }) {
   const myChat = useAppSelector(state => state.chats.myChat)
   const [loading, setLoading] = useState(false);
   const [chatTriggered, setChatTriggered] = useState(false);
+  console.log("chatTriggered: ", chatTriggered);
+  
   //console.log("likeStatus", likeStatus);
 
   const totalLikes = useAppSelector(state => state.products.allProducts.data.find((fetchProduct) => fetchProduct.id === product.id))
@@ -72,19 +74,19 @@ function ProductDetail({ route }) {
     //await dispatch(fetchMyChat(product.userID));
     console.log("myChat", myChat);
     setChatTriggered(true);
-    navigation.navigate("ChatPage", { chat: myChat });
+    //navigation.navigate("ChatPage", { chat: myChat });
   }
 
   useEffect(() => {
-    const fetchChat = async () => {
       if (chatTriggered) {
-        await dispatch(fetchMyChat(product.userID));
+        const fetch = async () => {
+          await dispatch(fetchMyChat(product.userID));
+        }
+        fetch()
         console.log("myChat", myChat);
         navigation.navigate("ChatPage", { chat: myChat });
         setChatTriggered(false); // Reset the state after running
       }
-    };
-    fetchChat();
   }, [chatTriggered]);
 
   if (!comments) return;
