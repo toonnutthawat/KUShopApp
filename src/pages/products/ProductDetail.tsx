@@ -72,14 +72,6 @@ function ProductDetail({ route }) {
     navigation.navigate("ChatPage", { chat: myChat })
   }
 
-  
-  useEffect(() => {
-    const fetch = async () => {
-      await dispatch(fetchMyChat(product.userID))
-    }
-    fetch()
-  },[])
-
   if (!comments) return;
   const renderedComments = comments.map((comment, index) => {
     const commentDate = format(new Date(comment.createdAt), 'hh:mm a : PPP')
