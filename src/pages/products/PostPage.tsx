@@ -17,6 +17,8 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { ProductCategory } from "../../types/ProductCategory";
 import { hp } from "../../helpers/common";
 import { theme } from "../../constants/theme";
+import Icon from "../../../assets/icons";
+import Header from "../../components/Header";
 
 function PostPage() {
     const userInfo = useAppSelector(state => state.users.myUser)
@@ -87,12 +89,13 @@ function PostPage() {
     return (
         <StyledContainer>
             <StyledHomeBox>
+                <Header title="โพสต์สินค้า" showBackButton={false}></Header>
                 {
                     (userInfo.credit === CreditStatus.NOT_YET_VERIFIED) &&
                     <View>
-                        <Text className="text-xl">Your status has not been verified. Please submit a request.</Text>
+                        <Text className="text-xl mt-4">สถานะของคุณยังไม่ได้รับการตรวจสอบ กรุณาส่งคำขอ</Text>
                         <View className="mt-4">
-                            <Button title="request" color="#004c27" onPress={() => dispatch(changeCreditStatus({
+                            <Button title="ส่งคำขอโพสต์สินค้า" color="#004c27" onPress={() => dispatch(changeCreditStatus({
                                 userID: userInfo.id, creditStatus: CreditStatus.PENDING
                             }))}></Button>
                         </View>
@@ -101,7 +104,7 @@ function PostPage() {
                 {
                     (userInfo.credit === CreditStatus.PENDING) &&
                     <View>
-                        <Text className="text-xl">Your status is under review. Please wait for verification from the admin.</Text>
+                        <Text className="text-xl">สถานะของคุณอยู่ระหว่างการตรวจสอบ กรุณารอการยืนยันจากผู้ดูแลระบบ</Text>
                     </View>
                 }
                 {
@@ -111,20 +114,24 @@ function PostPage() {
                             selectedImg ? <Image source={{ uri: selectedImg.uri }} style={styles.img}></Image> :
                                 <Image source={require("../../../assets/defaultPostImg.png")} style={styles.img}></Image>
                         }
-                        <TouchableOpacity className="absolute right-4 top-4 bg-green-500 rounded-lg p-2" onPress={selectImage}>
-                            <FontAwesome6 name="add" size={24} color="#004c27" />
-                        </TouchableOpacity>
-
+                        <View className="absolute right-4 top-4 flex flex-col items-end space-y-2">
+                            <TouchableOpacity className="bg-white rounded-lg p-2 opacity-75 mt-3" onPress={selectImage}>
+                                <FontAwesome6 name="add" size={20} color="#004c27" />
+                            </TouchableOpacity>
+                            <TouchableOpacity className="bg-white rounded-lg p-2 opacity-75 mt-5" onPress={() => setSelectedImg(null)} style={styles.removeButton}>
+                                <Icon name="delete" size={24} color="red" />
+                            </TouchableOpacity>
+                        </View>
                         <TextInput
                             value={title}
                             onChangeText={(value) => setTitle(value)}
-                            placeholder="Product Name..."
+                            placeholder="ระบุชื่อสินค้า..."
                             style={styles.textInput}
                         ></TextInput>
                         <TextInput
                             value={content}
                             onChangeText={(value) => setContent(value)}
-                            placeholder="Product Details..."
+                            placeholder="รายละเอียดของสินค้า..."
                             style={styles.detailInput}
                             multiline={true} // Ensures text can wrap inside
                         ></TextInput>
@@ -144,15 +151,15 @@ function PostPage() {
                                  items={items}
                                  setOpen={setOpen}
                                  setValue={setSelectedCategory}
-                                 setItems={setItems}     
+                                 setItems={setItems}
+                                 placeholder="เลือกหมวดหมู่" // Change this text
                            />
-
                         </View>
                         <TextInput
                             keyboardType="numeric"
                             value={price} 
                             onChangeText={handlePriceChange} // Convert input back to number
-                            placeholder="price..."
+                            placeholder="ราคา..."
                             style={styles.textInput}
                         ></TextInput>
                         {errorMessage && (
@@ -177,7 +184,7 @@ function PostPage() {
                                 ]}
                                  // Disable button if any required field is null
                             >
-                                <Text style={styles.postText}>Post</Text>
+                                <Text style={styles.postText}>โพสต์สินค้า</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -216,6 +223,12 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
+        marginTop: 10
+    },
+    removeButton: {
+        marginLeft:"auto",
+        borderRadius: 10,
+        padding: 5,
     },
     picker: {
         height: 30,
