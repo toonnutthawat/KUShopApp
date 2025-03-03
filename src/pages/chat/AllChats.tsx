@@ -59,7 +59,7 @@ function AllChats(){
     })
     return(
         <StyledContainer>
-            <Header title="Chat" showBackButton={false}></Header>
+            <Header title="ข้อความ" showBackButton={false}></Header>
                 <View style={styles.chatsContainer}>
                     {renderedAllChats}
                 </View>
