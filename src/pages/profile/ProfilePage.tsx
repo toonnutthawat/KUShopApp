@@ -13,7 +13,7 @@ import { decode } from 'base64-arraybuffer'
 import { uploadImgToS3 } from "../../store/thunks/imageThunk";
 import Entypo from '@expo/vector-icons/Entypo';
 import { pickImage } from "../../components/pickImage";
-import { hp } from "../../helpers/common";
+import { hp, wp } from "../../helpers/common";
 import { theme } from "../../constants/theme";
 import Icon from "../../../assets/icons";
 import Header from "../../components/Header";
@@ -83,7 +83,7 @@ function ProfilePage() {
 
     async function handleSignOut() {
         await signOut();
-        navigation.navigate("Login" as never);
+        navigation.navigate("Welcome" as never);
     }
 
     function cancelEditImg() {
@@ -97,7 +97,7 @@ function ProfilePage() {
 
     return (
         <StyledContainer>
-            <Header title="Profile" showBackButton={false}></Header>
+            <Header title="โปรไฟล์" showBackButton={false}></Header>
             {editPhone &&
                 <Pressable className="absolute left-4 top-4" onPress={() => setEditPhone(false)}>
                     <Icon name="arrowLeft" strokeWidth={2.5} color={theme.colors.text}></Icon>
@@ -133,13 +133,13 @@ function ProfilePage() {
                 {!editPhone ? (
                     <>
                         {userInfo && (
-                            <View style={{ marginTop: 20 }}>
-                                <Text>username : {userInfo.id}</Text>
-                                <Text>email : {userInfo.email}</Text>
-                                <View className="flex flex-row">
-                                    <Text>phone number : {userInfo.phone}</Text>
-                                    <Pressable onPress={() => setEditPhone(true)} className="ml-2">
-                                        <Feather name="edit" size={20} color="black" />
+                            <View className="p-6 rounded-xl shadow-md shadow-black-400 mt-9">
+                                <Text className="text-2xl text-black-800" >ชื่อผู้ใช้ : {userInfo.id}</Text>
+                                <Text className="text-2xl text-black-700 mt-5" >อีเมล : {userInfo.email}</Text>
+                                <View className="flex flex-row items-center mt-5">
+                                    <Text className="text-2xl text-black-700">เบอร์ติดต่อ : {userInfo.phone}</Text>
+                                    <Pressable onPress={() => setEditPhone(true)} className="ml-2 p-1">
+                                        <Feather name="edit" size={20} color="#2563eb" />
                                     </Pressable>
                                 </View>
                             </View>
@@ -150,7 +150,7 @@ function ProfilePage() {
                             onPress={() => navigation.navigate("MyProducts" as never)}
                             style={styles.myPostStyles}
                         >
-                            <Text style={styles.myPosttext}>MyProducts</Text>
+                            <Text style={styles.myPosttext}>สินค้าของฉัน</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
@@ -158,23 +158,16 @@ function ProfilePage() {
                             onPress={() => navigation.navigate("MyFavoriteProducts" as never)}
                             style={styles.myPostStyles}
                         >
-                            <Text style={styles.myPosttext}>Favorite Products</Text>
+                            <Text style={styles.myPosttext}>สินค้าที่สนใจ</Text>
                         </TouchableOpacity>
 
                         {isAdmin && (
                             <TouchableOpacity
                                 activeOpacity={0.8}
                                 onPress={() => navigation.navigate("ManageStatusRequest" as never)}
-                                style={{
-                                    backgroundColor: "#004c27",
-                                    padding: 4,
-                                    alignItems: "center",
-                                    borderRadius: 10,
-                                    width: 200,
-                                    marginTop: 20,
-                                }}
+                                style={styles.myPostStyles}
                             >
-                                <Text style={{ color: "white" }}>Manage Status Request</Text>
+                                <Text style={styles.myPosttext}>จัดการคำขอสถานะ</Text>
                             </TouchableOpacity>
                         )}
 
@@ -238,9 +231,10 @@ const styles = StyleSheet.create({
         padding: 4,
         alignItems: 'center',
         borderRadius: 10,
-        width: 200,
+        width: wp(54),
         marginTop: 20,
-        height: hp(3)
+        height: hp(5),
+        justifyContent: "center"
     },
     myPosttext: {
         fontSize: hp(2),
