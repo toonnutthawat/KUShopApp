@@ -66,7 +66,7 @@ function Home() {
                 }
                 <MaterialIcons name="post-add" size={30} color="#004c27" className="absolute right-4 top-4" onPress={() => navigation.navigate("Post" as never)}/>
                 <TextInput
-                    placeholder="search title"
+                    placeholder="ค้นหาสินค้า ..."
                     value={term}
                     onChangeText={(value) => setTerm(value)}
                     className="bg-gray-100 rounded-full px-4 h-12 mt-10 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300 w-full mb-4"
