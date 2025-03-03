@@ -4,7 +4,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import ProfileImage from "../../components/ProfileImage";
 import { format } from 'date-fns'
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Comment, Product, ProductStatus } from "../../API";
+import { Chat, Comment, Product, ProductStatus } from "../../API";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addComment, fetchCommentByProduct } from "../../store/thunks/commentsThunk";
@@ -20,6 +20,14 @@ import BackButton from "../../components/BackButton";
 import Button from "../../components/Button";
 import { hp, wp } from "../../helpers/common";
 import { theme } from "../../constants/theme";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type RootStackParamList = {
+    ChatPage: {chat: Chat}
+}
+
+type ChatResuableNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ChatPage'>
+
 
 
 function ProductDetail({ route }) {
@@ -30,6 +38,7 @@ function ProductDetail({ route }) {
   const myUser = useAppSelector(state => state.users.myUser)
   //const myChatWithPostID = useAppSelector(state => state.chats.myChat)
   const likeStatus = useAppSelector(state => state.likeStatus.data)
+  const myChat = useAppSelector(state => state.chats.myChat)
   const [loading, setLoading] = useState(false);
   console.log("likeStatus", likeStatus);
 
@@ -37,7 +46,7 @@ function ProductDetail({ route }) {
   const [showComments, setShowComments] = useState(false)
   const [comment, setComment] = useState("")
   const dispatch = useAppDispatch()
-  const navigation = useNavigation()
+  const navigation = useNavigation<ChatResuableNavigationProp>()
 
   useEffect(() => {
     const fetch = async () => {
@@ -59,8 +68,17 @@ function ProductDetail({ route }) {
 
   const checkUserChatWithFriendID = async () => {
     await dispatch(fetchMyChat(product.userID))
-    navigation.navigate("Chat" as never)
+    console.log("myChat",myChat);
+    navigation.navigate("ChatPage", { chat: myChat })
   }
+
+  
+  useEffect(() => {
+    const fetch = async () => {
+      await dispatch(fetchMyChat(product.userID))
+    }
+    fetch()
+  },[])
 
   if (!comments) return;
   const renderedComments = comments.map((comment, index) => {
