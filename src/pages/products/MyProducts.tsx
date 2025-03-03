@@ -29,9 +29,9 @@ function MyProducts() {
         
         <StyledContainer>
             <StyledHomeBox>
-                <Text className="text-2xl font-semibold text-black text-center mb-4">My Posts</Text>
+                <Text className="text-2xl font-semibold text-black text-center mb-4">สินค้าของฉัน</Text>
                 <TextInput
-                    placeholder="Search title"
+                    placeholder="ค้นหาสินค้าของฉัน..."
                     value={term}
                     onChangeText={(value) => setTerm(value)}
                     className="bg-gray-100 rounded-full px-4 h-12 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300 w-full"
@@ -46,7 +46,7 @@ function MyProducts() {
                             </View>
                         ))
                     ) : (
-                        <Text className="text-center text-gray-400 mt-4">No posts found</Text>
+                        <Text className="text-center text-gray-400 mt-4">ไม่พบรายการ...</Text>
                     )}
                 </ScrollView>
              </StyledHomeBox>
