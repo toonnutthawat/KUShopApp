@@ -21,6 +21,8 @@ import Button from "../../components/Button";
 import { hp, wp } from "../../helpers/common";
 import { theme } from "../../constants/theme";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { th } from "date-fns/locale";
+import Icon from "../../../assets/icons";
 
 type RootStackParamList = {
     ChatPage: {chat: Chat}
@@ -190,26 +192,27 @@ function ProductDetail({ route }) {
             <Text className='mt-2' style={styles.memberId}>{product.userID}</Text>
 
             <Text style={styles.membershipDuration}>
-              Member for 13 years, 4 months, 23 days.
+              เป็นสมาชิกตั้งแต่ {format(new Date(product.user.createdAt), "dd MMMM yyyy", { locale: th })}
             </Text>
 
             <View style={styles.buttonContainer}>
 
               {myUser.id !== product.userID && (
                 <Pressable style={styles.chatButton} onPress={checkUserChatWithFriendID}>
-                  <Text style={styles.chatText}>Chat</Text>
+                  <Entypo name="chat" size={hp(2)} />
+                  <Text style={styles.chatText}> แชท</Text>
                 </Pressable>
               )
               }
 
               {myUser.id !== product.userID && (
                 <Pressable style={styles.callButton} onPress={() => makeCall(product.user.phone)}>
-                  <Text style={styles.callText}>Call</Text>
+                  <Icon name="call"  size ={hp(2)} color={theme.colors.darkLight} />
+                  <Text style={styles.callText}> โทร</Text>
                 </Pressable>
               )
               }
             </View>
-
           </View>
           {/* <View style={styles.buttonContainer}>
                 <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 10 }}>
@@ -373,6 +376,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     marginRight: 5,
+    flexDirection:'row',
+    justifyContent:'center'
   },
   productDescription: {
     fontSize: 16,
@@ -407,6 +412,8 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.kuBGColor,
     borderRadius: 8,
     alignItems: 'center',
+    flexDirection:'row',
+    justifyContent:'center'
   },
   callText: {
     color: '#FFFFFF',
