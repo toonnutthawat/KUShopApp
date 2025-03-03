@@ -24,7 +24,7 @@ function SignUpPage() {
 
     const handleSignUp = async () => {
         if (!email.endsWith("@ku.th")) {
-            setErrorMessage("Email must end with @ku.th");
+            setErrorMessage("อีเมลต้องลงท้ายด้วย @ku.th เท่านั้น");
             return;
         }
         try {
@@ -41,7 +41,7 @@ function SignUpPage() {
                 setConfirmSignUp(true);
             }
         } catch (e) {
-            setErrorMessage((e as Error).message);
+            setErrorMessage(e.message || "เกิดข้อผิดพลาดในการสมัครสมาชิก");
         }
     };
 
@@ -55,8 +55,8 @@ function SignUpPage() {
                     <View style = {styles.container}>
                         <BackButton/>
                             <View>
-                                <Text style ={styles.welcomeText}>Let's</Text>
-                                <Text style ={styles.welcomeText}>Get Started</Text>
+                                <Text style ={styles.welcomeText}>เริ่มต้น</Text>
+                                <Text style ={styles.welcomeText}>สมัครบัญชี</Text>
                             </View>
 
                         <View style = {styles.form}>
@@ -64,21 +64,21 @@ function SignUpPage() {
                                 icon = {<Icon name = "mail" size = {26} strokeWidth = {1.6} />}
                                 autoComplete="email"
                                 keyboardType="email-address"
-                                placeholder="Email"
+                                placeholder="อีเมล"
                                 value={email}
                                 onChangeText={(value) => setEmail(value)}     
                                 placeholderTextColor="#555"
                             />
                             <Input
                                 icon = {<Icon name = "user" size = {26} strokeWidth = {1.6} />}
-                                placeholder="Username"
+                                placeholder="ชื่อผู้ใช้"
                                 value={username}
                                 onChangeText={(value) => setUsername(value)}
                                 placeholderTextColor="#555"
                             />
                             <Input
                                 icon = {<Icon name = "lock" size = {26} strokeWidth = {1.6} />}
-                                placeholder="Password"
+                                placeholder="รหัสผ่าน"
                                 value={password}
                                 secureTextEntry={true}
                                 onChangeText={(value) => setPassword(value)}
@@ -86,7 +86,7 @@ function SignUpPage() {
                             />
                             <Input
                                 icon = {<Icon name = "lock" size = {26} strokeWidth = {1.6} />}
-                                placeholder="Confirm Password"
+                                placeholder="ยืนยันรหัสผ่าน"
                                 value={confirmPassword}
                                 secureTextEntry={true}
                                 onChangeText={(value) => setConfirmPassword(value)}
@@ -95,15 +95,15 @@ function SignUpPage() {
                             {errorMessage && <Text className="text-red-500 mb-4">{errorMessage}</Text>}
                             
                             {/* button */}
-                            <Button title = {'Sign up'}  onPress = {handleSignUp}/>
+                            <Button title = {'สร้างบัญชี'}  onPress = {handleSignUp}/>
 
                             {/* footer */}
                             <View style={styles.footer}>
                                 <Text style = {styles.footerText}>
-                                    Already have an account!
+                                    มีบัญชีอยู่แล้ว?
                                 </Text>
                                 <Pressable onPress={() => navigation.navigate("Login" as never)}>
-                                    <Text style={[styles.footerText, {color:theme.colors.primaryDark,fontWeight: theme.fonts.semibold as TextStyle['fontWeight']}]}>Login</Text>
+                                    <Text style={[styles.footerText, {color:theme.colors.primaryDark,fontWeight: theme.fonts.semibold as TextStyle['fontWeight']}]}>เข้าสู่ระบบ</Text>
                                 </Pressable>
                             </View>
 

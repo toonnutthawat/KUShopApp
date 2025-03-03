@@ -10,6 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Chat } from "../../API";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
+import Header from "../../components/Header";
 
 type RootStackParamList = {
     ChatPage: {chat: Chat}
@@ -58,7 +59,7 @@ function AllChats(){
     })
     return(
         <StyledContainer>
-            
+            <Header title="Chat" showBackButton={false}></Header>
                 <View style={styles.chatsContainer}>
                     {renderedAllChats}
                 </View>

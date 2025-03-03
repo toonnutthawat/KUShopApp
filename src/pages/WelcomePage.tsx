@@ -24,26 +24,26 @@ const Welcome: React.FC = () => {
 
                 {/* Title & Punchline */}
                 <View style={{gap:20}}>
-                    <Text style={styles.title}>Welcome to KUShop Secondhand store!</Text>
+                    <Text style={styles.title}>ระบบร้านขายของมือสอง</Text>
                     <Text style={styles.punchline}>
-                        a place where you can find cheap and reasonable price items!
+                        แหล่งรวมสินค้าราคาถูกและสมเหตุสมผล!
                     </Text>
                 </View>
 
                 {/* Footer */}
                 <View style={styles.footer}>
                     <Button
-                        title="Getting Started"
+                        title="สมัครบัญชี"
                         buttonStyle={{ marginHorizontal: wp(3) }}
                         onPress={() => navigation.navigate("SignUp" as never)}
                     />
                     <View style={styles.bottomTextContainer}>
-                        <Text style={styles.loginText}>Already have an account?</Text>
+                        <Text style={styles.loginText}>มีบัญชีอยู่แล้ว ?</Text>
                         <Pressable onPress={() => navigation.navigate("Login" as never)}> 
                             <Text 
                                 style={[styles.loginText, { color: theme.colors.primaryDark, fontWeight: "600" }]}
                             >
-                                Login
+                                เข้าสู่ระบบ
                             </Text>
                         </Pressable>
                     </View>

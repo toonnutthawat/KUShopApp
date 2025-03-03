@@ -109,7 +109,7 @@ function ProductDetail({ route }) {
     <StyledContainer>
       <StyledHomeBox>
         <BackButton backButtonStyle={styles.backButt} />
-        <ScrollView style={{ height: hp(100) }}>
+        <ScrollView style={{ height: hp(hp) }}>
 
           {/* Product Image */}
           <View className='flex justify-center'>

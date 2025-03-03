@@ -57,22 +57,22 @@ function Login() {
 
                 {/* Welcome */}
                 <View>
-                    <Text style ={styles.welcomeText}>Hey,</Text>
-                    <Text style ={styles.welcomeText}>WelCome Back</Text>
+                    <Text style ={styles.welcomeText}>สวัสดี,</Text>
+                    <Text style ={styles.welcomeText}>ยินดีต้อนรับ!</Text>
                 </View>
 
                 {/* form */}
                 <View style = {styles.form}>
                 <Input
                     icon = {<Icon name = "user" size = {26} strokeWidth = {1.6} />}
-                    placeholder="Username"
+                    placeholder="ชื่อผู้ใช้"
                     value={username}
                     onChangeText={setUsername}
                     placeholderTextColor="#555"
                 />
                 <Input
                     icon = {<Icon name = "lock" size = {26} strokeWidth = {1.6} />}
-                    placeholder="Password"
+                    placeholder="รหัสผ่าน"
                     secureTextEntry
                     value={password}
                     onChangeText={setPassword}
@@ -80,7 +80,7 @@ function Login() {
                 />
                 </View>
                 {errorMessage && <Text className="text-red-600 text-center mb-2">{errorMessage}</Text>}
-                <Button title = {'Login'}  loading = {loading} onPress={handleSignIn}/>
+                <Button title = {'เข้าสู่ระบบ'}  loading = {loading} onPress={handleSignIn}/>
                 {/* <TouchableOpacity className="mt-4" onPress={() => navigation.navigate("SignUp" as never)}>
                     <Text className="text-blue-600 font-semibold text-center">Don't have an account? Sign Up</Text>
                 </TouchableOpacity>
@@ -91,10 +91,10 @@ function Login() {
                 {/* footer */}
                 <View style={styles.footer}>
                     <Text style = {styles.footerText}>
-                        Don't have an account?
+                        ยังไม่มีบัญชี?
                     </Text>
                     <Pressable onPress={() => navigation.navigate("SignUp" as never)}>
-                        <Text style={[styles.footerText, {color:theme.colors.primaryDark,fontWeight: theme.fonts.semibold as TextStyle['fontWeight']}]}>Sign up</Text>
+                        <Text style={[styles.footerText, {color:theme.colors.primaryDark,fontWeight: theme.fonts.semibold as TextStyle['fontWeight']}]}>สร้างบัญชีเลย!</Text>
                     </Pressable>
                 </View>
             </View>

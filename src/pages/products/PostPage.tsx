@@ -1,4 +1,4 @@
-import { Text, View, Image, TextInput, StyleSheet, Button, TouchableOpacity } from "react-native";
+import { Text, View, Image, TextInput, StyleSheet, Button, TouchableOpacity, TextStyle } from "react-native";
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
@@ -15,6 +15,8 @@ import { changeCreditStatus } from "../../store/thunks/userThunk";
 import RNPickerSelect from 'react-native-picker-select';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { ProductCategory } from "../../types/ProductCategory";
+import { hp } from "../../helpers/common";
+import { theme } from "../../constants/theme";
 
 function PostPage() {
     const userInfo = useAppSelector(state => state.users.myUser)
@@ -116,14 +118,15 @@ function PostPage() {
                         <TextInput
                             value={title}
                             onChangeText={(value) => setTitle(value)}
-                            placeholder="title"
+                            placeholder="Product Name..."
                             style={styles.textInput}
                         ></TextInput>
                         <TextInput
                             value={content}
                             onChangeText={(value) => setContent(value)}
-                            placeholder="content"
-                            style={styles.textInput}
+                            placeholder="Product Details..."
+                            style={styles.detailInput}
+                            multiline={true} // Ensures text can wrap inside
                         ></TextInput>
                          {/* <View style={styles.textInput}>
                             <RNPickerSelect
@@ -149,7 +152,7 @@ function PostPage() {
                             keyboardType="numeric"
                             value={price} 
                             onChangeText={handlePriceChange} // Convert input back to number
-                            placeholder="price"
+                            placeholder="price..."
                             style={styles.textInput}
                         ></TextInput>
                         {errorMessage && (
@@ -163,15 +166,18 @@ function PostPage() {
                                     { 
                                         padding: 4, 
                                         alignItems: 'center', 
-                                        borderRadius: 10,
+                                        borderRadius: theme.radius.xl,
+                                        backgroundColor: theme.colors.primary,
+                                        height: hp(6.6),
+                                        justifyContent: 'center'
                                     },
                                     !title || !content || !price || !selectedCategory || !selectedImg ? 
                                     { backgroundColor: "#A9A9A9" } : 
-                                    { backgroundColor: "#004c27" } // Disabled button style
+                                    { backgroundColor: theme.colors.primary} // Disabled button style
                                 ]}
                                  // Disable button if any required field is null
                             >
-                                <Text style={{ color: 'white' }}>Post</Text>
+                                <Text style={styles.postText}>Post</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -186,28 +192,71 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 10,
         marginTop: 10,
-        width: 300
+        width: 300,
+        padding: 12,
+        borderWidth: 1,
+        borderColor: '#ccc',
+    },
+    detailInput: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        marginTop: 10,
+        width: 300, // Increased width
+        height: 150, // Increased height
+        padding: 15, // Increased padding
+        borderWidth: 1,
+        borderColor: '#ccc',
     },
     img: {
         width: 300,
         height: 200,
-        borderRadius: 10
+        borderRadius: 10,
+        marginBottom: 10,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
     },
     picker: {
-        height: 50,
+        height: 30,
         width: "100%",
     },
     pickerContainer: {
         marginTop: 10,
         backgroundColor: 'white',
         borderRadius: 10,
-        padding: 5
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#ccc',
     },
     label: {
         fontSize: 16,
         fontWeight: "bold",
-        marginBottom: 5
+        marginBottom: 5,
     },
+    button: {
+        padding: 10,
+        alignItems: 'center',
+        borderRadius: 10,
+        marginTop: 20,
+    },
+    buttonEnabled: {
+        backgroundColor: "#004c27",
+    },
+    buttonDisabled: {
+        backgroundColor: "#A9A9A9",
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    postText:{
+        fontWeight: theme.fonts.semibold as TextStyle['fontWeight'],
+        fontSize: 20,
+        color: 'white'
+    }
+    
 })
 
 export default PostPage;

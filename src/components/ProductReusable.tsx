@@ -65,7 +65,7 @@ const ProductReusable = ({ product, isMyPosts, className }: { product: Product, 
                 { isMyPosts && 
                 <>
                 <TouchableOpacity className="absolute top-0 right-2 bg-red-500 rounded-full w-10 h-10 flex items-center justify-center" onPress={removeProductByID}>
-                     <Text className="text-white text-xs">X</Text>
+                    <Icon name = "delete" strokeWidth= {2.5} size ={22} color = {theme.colors.text}></Icon>
                 </TouchableOpacity>
                 </>
                 }   
