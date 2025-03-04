@@ -101,6 +101,31 @@ const fetchAllProducts = createAsyncThunk("fetchAllProducts" , async ( {category
     }
 })
 
+const fetchMyProductsPurchased = createAsyncThunk("fetchMyProductsPurchased", async () => {
+    const user = await getCurrentUser()
+    const response = await client.graphql({
+        query: listProducts,
+        variables: {
+            filter: {
+                buyerID: {
+                    eq: user.username
+                }
+            }
+        }
+    })
+    const userPromises = response.data.listProducts.items.map(async (product) => {
+        const userResponse = await client.graphql({
+            query: getUser,
+            variables: { id: product.userID }
+        });
+        return { ...product, user: userResponse.data.getUser as User}; 
+    });
+    const productsWithUsers = await Promise.all(userPromises);
+    
+    return productsWithUsers
+
+})
+
 const fetchFavoriteProducts = createAsyncThunk("fetchFavoriteProduct", async () => {
     try{
     const user = await getCurrentUser()
@@ -158,18 +183,25 @@ const removeProduct = createAsyncThunk("removeProduct", async (id: string) => {
     return response.data.deleteProduct
 })
 
-const changeToSoldProductStatus = createAsyncThunk("changeToSoldProductStatus", async (productID : string) => {
+const changeToSoldProductStatus = createAsyncThunk("changeToSoldProductStatus", async ({productID, buyerID} : {productID : string , buyerID : string}) => {
+    try{
     const response = await client.graphql({
         query: updateProduct,
         variables: {
             input: {
                 id: productID,
                 status: ProductStatus.SOLD,
-
+                buyerID: buyerID
             }
         }
     })
+    console.log(response);
+    
     return response.data.updateProduct
+}
+    catch(e){
+        console.log((e as Error).message);
+    }
 })
 
-export { addProduct , fetchMyProducts , fetchAllProducts , removeProduct , changeToSoldProductStatus ,fetchFavoriteProducts}
+export { addProduct , fetchMyProducts , fetchAllProducts , removeProduct , changeToSoldProductStatus ,fetchFavoriteProducts , fetchMyProductsPurchased }

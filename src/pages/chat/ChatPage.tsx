@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Image, TextStyle, KeyboardAvoidingView } from "react-native";
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
-import { Chat, Message } from "../../API";
+import { Chat, Message, ProductStatus } from "../../API";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addMesage, fetchMessage } from "../../store/thunks/messagesThunk";
@@ -25,6 +25,9 @@ import { Ionicons, Entypo } from "@expo/vector-icons";
 import { Platform } from "react-native";
 import Icon from "../../../assets/icons";
 import Button from "../../components/Button";
+import { fetchProductWithinChat, removeProductWithinChat } from "../../store/thunks/chatsThunk";
+import PostImage from "../../components/PostImage";
+import { changeToSoldProductStatus } from "../../store/thunks/productsThunk";
 
 function ChatPage({ route }) {
     const { chat }: { chat: Chat } = route.params
@@ -36,10 +39,17 @@ function ChatPage({ route }) {
     const [selectedImg , setSelectedImg] = useState<ImagePicker.ImagePickerAsset>()
     const [subNewMessage , setSubNewMessage] = useState<Message>()
     const myUser = useAppSelector(state => state.users.myUser)
+    let productWithinChat = useAppSelector(state => state.chats.productWithinChat || null)
+    if(!chat.ProductID){
+        productWithinChat = null
+    }
+    console.log("productWithinChat:",productWithinChat);
+    
     const dispatch = useAppDispatch()
     const client = generateClient()
     const [message, setMessage] = useState("");
     let subOncreate : Subscription
+
 
 
     useEffect(() => {
@@ -92,6 +102,15 @@ function ChatPage({ route }) {
         }
     })
 
+    const changeProductStatus =  async () => {
+        await dispatch(changeToSoldProductStatus({
+            productID: productWithinChat.id,
+            buyerID: chat.userID !== myUser.id ? chat.userID : chat.userID2
+        }))
+        await dispatch(removeProductWithinChat(chat.id))
+        await dispatch(fetchProductWithinChat(chat.ProductID))
+    }
+
     const selectImage = async () => {
         const image = await pickImage()
         setSelectedImg(image)
@@ -104,6 +123,23 @@ function ChatPage({ route }) {
         scrollViewRef.current.scrollToEnd({ animated: true });
       }
     };
+
+    useEffect(() => {
+            const fetch = async () => {
+                await dispatch(fetchProductWithinChat(chat.ProductID));
+            };
+            fetch();
+            console.log("fetchProductWithinChat");
+            
+    },[chat])
+
+    useEffect(() => {
+            const fetch = async () => {
+                await dispatch(fetchProductWithinChat(chat.ProductID));
+            };
+            fetch();
+            console.log("fetchProductWithinChat");
+    },[])
 
     const renderedMesssages = sortedMessages.map((message, index) => {
         const hr = format(new Date(message.createdAt), 'hh:mm a');
@@ -155,6 +191,25 @@ function ChatPage({ route }) {
                         <ProfileImage size={40} src={myUser.id === chat.userID ? chat.user2.profile : chat.user.profile}></ProfileImage>
                         <Text style={styles.title}>{myUser.id === chat.userID ? chat.userID2 : chat.userID}</Text>
                     </View>
+                    {
+                        productWithinChat && (
+                            <View className="flex flex-row bg-white p-2 rounded-lg">
+                                <PostImage size={10} src={productWithinChat.image} style={{width: 50}}></PostImage>
+                                <View className="ml-4">
+                                    <Text>product : {productWithinChat.title}</Text>
+                                    <Text>price : {productWithinChat.price} ฿</Text>
+                                    <Text>category : {productWithinChat.category}</Text>
+                                </View>
+                                {
+                                    ((productWithinChat.userID === myUser.id) && (productWithinChat.status === ProductStatus.AVAILABLE)) && (
+                                        <TouchableOpacity onPress={changeProductStatus} className="bg-blue-600 flex justify-center p-4 rounded-lg right-0 absolute m-4">
+                                            <Text className="text-white">Sold</Text>
+                                        </TouchableOpacity>
+                                    )
+                                }
+                            </View>
+                        )
+                    }
                     <ScrollView contentContainerStyle={{}} showsVerticalScrollIndicator={false}>{renderedMesssages}</ScrollView>
 
                     <KeyboardAvoidingView

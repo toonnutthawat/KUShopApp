@@ -1,8 +1,8 @@
 import { generateClient } from "@aws-amplify/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getChat, getUser, listChats } from "../../graphql/queries";
+import { getChat, getProduct, getUser, listChats } from "../../graphql/queries";
 import { getCurrentUser } from "aws-amplify/auth";
-import { createChat } from "../../graphql/mutations";
+import { createChat, updateChat } from "../../graphql/mutations";
 import { User } from "../../API";
 
 const client = generateClient()
@@ -44,7 +44,9 @@ const fetchMyChat = createAsyncThunk("fetchMyChat", async (friendID : string) =>
                 }
             }
         })
-        console.log(response);
+        //console.log(response);
+        console.log("fetchMyChat");
+        
         return response.data.createChat
     }
 })
@@ -82,4 +84,50 @@ const fetchAllChats = createAsyncThunk("fetchAllChats", async () => {
     return  chatsWithUsers
 })
 
-export { fetchMyChat , fetchAllChats }
+const addProductWithChat = createAsyncThunk("addProductWithChat" , async ({chatID , productID}: {chatID : string , productID : string}) => {
+    const response = await client.graphql({
+        query: updateChat,
+        variables: {
+            input: {
+                id: chatID,
+                ProductID: productID
+            }
+        }
+        
+    })
+    console.log(response);
+    fetchMyChat(chatID)
+    return response.data.updateChat
+    
+})
+
+const fetchProductWithinChat = createAsyncThunk("fetchProductWithinChat", async (productID : string) => {
+    const response = await client.graphql({
+        query: getProduct,
+        variables: {
+            id: productID
+        }
+    })
+    return response.data.getProduct
+})
+
+const removeProductWithinChat = createAsyncThunk("removeProductWithinChat" , async (chatID : string) => {
+    try{
+    const response = await client.graphql({
+        query: updateChat,
+        variables: {
+            input: {
+                id: chatID,
+                ProductID: null
+            }
+        }
+    })
+    return response.data.updateChat
+}catch(e){
+    console.log((e as Error).message);
+    
+}
+})
+
+
+export { fetchMyChat , fetchAllChats , addProductWithChat , fetchProductWithinChat, removeProductWithinChat}

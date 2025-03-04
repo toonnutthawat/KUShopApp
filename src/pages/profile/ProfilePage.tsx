@@ -161,6 +161,14 @@ function ProfilePage() {
                             <Text style={styles.myPosttext}>สินค้าที่สนใจ</Text>
                         </TouchableOpacity>
 
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={() => navigation.navigate("MyProductsPurchased" as never)}
+                            style={styles.myPostStyles}
+                        >
+                            <Text style={styles.myPosttext}>MyProductsPurchased</Text>
+                        </TouchableOpacity>
+
                         {isAdmin && (
                             <TouchableOpacity
                                 activeOpacity={0.8}

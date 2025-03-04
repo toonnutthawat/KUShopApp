@@ -46,6 +46,7 @@ type Product
   price: Int!
   status: ProductStatus!
   category: String!
+  buyerID: String
   user: User! @belongsTo(fields: ["userID"])
   userID: ID! @index(name: "byUser")
   comments: [Comment] @hasMany(indexName: "byProduct", fields: ["id"])
@@ -100,6 +101,7 @@ type Chat
   userID: ID! @index(name: "byUser")
   user2: User! @belongsTo(fields: ["userID2"])
   userID2: ID! @index(name: "byUser2")
+  ProductID: String
 }
 
 type Message
