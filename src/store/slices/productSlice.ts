@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Product } from "../../API";
-import { addProduct, changeToSoldProductStatus, fetchAllProducts, fetchFavoriteProducts, fetchMyProducts, removeProduct } from "../thunks/productsThunk";
+import { addProduct, changeToSoldProductStatus, fetchAllProducts, fetchFavoriteProducts, fetchMyProducts, fetchMyProductsPurchased, removeProduct } from "../thunks/productsThunk";
 import { updateTotalLikes } from "../thunks/likeStatusThunk";
 
 const productsSlice = createSlice({
@@ -15,6 +15,10 @@ const productsSlice = createSlice({
       error: "",
     },
     myFavoriteProducts: {
+      data: null as Product[] | null,
+      error: "",
+    },
+    myProductsPurchased: {
       data: null as Product[] | null,
       error: "",
     },
@@ -55,9 +59,17 @@ const productsSlice = createSlice({
       state.error = "fail to fetchFavoriteProducts";
       console.log("fail to fetchFavoriteProducts");
     });
+    builder.addCase(fetchMyProductsPurchased.fulfilled , (state,action) => {
+      state.myProductsPurchased.data = action.payload as Product[]
+    })
+    builder.addCase(fetchMyProductsPurchased.rejected, (state) => {
+      state.error = "fail to fetchMyProductsPurchased";
+      console.log("fail to fetchMyProductsPurchased");
+    });
     builder.addCase(changeToSoldProductStatus.fulfilled, (state,action) => {
-      const index = state.myProducts.data.findIndex((product) => product.id === action.payload.id)
-      state.myProducts.data[index].status = action.payload.status
+      const index = state.allProducts.data.findIndex((product) => product.id === action.payload.id)
+      state.allProducts.data[index].status = action.payload.status
+      state.allProducts.data[index].buyerID = action.payload.buyerID
     })
     builder.addCase(changeToSoldProductStatus.rejected, (state,action) => {
       state.error = "fail to changeProductStatus"

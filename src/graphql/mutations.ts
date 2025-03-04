@@ -83,6 +83,7 @@ export const createProduct = /* GraphQL */ `mutation CreateProduct(
     price
     status
     category
+    buyerID
     user {
       id
       email
@@ -124,6 +125,7 @@ export const updateProduct = /* GraphQL */ `mutation UpdateProduct(
     price
     status
     category
+    buyerID
     user {
       id
       email
@@ -165,6 +167,7 @@ export const deleteProduct = /* GraphQL */ `mutation DeleteProduct(
     price
     status
     category
+    buyerID
     user {
       id
       email
@@ -209,6 +212,7 @@ export const createComment = /* GraphQL */ `mutation CreateComment(
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -241,6 +245,7 @@ export const updateComment = /* GraphQL */ `mutation UpdateComment(
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -273,6 +278,7 @@ export const deleteComment = /* GraphQL */ `mutation DeleteComment(
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -305,6 +311,7 @@ export const createLikeStatus = /* GraphQL */ `mutation CreateLikeStatus(
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -338,6 +345,7 @@ export const updateLikeStatus = /* GraphQL */ `mutation UpdateLikeStatus(
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -371,6 +379,7 @@ export const deleteLikeStatus = /* GraphQL */ `mutation DeleteLikeStatus(
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -420,6 +429,7 @@ export const createChat = /* GraphQL */ `mutation CreateChat(
       __typename
     }
     userID2
+    ProductID
     createdAt
     updatedAt
     __typename
@@ -461,6 +471,7 @@ export const updateChat = /* GraphQL */ `mutation UpdateChat(
       __typename
     }
     userID2
+    ProductID
     createdAt
     updatedAt
     __typename
@@ -502,6 +513,7 @@ export const deleteChat = /* GraphQL */ `mutation DeleteChat(
       __typename
     }
     userID2
+    ProductID
     createdAt
     updatedAt
     __typename
@@ -523,6 +535,7 @@ export const createMessage = /* GraphQL */ `mutation CreateMessage(
       id
       userID
       userID2
+      ProductID
       createdAt
       updatedAt
       __typename
@@ -550,6 +563,7 @@ export const updateMessage = /* GraphQL */ `mutation UpdateMessage(
       id
       userID
       userID2
+      ProductID
       createdAt
       updatedAt
       __typename
@@ -577,6 +591,7 @@ export const deleteMessage = /* GraphQL */ `mutation DeleteMessage(
       id
       userID
       userID2
+      ProductID
       createdAt
       updatedAt
       __typename

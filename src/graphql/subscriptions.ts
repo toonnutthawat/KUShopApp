@@ -114,6 +114,7 @@ export const onCreateProduct = /* GraphQL */ `subscription OnCreateProduct(
     price
     status
     category
+    buyerID
     user {
       id
       email
@@ -155,6 +156,7 @@ export const onUpdateProduct = /* GraphQL */ `subscription OnUpdateProduct(
     price
     status
     category
+    buyerID
     user {
       id
       email
@@ -196,6 +198,7 @@ export const onDeleteProduct = /* GraphQL */ `subscription OnDeleteProduct(
     price
     status
     category
+    buyerID
     user {
       id
       email
@@ -240,6 +243,7 @@ export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -272,6 +276,7 @@ export const onUpdateComment = /* GraphQL */ `subscription OnUpdateComment(
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -304,6 +309,7 @@ export const onDeleteComment = /* GraphQL */ `subscription OnDeleteComment(
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -336,6 +342,7 @@ export const onCreateLikeStatus = /* GraphQL */ `subscription OnCreateLikeStatus
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -369,6 +376,7 @@ export const onUpdateLikeStatus = /* GraphQL */ `subscription OnUpdateLikeStatus
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -402,6 +410,7 @@ export const onDeleteLikeStatus = /* GraphQL */ `subscription OnDeleteLikeStatus
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -452,6 +461,7 @@ export const onCreateChat = /* GraphQL */ `subscription OnCreateChat(
       __typename
     }
     userID2
+    ProductID
     createdAt
     updatedAt
     __typename
@@ -494,6 +504,7 @@ export const onUpdateChat = /* GraphQL */ `subscription OnUpdateChat(
       __typename
     }
     userID2
+    ProductID
     createdAt
     updatedAt
     __typename
@@ -536,6 +547,7 @@ export const onDeleteChat = /* GraphQL */ `subscription OnDeleteChat(
       __typename
     }
     userID2
+    ProductID
     createdAt
     updatedAt
     __typename
@@ -557,6 +569,7 @@ export const onCreateMessage = /* GraphQL */ `subscription OnCreateMessage(
       id
       userID
       userID2
+      ProductID
       createdAt
       updatedAt
       __typename
@@ -584,6 +597,7 @@ export const onUpdateMessage = /* GraphQL */ `subscription OnUpdateMessage(
       id
       userID
       userID2
+      ProductID
       createdAt
       updatedAt
       __typename
@@ -611,6 +625,7 @@ export const onDeleteMessage = /* GraphQL */ `subscription OnDeleteMessage(
       id
       userID
       userID2
+      ProductID
       createdAt
       updatedAt
       __typename

@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "../../hook";
 import { changeLikeStatus, fetchLikeStatus, updateTotalLikes } from "../../store/thunks/likeStatusThunk";
 import { fetchFavoriteProducts, fetchMyProducts } from "../../store/thunks/productsThunk";
 import Entypo from '@expo/vector-icons/Entypo';
-import { fetchMyChat } from "../../store/thunks/chatsThunk";
+import { addProductWithChat, fetchAllChats, fetchMyChat } from "../../store/thunks/chatsThunk";
 import { useNavigation } from "@react-navigation/native";
 import PostImage from "../../components/PostImage";
 import { fetchMyUser } from "../../store/thunks/userThunk";
@@ -39,9 +39,12 @@ function ProductDetail({ route }) {
   //const myChatWithPostID = useAppSelector(state => state.chats.myChat)
   const likeStatus = useAppSelector(state => state.likeStatus.data)
   const myChat = useAppSelector(state => state.chats.myChat)
+  //console.log("myChat",myChat);
+  
+  const anotherChat = useAppSelector(state => state.chats.myChat)
   const [loading, setLoading] = useState(false);
   const [chatTriggered, setChatTriggered] = useState(false);
-  console.log("chatTriggered: ", chatTriggered);
+  //console.log("chatTriggered: ", chatTriggered);
   
   //console.log("likeStatus", likeStatus);
 
@@ -71,22 +74,36 @@ function ProductDetail({ route }) {
 
   const checkUserChatWithFriendID = async () => {
     await dispatch(fetchMyChat(product.userID));
-    //await dispatch(fetchMyChat(product.userID));
     console.log("myChat", myChat);
     setChatTriggered(true);
-    //navigation.navigate("ChatPage", { chat: myChat });
   }
 
   useEffect(() => {
-      if (chatTriggered) {
-        const fetch = async () => {
+    if (chatTriggered) {
+      const fetchData = async () => {
+        try {
+          await dispatch(fetchMyChat(product.userID)); // Ensure chat is fetched first
+          await dispatch(addProductWithChat({
+            chatID: myChat.id,
+            productID: product.id
+          })); // Ensure product is added to chat
           await dispatch(fetchMyChat(product.userID));
+          const updatedChat = await dispatch(fetchMyChat(product.userID)).unwrap() as Chat
+          await dispatch(fetchAllChats())
+          //console.log("Updated myChat", myChat);
+
+          setChatTriggered(false); // Reset the state after running
+
+        
+          // Wait for chat to be updated, then navigate
+          navigation.navigate("ChatPage", { chat: updatedChat });
+        } catch (error) {
+          console.error("Error fetching chat or adding product:", error);
         }
-        fetch()
-        console.log("myChat", myChat);
-        navigation.navigate("ChatPage", { chat: myChat });
-        setChatTriggered(false); // Reset the state after running
-      }
+      };
+      fetchData();
+
+    }
   }, [chatTriggered]);
 
   if (!comments) return;

@@ -64,6 +64,7 @@ export const getProduct = /* GraphQL */ `query GetProduct($id: ID!) {
     price
     status
     category
+    buyerID
     user {
       id
       email
@@ -107,6 +108,7 @@ export const listProducts = /* GraphQL */ `query ListProducts(
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -133,6 +135,7 @@ export const getComment = /* GraphQL */ `query GetComment($id: ID!) {
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -185,6 +188,7 @@ export const getLikeStatus = /* GraphQL */ `query GetLikeStatus($id: ID!) {
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -255,6 +259,7 @@ export const getChat = /* GraphQL */ `query GetChat($id: ID!) {
       __typename
     }
     userID2
+    ProductID
     createdAt
     updatedAt
     __typename
@@ -271,6 +276,7 @@ export const listChats = /* GraphQL */ `query ListChats(
       id
       userID
       userID2
+      ProductID
       createdAt
       updatedAt
       __typename
@@ -289,6 +295,7 @@ export const getMessage = /* GraphQL */ `query GetMessage($id: ID!) {
       id
       userID
       userID2
+      ProductID
       createdAt
       updatedAt
       __typename
@@ -351,6 +358,7 @@ export const productsByUserID = /* GraphQL */ `query ProductsByUserID(
       price
       status
       category
+      buyerID
       userID
       createdAt
       updatedAt
@@ -445,6 +453,7 @@ export const chatsByUserID = /* GraphQL */ `query ChatsByUserID(
       id
       userID
       userID2
+      ProductID
       createdAt
       updatedAt
       __typename
@@ -475,6 +484,7 @@ export const chatsByUserID2 = /* GraphQL */ `query ChatsByUserID2(
       id
       userID
       userID2
+      ProductID
       createdAt
       updatedAt
       __typename

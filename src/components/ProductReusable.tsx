@@ -28,15 +28,16 @@ const ProductReusable = ({ product, isMyPosts, className }: { product: Product, 
     const navigation = useNavigation<PostReusableNavigationProp>()
     const dispatch = useAppDispatch()
 
-    const removeProductByID = async () => {
-        await dispatch(removeProduct(product.id))
-        await dispatch(fetchAllProducts(null))
-    }
+    // const removeProductByID = async () => {
+    //     await dispatch(removeProduct(product.id))
+    //     await dispatch(fetchAllProducts(null))
+    // }
 
-    const changeProductStatus = async () => {
-        await dispatch(changeToSoldProductStatus(product.id))
-        await dispatch(fetchAllProducts(null))
-    }
+    // const changeProductStatus = async () => {
+    //     await dispatch(changeToSoldProductStatus(product.id))
+    //     await dispatch(fetchAllProducts(null))
+    // }
+
     const createAt = format(new Date(product.createdAt), 'MMM dd');
 
     const shadowStyles={
@@ -62,13 +63,13 @@ const ProductReusable = ({ product, isMyPosts, className }: { product: Product, 
                         <Text style = {styles.postTime}>{createAt}</Text>
                     </View>
                 </View>
-                { isMyPosts && 
+                {/* { isMyPosts && 
                 <>
                 <TouchableOpacity className="absolute top-0 right-2 bg-red-500 rounded-full w-10 h-10 flex items-center justify-center" onPress={removeProductByID}>
                     <Icon name = "delete" strokeWidth= {2.5} size ={22} color = {theme.colors.text}></Icon>
                 </TouchableOpacity>
                 </>
-                }   
+                }    */}
             </View>
 
             <View style = {styles.content}>
@@ -92,12 +93,12 @@ const ProductReusable = ({ product, isMyPosts, className }: { product: Product, 
             </View>
             <View>
 
-                { (isMyPosts && (product.status === ProductStatus.AVAILABLE)) && 
+                {/* { (isMyPosts && (product.status === ProductStatus.AVAILABLE)) && 
 
             <TouchableOpacity className='bg-blue-500 p-2 flex items-center rounded-lg' style={{width: 80}} onPress={changeProductStatus}>
                     <Text className='text-white'>Sold</Text>
                 </TouchableOpacity>
-                }
+                } */}
             </View>
             
     

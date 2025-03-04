@@ -11,7 +11,7 @@ const messagesSlice = createSlice({
     reducers:{},
     extraReducers(builder){
         builder.addCase(fetchMessage.fulfilled, (state,action) => {
-            state.data = action.payload as Message[]
+            state.data = action.payload as unknown as Message[]
         })
         builder.addCase(fetchMessage.rejected, (state) => {
             console.log("fail to fetchMessages"); 

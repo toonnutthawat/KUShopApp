@@ -27,6 +27,7 @@ import ManageRequest from "./src/pages/Admin/ManageRequest";
 import ProductDetail from "./src/pages/products/ProductDetail";
 import MyProducts from "./src/pages/products/MyProducts";
 import MyFavoriteProducts from "./src/pages/products/MyFavoriteProducts";
+import MyProductsPurchased from "./src/pages/products/MyProductsPurchased";
 
 
 const Stack = createNativeStackNavigator();
@@ -45,7 +46,7 @@ function BottomTabs() {
             return <Entypo name="chat" size={24} color={color} />;
           } else if (route.name === "Profile") {
             iconName = "person";
-          } else if (route.name === "Shop") {
+          } else if (route.name === "PostPage") {
             return <FontAwesome5 name="shopping-cart" size={24} color={color} />
           }
 
@@ -61,7 +62,7 @@ function BottomTabs() {
       })}
     >
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Shop" component={AllProducts} />
+      <Tab.Screen name="PostPage" component={PostPage} />
       <Tab.Screen name="Chat" component={AllChats} />
       <Tab.Screen name="Profile" component={ProfilePage} />
       <Tab.Screen
@@ -76,6 +77,15 @@ function BottomTabs() {
       <Tab.Screen
         name="MyFavoriteProducts"
         component={MyFavoriteProducts}
+        options={{
+          tabBarButton: () => null, // Hide the tab button completely
+          tabBarIcon: () => <></>, // Hide the icon
+          tabBarLabel: () => null, // Hide the label
+        }}
+      />
+        <Tab.Screen
+        name="MyProductsPurchased"
+        component={MyProductsPurchased}
         options={{
           tabBarButton: () => null, // Hide the tab button completely
           tabBarIcon: () => <></>, // Hide the icon
@@ -112,15 +122,6 @@ function BottomTabs() {
       <Tab.Screen
         name="ChatPage"
         component={ChatPage}
-        options={{
-          tabBarButton: () => null, // Hide the tab button completely
-          tabBarIcon: () => <></>, // Hide the icon
-          tabBarLabel: () => null, // Hide the label
-        }}
-      />
-        <Tab.Screen
-        name="AddProduct"
-        component={AddProduct}
         options={{
           tabBarButton: () => null, // Hide the tab button completely
           tabBarIcon: () => <></>, // Hide the icon
