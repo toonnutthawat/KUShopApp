@@ -16,16 +16,33 @@ import Button from "../components/Button";
 function SignUpPage() {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
+    const [phone, setPhone] = useState("")
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [confirmSignUp, setConfirmSignUp] = useState(false);
     const navigation = useNavigation();
 
+    const validatePhoneNumber = () => {
+        // Regular expression for a valid Thai phone number
+        const thaiPhoneRegex = /^(0[689]\d{8})$/;
+
+        if (thaiPhoneRegex.test(phone)) {
+            setErrorMessage(""); // Clear any previous error message
+        } else {
+            setErrorMessage("เบอร์โทรศัพท์ไม่ถูกต้อง ตัวอย่าง: 0812345678");
+            return null;
+        }
+    };
+
     const handleSignUp = async () => {
         if (!email.endsWith("@ku.th")) {
             setErrorMessage("อีเมลต้องลงท้ายด้วย @ku.th เท่านั้น");
             return;
+        }
+        const formattedPhone = validatePhoneNumber();
+        if (!formattedPhone) {
+            return; // Stop further execution if the phone number is invalid
         }
         try {
             const { nextStep } = await signUp({
@@ -34,6 +51,7 @@ function SignUpPage() {
                 options: {
                     userAttributes: {
                         email: email,
+                        phone_number: phone
                     },
                 },
             });
@@ -74,6 +92,13 @@ function SignUpPage() {
                                 placeholder="ชื่อผู้ใช้"
                                 value={username}
                                 onChangeText={(value) => setUsername(value)}
+                                placeholderTextColor="#555"
+                            />
+                            <Input
+                                icon = {<Icon name = "user" size = {26} strokeWidth = {1.6} />}
+                                placeholder="เบอร์โทรศัพท์"
+                                value={phone}
+                                onChangeText={(value) => setPhone(value)}
                                 placeholderTextColor="#555"
                             />
                             <Input
