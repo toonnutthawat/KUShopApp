@@ -95,7 +95,7 @@ function SignUpPage() {
                                 placeholderTextColor="#555"
                             />
                             <Input
-                                icon = {<Icon name = "user" size = {26} strokeWidth = {1.6} />}
+                                icon = {<Icon name = "phone" size = {26} strokeWidth = {1.6} />}
                                 placeholder="เบอร์โทรศัพท์"
                                 value={phone}
                                 onChangeText={(value) => setPhone(value)}
