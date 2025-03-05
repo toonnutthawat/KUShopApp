@@ -1,6 +1,6 @@
 import { Text, View, Image, TextInput, StyleSheet, Button, TouchableOpacity, TextStyle } from "react-native";
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { addProduct, fetchMyProducts } from "../../store/thunks/productsThunk";
 import { useNavigation } from "@react-navigation/native";
@@ -17,6 +17,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { ProductCategory } from "../../types/ProductCategory";
 import { hp } from "../../helpers/common";
 import { theme } from "../../constants/theme";
+import { fetchUserAttributes } from "aws-amplify/auth";
 
 function PostPage() {
     const userInfo = useAppSelector(state => state.users.myUser)
@@ -27,6 +28,7 @@ function PostPage() {
     const [selectedCategory, setSelectedCategory] = useState<ProductCategory | undefined>(undefined);
     const [selectedImg, setSelectedImg] = useState<ImagePicker.ImagePickerAsset>()
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [isAdmin , setIsAdmin] = useState(false)
     const dispatch = useAppDispatch()
     const navigation = useNavigation()
     const [items, setItems] = useState(
@@ -40,6 +42,17 @@ function PostPage() {
         const image = await pickImage()
         setSelectedImg(image)
     };
+
+    useEffect(() => {
+            const fetch = async () => {
+                const response = await fetchUserAttributes();
+                if (response.nickname === "admin") {
+                    setIsAdmin(true)
+                }
+            }
+            fetch()
+            //fetchedImageFromS3()
+        }, [])
 
     const handlePostProduct = async () => {
         if (!title || !content || !price || !selectedCategory || !selectedImg) {
@@ -86,6 +99,15 @@ function PostPage() {
 
     return (
         <StyledContainer>
+            {
+                (isAdmin) ? 
+                <StyledHomeBox>
+                    <View>
+                        <Text>Admins cannot submit a verification request or add products.</Text>
+                    </View>
+                </StyledHomeBox>
+                
+                :
             <StyledHomeBox>
                 {
                     (userInfo.credit === CreditStatus.NOT_YET_VERIFIED) &&
@@ -183,6 +205,7 @@ function PostPage() {
                     </View>
                 }
             </StyledHomeBox>
+            }
         </StyledContainer>
     )
 }
