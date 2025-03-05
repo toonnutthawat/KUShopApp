@@ -64,7 +64,7 @@ function Home() {
                         </Pressable>
                     )
                 }
-                <MaterialIcons name="post-add" size={30} color="#004c27" className="absolute right-4 top-4" onPress={() => navigation.navigate("Post" as never)}/>
+                {/* <MaterialIcons name="post-add" size={30} color="#004c27" className="absolute right-4 top-4" onPress={() => navigation.navigate("Post" as never)}/> */}
                 <TextInput
                     placeholder="ค้นหาสินค้า ..."
                     value={term}
@@ -72,10 +72,8 @@ function Home() {
                     className="bg-gray-100 rounded-full px-4 h-12 mt-10 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300 w-full mb-4"
                     placeholderTextColor="#555"
                 />
-
-                <ScrollView  contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1),justifyContent: 'center'}} className="w-full flex-grow" showsVerticalScrollIndicator={false}>
-
-                    <ProductCategoryTab onSelectCategory={handleCategorySelect}></ProductCategoryTab>
+                <ProductCategoryTab onSelectCategory={handleCategorySelect}></ProductCategoryTab>
+                <ScrollView  contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1),justifyContent: 'center'}} className="w-full flex-grow mt-2" showsVerticalScrollIndicator={false}>
                     {filteredMyProducts.map((product, index) => (
                         <View key={index} style={{ width: hp(20), height: wp(55), marginBottom: hp(5)}}>
                             <ProductReusable key={index} product={product} />
