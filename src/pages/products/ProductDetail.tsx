@@ -34,21 +34,13 @@ function ProductDetail({ route }) {
   const { product }: { product: Product } = route.params
   const formattedDate = format(new Date(product.createdAt), 'hh:mm a : PPP');
   const comments = useAppSelector(state => state.comments.data)
-  //console.log("comments", comments);
   const myUser = useAppSelector(state => state.users.myUser)
-  //const myChatWithPostID = useAppSelector(state => state.chats.myChat)
   const likeStatus = useAppSelector(state => state.likeStatus.data)
   const myChat = useAppSelector(state => state.chats.myChat)
-  //console.log("myChat",myChat);
-  
   const anotherChat = useAppSelector(state => state.chats.myChat)
   const [loading, setLoading] = useState(false);
   const [chatTriggered, setChatTriggered] = useState(false);
-  //console.log("chatTriggered: ", chatTriggered);
-  
-  //console.log("likeStatus", likeStatus);
-
-  const totalLikes = useAppSelector(state => state.products.allProducts.data.find((fetchProduct) => fetchProduct.id === product.id))
+  const [likesOfProduct , setLikesOfProduct] = useState(product.likes)
   const [showComments, setShowComments] = useState(false)
   const [comment, setComment] = useState("")
   const dispatch = useAppDispatch()
@@ -128,9 +120,17 @@ function ProductDetail({ route }) {
 
   const toggleLikeStatus = async () => {
     await dispatch(changeLikeStatus(product.id))
-    await dispatch(fetchLikeStatus(product.id))
+    const fetchedLikesStatus = await dispatch(fetchLikeStatus(product.id)).unwrap()
+    console.log(fetchedLikesStatus);
+    
     await dispatch(updateTotalLikes(product.id))
     await dispatch(fetchFavoriteProducts())
+    if(fetchedLikesStatus.status){
+      setLikesOfProduct(likesOfProduct + 1)
+    }
+    else{
+      setLikesOfProduct(likesOfProduct - 1)
+    }
   }
 
   const makeCall = (phoneNumber) => {
@@ -187,7 +187,7 @@ function ProductDetail({ route }) {
                   }
                 </Pressable>)
               }
-              <Text style={[{ marginLeft: 10 }, styles.text]}>{totalLikes.likes}</Text>
+              <Text style={[{ marginLeft: 10 }, styles.text]}>{likesOfProduct}</Text>
             </View>
           </View>
 

@@ -154,7 +154,7 @@ const fetchFavoriteProducts = createAsyncThunk("fetchFavoriteProduct", async () 
             }
         })
 
-        console.log(`[${i}]`,response.data.getProduct);
+        //console.log(`[${i}]`,response.data.getProduct);
         
 
         const product = response.data.getProduct;
