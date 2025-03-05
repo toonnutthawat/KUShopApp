@@ -196,9 +196,9 @@ function ChatPage({ route }) {
                             <View className="flex flex-row bg-white p-2 rounded-lg">
                                 <PostImage size={10} src={productWithinChat.image} style={{width: 50}}></PostImage>
                                 <View className="ml-4">
-                                    <Text>product : {productWithinChat.title}</Text>
-                                    <Text>price : {productWithinChat.price} ฿</Text>
-                                    <Text>category : {productWithinChat.category}</Text>
+                                    <Text>สินค้า : {productWithinChat.title}</Text>
+                                    <Text>ราคา : {productWithinChat.price} ฿</Text>
+                                    <Text>หมวดหมู่ : {productWithinChat.category}</Text>
                                 </View>
                                 {
                                     ((productWithinChat.userID === myUser.id) && (productWithinChat.status === ProductStatus.AVAILABLE)) && (

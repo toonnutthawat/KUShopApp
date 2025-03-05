@@ -1,6 +1,6 @@
 import { Text, View, Image, TextInput, StyleSheet, Button, TouchableOpacity, TextStyle } from "react-native";
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { addProduct, fetchMyProducts } from "../../store/thunks/productsThunk";
 import { useNavigation } from "@react-navigation/native";
@@ -17,8 +17,12 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { ProductCategory } from "../../types/ProductCategory";
 import { hp } from "../../helpers/common";
 import { theme } from "../../constants/theme";
+
 import Icon from "../../../assets/icons";
 import Header from "../../components/Header";
+
+import { fetchUserAttributes } from "aws-amplify/auth";
+
 
 function PostPage() {
     const userInfo = useAppSelector(state => state.users.myUser)
@@ -29,6 +33,7 @@ function PostPage() {
     const [selectedCategory, setSelectedCategory] = useState<ProductCategory | undefined>(undefined);
     const [selectedImg, setSelectedImg] = useState<ImagePicker.ImagePickerAsset>()
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [isAdmin , setIsAdmin] = useState(false)
     const dispatch = useAppDispatch()
     const navigation = useNavigation()
     const [items, setItems] = useState(
@@ -42,6 +47,17 @@ function PostPage() {
         const image = await pickImage()
         setSelectedImg(image)
     };
+
+    useEffect(() => {
+            const fetch = async () => {
+                const response = await fetchUserAttributes();
+                if (response.nickname === "admin") {
+                    setIsAdmin(true)
+                }
+            }
+            fetch()
+            //fetchedImageFromS3()
+        }, [])
 
     const handlePostProduct = async () => {
         if (!title || !content || !price || !selectedCategory || !selectedImg) {
@@ -88,6 +104,15 @@ function PostPage() {
 
     return (
         <StyledContainer>
+            {
+                (isAdmin) ? 
+                <StyledHomeBox>
+                    <View>
+                        <Text>Admins cannot submit a verification request or add products.</Text>
+                    </View>
+                </StyledHomeBox>
+                
+                :
             <StyledHomeBox>
                 <Header title="โพสต์สินค้า" showBackButton={false}></Header>
                 {
@@ -165,7 +190,7 @@ function PostPage() {
                         {errorMessage && (
                             <Text style={{ color: "red", marginTop: 10 , width: 300}}>{errorMessage}</Text>
                         )}
-                        <View style={{ marginTop: 20 }}>
+                        <View style={{ marginTop: 20 , alignContent:'center'}}>
                             <TouchableOpacity
                                 activeOpacity={0.8}
                                 onPress={handlePostProduct}
@@ -190,6 +215,7 @@ function PostPage() {
                     </View>
                 }
             </StyledHomeBox>
+            }
         </StyledContainer>
     )
 }

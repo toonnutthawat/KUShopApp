@@ -36,21 +36,13 @@ function ProductDetail({ route }) {
   const { product }: { product: Product } = route.params
   const formattedDate = format(new Date(product.createdAt), 'hh:mm a : PPP');
   const comments = useAppSelector(state => state.comments.data)
-  //console.log("comments", comments);
   const myUser = useAppSelector(state => state.users.myUser)
-  //const myChatWithPostID = useAppSelector(state => state.chats.myChat)
   const likeStatus = useAppSelector(state => state.likeStatus.data)
   const myChat = useAppSelector(state => state.chats.myChat)
-  //console.log("myChat",myChat);
-  
   const anotherChat = useAppSelector(state => state.chats.myChat)
   const [loading, setLoading] = useState(false);
   const [chatTriggered, setChatTriggered] = useState(false);
-  //console.log("chatTriggered: ", chatTriggered);
-  
-  //console.log("likeStatus", likeStatus);
-
-  const totalLikes = useAppSelector(state => state.products.allProducts.data.find((fetchProduct) => fetchProduct.id === product.id))
+  const [likesOfProduct , setLikesOfProduct] = useState(product.likes)
   const [showComments, setShowComments] = useState(false)
   const [comment, setComment] = useState("")
   const dispatch = useAppDispatch()
@@ -130,9 +122,17 @@ function ProductDetail({ route }) {
 
   const toggleLikeStatus = async () => {
     await dispatch(changeLikeStatus(product.id))
-    await dispatch(fetchLikeStatus(product.id))
+    const fetchedLikesStatus = await dispatch(fetchLikeStatus(product.id)).unwrap()
+    console.log(fetchedLikesStatus);
+    
     await dispatch(updateTotalLikes(product.id))
     await dispatch(fetchFavoriteProducts())
+    if(fetchedLikesStatus.status){
+      setLikesOfProduct(likesOfProduct + 1)
+    }
+    else{
+      setLikesOfProduct(likesOfProduct - 1)
+    }
   }
 
   const makeCall = (phoneNumber) => {
@@ -169,7 +169,6 @@ function ProductDetail({ route }) {
             }
             <PostImage size={2} src={product.image} style={styles.image} />
           </View>
-          {/* <PostImage size={2} src={product.image} style={styles.image} ></PostImage> */}
 
           {/* Price & Title */}
           <View className="flex flex-row">
@@ -189,7 +188,7 @@ function ProductDetail({ route }) {
                   }
                 </Pressable>)
               }
-              <Text style={[{ marginLeft: 10 }, styles.text]}>{totalLikes.likes}</Text>
+              <Text style={[{ marginLeft: 10 }, styles.text]}>{likesOfProduct}</Text>
             </View>
           </View>
 
@@ -216,7 +215,7 @@ function ProductDetail({ route }) {
 
               {myUser.id !== product.userID && (
                 <Pressable style={styles.chatButton} onPress={checkUserChatWithFriendID}>
-                  <Entypo name="chat" size={hp(2)} />
+                  <Entypo name="chat" size={hp(2)} color={theme.colors.kuBGColor} />
                   <Text style={styles.chatText}> แชท</Text>
                 </Pressable>
               )
@@ -231,90 +230,9 @@ function ProductDetail({ route }) {
               }
             </View>
           </View>
-          {/* <View style={styles.buttonContainer}>
-                <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 10 }}>
-                              <ProfileImage size={20} src={product.user.profile}/>
-                              <Text style={[{ marginLeft: 10 }]}>{product.userID}</Text>
-                              {
-                                  myUser.id !== product.userID && (
-                                      <Pressable onPress={checkUserChatWithFriendID}>
-                                          <Entypo name="chat" size={30} color="#004c27"  style={{marginLeft: 20}}/>
-                                      </Pressable>
-                                  )
-                              }
-                          </View>
-                </View> */}
-
-
-
         </ScrollView>
       </StyledHomeBox>
     </StyledContainer>
-
-    // <StyledContainer>
-    //     <StyledHomeBox>
-    //         <BackButton/>
-    //         <View style={{ display: 'flex', alignItems: 'center' }}>
-
-    //             <PostImage size={35} src={product.image}></PostImage>
-    //             <View style={[{ marginBottom: 20 }]}>
-    //                 <Text style={[{ marginTop: 10 }, styles.text]}>หัวข้อ: {product.title}</Text>
-    //                 <Text style={[{ marginTop: 10 }, styles.text]}>รายละเอียด: {product.content}</Text>
-    //                 <Text style={[{ marginTop: 10 }, styles.text]}>ประเภทสินค้า: {product.category}</Text>
-    //                 <Text style={[{ marginTop: 10 }, styles.text]}>ราคาสินค้า: {product.price} ฿</Text>
-    //                 <Text style={[{ marginTop: 10 }, styles.text]}>โพสต์วันที่: {formattedDate}</Text>
-    //                 <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 10 }}>
-    //                     <ProfileImage size={20} src={product.user.profile}/>
-    //                     <Text style={[{ marginLeft: 10 }, styles.text]}>{product.userID}</Text>
-    //                     {
-    //                         myUser.id !== product.userID && (
-    //                             <Pressable onPress={checkUserChatWithFriendID}>
-    //                                 <Entypo name="chat" size={30} color="#004c27"  style={{marginLeft: 20}}/>
-    //                             </Pressable>
-    //                         )
-    //                     }
-
-    //                 </View>
-    //                 <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 10 }}>
-    //                     { likeStatus && (
-    //                     <Pressable onPress={toggleLikeStatus}>
-    //                     {
-    //                         (likeStatus.status === true) ? <AntDesign name="like1" size={30} color="#004c27" /> :
-    //                         <AntDesign name="like1" size={30} color="silver" />
-    //                     }
-    //                     </Pressable>)
-    //                     }
-    //                     <Text style={[{ marginLeft: 10 }, styles.text]}>{totalLikes.likes}</Text>
-    //                 </View>
-    //                 <Pressable onPress={() => setShowComments(!showComments)}>
-    //                 <View style={{ display: "flex", flexDirection: "row", alignItems: 'center', marginTop: 10 }}>
-    //                     <FontAwesome name="comments" size={30} color="#004c27" />
-    //                     <Text style={[{ marginLeft: 10 }, styles.text]}>{comments.length}</Text>
-    //                 </View>
-    //                 </Pressable>
-    //                 {
-    //                     showComments && (
-    //                         <View style={{marginTop: 20}}>
-    //                             <TextInput
-    //                                 value={comment}
-    //                                 placeholder="type your comment"
-    //                                 onChangeText={(value) => setComment(value)}
-    //                                 style={styles.textField}
-    //                             >
-    //                             </TextInput>
-    //                             <TouchableOpacity style={styles.button} onPress={sentComment}>
-    //                                 <Text style={{color: 'white'}}>comment</Text>
-    //                             </TouchableOpacity>
-    //                         </View>
-    //                     )
-    //                 }
-    //                 {
-    //                     renderedComments
-    //                 }
-    //             </View>
-    //         </View>
-    //     </StyledHomeBox>
-    // </StyledContainer>
   )
 }
 
