@@ -158,7 +158,7 @@ function ProfilePage() {
                             onPress={() => navigation.navigate("MyFavoriteProducts" as never)}
                             style={styles.myPostStyles}
                         >
-                            <Text style={styles.myPosttext}>สินค้าที่สนใจ</Text>
+                            <Text style={styles.myPosttext}>สินค้าที่ถูกใจ</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
@@ -166,7 +166,7 @@ function ProfilePage() {
                             onPress={() => navigation.navigate("MyProductsPurchased" as never)}
                             style={styles.myPostStyles}
                         >
-                            <Text style={styles.myPosttext}>MyProductsPurchased</Text>
+                            <Text style={styles.myPosttext}>ประวัติการซื้อของฉัน</Text>
                         </TouchableOpacity>
 
                         {isAdmin && (
