@@ -108,7 +108,7 @@ function PostPage() {
                 (isAdmin) ? 
                 <StyledHomeBox>
                     <View>
-                        <Text>Admins cannot submit a verification request or add products.</Text>
+                        <Text className="text-xl mt-4">ผู้ดูแลระบบไม่สามารถส่งคำขอตรวจสอบหรือเพิ่มผลิตภัณฑ์ได้</Text>
                     </View>
                 </StyledHomeBox>
                 
