@@ -13,9 +13,11 @@ const addUser = createAsyncThunk(
   async ({
     usernameOfUser,
     emailOfUser,
+    phoneNumber
   }: {
     usernameOfUser: string;
     emailOfUser: string;
+    phoneNumber : string
   }) => {
     const response = await client.graphql({
       query: createUser,
@@ -23,6 +25,7 @@ const addUser = createAsyncThunk(
         input: {
           id: usernameOfUser,
           email: emailOfUser,
+          phone: phoneNumber,
           credit: CreditStatus.NOT_YET_VERIFIED,
         },
       },

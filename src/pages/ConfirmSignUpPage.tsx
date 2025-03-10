@@ -9,7 +9,7 @@ import { StyledContainer, StyledHomeBox } from "../components/StyleContainer";
 import Header from "../components/Header";
 import { hp, wp } from "../helpers/common";
 
-function ConfirmSignUpPage({ username , email}: { username: string , email: string}) {
+function ConfirmSignUpPage({ username , email , phone}: { username: string , email: string , phone: string}) {
     const [otp, setOtp] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const navigation = useNavigation();
@@ -23,7 +23,7 @@ function ConfirmSignUpPage({ username , email}: { username: string , email: stri
             });
 
             if (nextStep.signUpStep === "DONE") {
-                dispatch(addUser({usernameOfUser: username , emailOfUser: email}))
+                dispatch(addUser({usernameOfUser: username , emailOfUser: email, phoneNumber: phone}))
                 navigation.navigate("Login" as never);
             }
         } catch (e) {

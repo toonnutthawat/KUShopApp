@@ -1,10 +1,10 @@
 
 export enum ProductCategory {
-    Electronics = "Electronics",
-    Clothing = "Clothing",
-    HomeAppliances = "Home Appliances",
-    Books = "Books",
-    Toys = "Toys",
-    ETC = "ETC."
+    Electronics = "อิเล็กทรอนิกส์",
+    Clothing = "เสื้อผ้า",
+    HomeAppliances = "เครื่องใช้ในบ้าน",
+    Books = "หนังสือ",
+    Toys = "ของเล่น",
+    ETC = "อื่นๆ"
   }
   
