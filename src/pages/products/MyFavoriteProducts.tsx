@@ -45,7 +45,7 @@ function MyFavoriteProducts(){
                 <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1),justifyContent: 'center'}} className="w-full flex-grow" showsVerticalScrollIndicator={false}>
                     {filteredMyFavoriteProducts.length > 0 ? (
                         filteredMyFavoriteProducts.map((product, index) => (
-                            <View style={{ width: hp(20), height: wp(60), marginBottom: hp(5)}}>
+                            <View style={{ width: hp(20), height: wp(60), marginBottom: hp(5)}} key={index}>
                                 <ProductReusable key={index} product={product} />
                             </View>
                         ))

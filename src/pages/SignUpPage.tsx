@@ -28,7 +28,8 @@ function SignUpPage() {
         const thaiPhoneRegex = /^(0[689]\d{8})$/;
 
         if (thaiPhoneRegex.test(phone)) {
-            setErrorMessage(""); // Clear any previous error message
+            return `+66${phone.substring(1)}`
+            setErrorMessage("test"); // Clear any previous error message
         } else {
             setErrorMessage("เบอร์โทรศัพท์ไม่ถูกต้อง ตัวอย่าง: 0812345678");
             return null;
@@ -36,6 +37,10 @@ function SignUpPage() {
     };
 
     const handleSignUp = async () => {
+        if (!email || !username || !phone || !password || !confirmPassword) {
+            setErrorMessage("All fields are required. Please fill in all details before posting.");
+            return;
+        }
         if (!email.endsWith("@ku.th")) {
             setErrorMessage("อีเมลต้องลงท้ายด้วย @ku.th เท่านั้น");
             return;
@@ -51,7 +56,7 @@ function SignUpPage() {
                 options: {
                     userAttributes: {
                         email: email,
-                        phone_number: phone
+                        phone_number: formattedPhone
                     },
                 },
             });
@@ -67,7 +72,7 @@ function SignUpPage() {
         <ScreenWrapper bg = {theme.colors.kuColor}>
             <StatusBar style = "dark"></StatusBar>
                 {confirmSignUp ? (
-                    <ConfirmSignUpPage username={username}  email={email}/>
+                    <ConfirmSignUpPage username={username}  email={email} phone={phone}/>
                 ) : (
                     
                     <View style = {styles.container}>
