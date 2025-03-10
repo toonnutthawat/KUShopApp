@@ -13,16 +13,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProfilePage from "./src/pages/profile/ProfilePage";
 import Icon from "react-native-vector-icons/Ionicons";
 import PostPage from "./src/pages/products/PostPage";
-import MyPosts from "./src/pages/products/MyProducts";
-import PostDetail from "./src/pages/products/ProductDetail";
 import AllChats from "./src/pages/chat/AllChats";
 import Entypo from "@expo/vector-icons/Entypo";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import ChatPage from "./src/pages/chat/ChatPage";
 import "./global.css";
-import AllProducts from "./src/pages/shop/AllProducts";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import AddProduct from "./src/pages/shop/AddProduct";
 import ManageRequest from "./src/pages/Admin/ManageRequest";
 import ProductDetail from "./src/pages/products/ProductDetail";
 import MyProducts from "./src/pages/products/MyProducts";
@@ -61,10 +56,10 @@ function BottomTabs() {
         headerShown: false, // Set headerShown to false for all tabs
       })}
     >
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="PostPage" component={PostPage} />
-      <Tab.Screen name="Chat" component={AllChats} />
-      <Tab.Screen name="Profile" component={ProfilePage} />
+      <Tab.Screen name="Home" component={Home} options={{title : "หน้าแรก"}} />
+      <Tab.Screen name="PostPage" component={PostPage} options={{title : "เพิ่มสินค้า"}} />
+      <Tab.Screen name="Chat" component={AllChats} options={{title : "ข้อความ"}} />
+      <Tab.Screen name="Profile" component={ProfilePage} options={{title : "โปรไฟล์"}} />
       <Tab.Screen
         name="Post"
         component={PostPage}

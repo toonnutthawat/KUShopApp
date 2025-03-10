@@ -195,15 +195,15 @@ function ChatPage({ route }) {
                         productWithinChat && (
                             <View className="flex flex-row bg-white p-2 rounded-lg">
                                 <PostImage size={10} src={productWithinChat.image} style={{width: 50}}></PostImage>
-                                <View className="ml-4">
-                                    <Text>สินค้า : {productWithinChat.title}</Text>
-                                    <Text>ราคา : {productWithinChat.price} ฿</Text>
-                                    <Text>หมวดหมู่ : {productWithinChat.category}</Text>
+                                <View className="ml-4 mt-2">
+                                    <Text className="text-l">สินค้า : {productWithinChat.title}</Text>
+                                    <Text className="text-l">ราคา : {productWithinChat.price} ฿</Text>
+                                    <Text className="text-l">หมวดหมู่ : {productWithinChat.category}</Text>
                                 </View>
                                 {
                                     ((productWithinChat.userID === myUser.id) && (productWithinChat.status === ProductStatus.AVAILABLE)) && (
                                         <TouchableOpacity onPress={changeProductStatus} className="bg-blue-600 flex justify-center p-4 rounded-lg right-0 absolute m-4">
-                                            <Text className="text-white">Sold</Text>
+                                            <Text className="text-white">กดเพื่อขาย</Text>
                                         </TouchableOpacity>
                                     )
                                 }
