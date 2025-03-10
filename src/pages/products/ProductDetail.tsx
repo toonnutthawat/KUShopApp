@@ -161,9 +161,8 @@ function ProductDetail({ route }) {
           <View className='flex justify-center'>
             {
               (product.status === ProductStatus.SOLD) && (
-                <View className='absolute z-10 bg-slate-400 opacity-75 
-                        flex items-center justify-center' style={styles.image}>
-                  <Text className='text-white'>Out of Stock</Text>
+                <View className='absolute z-10 bg-slate-400 opacity-75 flex items-center justify-center' style={styles.image}>
+                  <Text className="text-white text-3xl font-bold bg-red-600 px-4 py-2 rounded-lg">สินค้าหมด</Text>
                 </View>
               )
             }
