@@ -17,7 +17,7 @@ function ProductCategoryTab({onSelectCategory}){
                 <Image source={require("../../assets/pic4-r.png")} style={styles.categoryImg}></Image>
             </Pressable>
             <Pressable style={styles.container} onPress={() => onSelectCategory(ProductCategory.Toys)}>
-                <Image source={require("../../assets/pic5-r.png")} style={styles.categoryImg}></Image>
+                <Image source={require("../../assets/pic5-r.png")} style={styles.categoryImg1}></Image>
             </Pressable>
             <Pressable style={styles.container} onPress={() => onSelectCategory(ProductCategory.ETC)}>
                 <Image source={require("../../assets/pic6-r.png")} style={styles.categoryImg}></Image>
@@ -28,8 +28,13 @@ function ProductCategoryTab({onSelectCategory}){
 
 const styles = StyleSheet.create({
     categoryImg: {
-        height: 40,
-        width: 40
+        height: 45,
+        width: 45,
+    },
+    categoryImg1: {
+        height: 45,
+        width: 45,
+        resizeMode:'contain'
     },
     container: {
         backgroundColor: 'white',
