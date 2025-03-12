@@ -71,7 +71,7 @@ function Home() {
                         </Pressable>
                     )
                 }
-                {/* <MaterialIcons name="post-add" size={30} color="#004c27" className="absolute right-4 top-4" onPress={() => navigation.navigate("Post" as never)}/> */}
+                
                 <TextInput
                     placeholder="ค้นหาสินค้า ..."
                     value={term}
@@ -80,9 +80,11 @@ function Home() {
                     placeholderTextColor="#555"
                 />
                 <ProductCategoryTab onSelectCategory={handleCategorySelect}></ProductCategoryTab>
-                <ScrollView  contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1),justifyContent: 'center'}} className="w-full flex-grow mt-2" showsVerticalScrollIndicator={false}>
+                <ScrollView  contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1),justifyContent: 'center',paddingBottom:hp(7)}} 
+                    className="w-full flex-grow mt-4" 
+                    showsVerticalScrollIndicator={false}>
                     {filteredMyProducts.map((product, index) => (
-                        <View key={index} style={{ width: hp(20), height: wp(55), marginBottom: hp(5)}}>
+                        <View key={index} style={{ width: hp(20), height: wp(55), marginBottom: hp(5) }}>
                             <ProductReusable key={index} product={product} />
                         </View>
                     ))}
@@ -93,60 +95,7 @@ function Home() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#004d26",
-        alignItems: "center",
-        justifyContent: "flex-start", // Aligns content at the top
-    },
-    username: {
-        fontSize: 20,
-        color: "white",
-        marginVertical: 20,
-        textAlign: "center",
-    },
-    homeBox: {
-        backgroundColor: "#d5f0e8",
-        width: "85%",
-        borderRadius: 10,
-        padding: 20,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 5,
-        marginBottom: 20,
-    },
-    homeBoxTitle: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: "#004d26",
-        marginBottom: 10,
-        textAlign: "center"
-    },
-    homeBoxContent: {
-        fontSize: 16,
-        color: "#555",
-        textAlign: "center"
-    },
-    logoutButton: {
-        backgroundColor: "red",
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-        marginTop: 20,
-    },
-    logoutButtonText: {
-        color: "white",
-        fontSize: 16,
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-    welcomeText:{
-        fontSize: hp(4),
-        fontWeight: theme.fonts.bold as TextStyle['fontWeight'],
-        color: theme.colors.text,
-        }
+   
 });
 
 export default Home;
