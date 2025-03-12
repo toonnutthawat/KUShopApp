@@ -5,22 +5,22 @@ function ProductCategoryTab({onSelectCategory}){
     return(
         <View className="flex flex-row">
             <Pressable style={styles.container} onPress={() => onSelectCategory(ProductCategory.Electronics)}>
-                <Image source={require("../../assets/gadgets.png")} style={styles.categoryImg}></Image>
+                <Image source={require("../../assets/pic1-r.png")} style={styles.categoryImg}></Image>
             </Pressable>
             <Pressable style={styles.container} onPress={() => onSelectCategory(ProductCategory.Clothing)}>
-                <Image source={require("../../assets/brand.png")} style={styles.categoryImg}></Image>
+                <Image source={require("../../assets/pic2-r.png")} style={styles.categoryImg}></Image>
             </Pressable>
             <Pressable style={styles.container} onPress={() => onSelectCategory(ProductCategory.HomeAppliances)}>
-                <Image source={require("../../assets/small-appliance.png")} style={styles.categoryImg}></Image>
+                <Image source={require("../../assets/pic3-r.png")} style={styles.categoryImg}></Image>
             </Pressable>
             <Pressable style={styles.container} onPress={() => onSelectCategory(ProductCategory.Books)}>
-                <Image source={require("../../assets/book.png")} style={styles.categoryImg}></Image>
+                <Image source={require("../../assets/pic4-r.png")} style={styles.categoryImg}></Image>
             </Pressable>
             <Pressable style={styles.container} onPress={() => onSelectCategory(ProductCategory.Toys)}>
-                <Image source={require("../../assets/toys.png")} style={styles.categoryImg}></Image>
+                <Image source={require("../../assets/pic5-r.png")} style={styles.categoryImg}></Image>
             </Pressable>
             <Pressable style={styles.container} onPress={() => onSelectCategory(ProductCategory.ETC)}>
-                <Image source={require("../../assets/more.png")} style={styles.categoryImg}></Image>
+                <Image source={require("../../assets/pic6-r.png")} style={styles.categoryImg}></Image>
             </Pressable>
         </View>
     )
