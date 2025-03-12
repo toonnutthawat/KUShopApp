@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Button, Image, TouchableOpacity, TextStyle, Pressable } from "react-native";
+import { Alert,Text, View, StyleSheet, Button, Image, TouchableOpacity, TextStyle, Pressable } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { useEffect, useState } from "react";
 import { editImgUser, fetchMyUser } from "../../store/thunks/userThunk";
@@ -81,10 +81,32 @@ function ProfilePage() {
         }
     };
 
-    async function handleSignOut() {
-        await signOut();
-        navigation.navigate("Welcome" as never);
-    }
+    const handleSignOut = () => {
+        Alert.alert(
+            "ยืนยันการออกจากระบบ", // Title
+            "คุณต้องการออกจากระบบใช่หรือไม่?", // Message
+            [
+                {
+                    text: "ยกเลิก",
+                    style: "cancel",
+                },
+                {
+                    text: "ตกลง",
+                    onPress: async () => {
+                        try {
+                            console.log("User confirmed!");
+                            await signOut();
+                            navigation.navigate("Welcome" as never);
+                        } catch (error) {
+                            console.error("Error signing out:", error);
+                        }
+                    },
+                },
+            ],
+            { cancelable: false }
+        );
+    };
+    
 
     function cancelEditImg() {
         setEditImg(false)
