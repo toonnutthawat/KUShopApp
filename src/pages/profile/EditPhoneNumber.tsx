@@ -1,4 +1,4 @@
-import { TextInput, View ,Text, TouchableOpacity} from "react-native";
+import { Alert,TextInput, View ,Text, TouchableOpacity} from "react-native";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { hp } from "../../helpers/common";
 import { useState } from "react";
@@ -33,7 +33,24 @@ function EditPhoneNumber({handleEditPhone}){
         // Convert the phone number to E.164 format
         const formattedPhone = `+66${phone.substring(1)}`;
         setErrorMessage("");
-        handleUpdateUserAttribute(formattedPhone);
+        Alert.alert(
+            "ยืนยันการกระทำ", // Title
+            "คุณแน่ใจหรือไม่?", // Message
+            [
+                {
+                    text: "ยกเลิก",
+                    style: "cancel",
+                },
+                {
+                    text: "ตกลง",
+                    onPress: () => {
+                        console.log("User confirmed!");
+                        handleUpdateUserAttribute(formattedPhone);
+                    },
+                },
+            ],
+            { cancelable: false }
+        );
     } else {
         setErrorMessage("Invalid phone number format. Example: 0812345678");
     }
@@ -105,19 +122,27 @@ function EditPhoneNumber({handleEditPhone}){
         <View className="mt-4">
             <View>
                 <View>
-                    <Text>phone number</Text>
+                    <Text className = 'mt-2'style={{ textAlign: "center", width: "100%",fontSize: 18, fontWeight:'500' }}>แก้ไขเบอร์โทรศัพท์</Text>
                     <TextInput
                         className="bg-white rounded-lg"
-                        style={{ width: hp(30) }}
+                        style={{
+                            backgroundColor: "#fff",
+                            padding: 10,
+                            borderRadius: 8,
+                            alignItems: "center",
+                            marginTop: 10,
+                            width :hp(30)
+                        }}
                         value={phone}
                         onChangeText={(value) => setPhone(value)}
-                        placeholder="Enter your phone number"
+                        placeholder="กรอกเบอร์โทรศัพท์ใหม่"
                         keyboardType="phone-pad"
-                    >
-
+                        
+                    >    
                     </TextInput>
                     {errorMessage ? <Text style={{ color: "red", marginTop: 4, width: hp(30) }}>{errorMessage}</Text> : null}
-                </View><TouchableOpacity
+                </View>
+                <TouchableOpacity
                     onPress={validatePhoneNumber}
                     style={{
                         backgroundColor: "#004c27",
@@ -127,7 +152,7 @@ function EditPhoneNumber({handleEditPhone}){
                         marginTop: 10
                     }}
                 >
-                        <Text style={{ color: "white", fontWeight: "bold" }}>Confirm</Text>
+                        <Text style={{ color: "white", fontWeight: "bold" }}>ยืนยัน</Text>
                     </TouchableOpacity>
                 </View>
             
