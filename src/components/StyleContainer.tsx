@@ -42,7 +42,7 @@ export function StyledContainer({ children }) {
 }
 
 export function StyledHomeBox({ children }) {
-    return <View style={styles.homeBox}>{children}</View>;
+    return <View style={styles.homeBox} className="relative">{children}</View>;
 }
 
 const styles = StyleSheet.create({

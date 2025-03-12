@@ -7,4 +7,3 @@ export enum ProductCategory {
     Toys = "ของเล่น",
     ETC = "อื่นๆ"
   }
-  

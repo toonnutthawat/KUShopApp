@@ -91,7 +91,7 @@ function PostPage() {
         setTitle("")
         setPrice("")
         setSelectedCategory(undefined)
-        await dispatch(fetchMyProducts())
+        await dispatch(fetchMyProducts({isSold: false}))
         navigation.navigate("MyProducts" as never)
     }
 
@@ -160,15 +160,6 @@ function PostPage() {
                             style={styles.detailInput}
                             multiline={true} // Ensures text can wrap inside
                         ></TextInput>
-                         {/* <View style={styles.textInput}>
-                            <RNPickerSelect
-                                onValueChange={(value) => setSelectedCategory(value)}
-                                items={Object.values(ProductCategory).map((category) => ({
-                                    label: category,
-                                    value: category,
-                                }))}
-                            />
-                        </View> */}
                         <View style={styles.textInput}>
                            <DropDownPicker
                                  open={open}
