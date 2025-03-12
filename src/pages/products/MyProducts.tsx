@@ -96,7 +96,9 @@ function MyProducts() {
                             </View>
                         ))
                     ) : (
-                        <Text className="text-center text-gray-400 mt-4">ไม่พบรายการ...</Text>
+                        <View style = {styles.containertext}>
+                            <Text className="text-2xl text-center text-gray-400 mt-4">ไม่พบรายการ...</Text>
+                        </View>
                     )}
                 </ScrollView>
              </StyledHomeBox>
@@ -117,6 +119,15 @@ const styles = StyleSheet.create({
     radiotext:{
         fontSize: 18,
         fontWeight:'900'
+    },
+    containertext:{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginLeft: 7,
+        gap: hp(1),
+        justifyContent: 'center',  // This will center the content horizontally
+        alignItems: 'center',      // This will center the content vertically
+        flexGrow: 1,          
     }
 })
 
