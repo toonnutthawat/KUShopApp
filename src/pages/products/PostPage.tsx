@@ -1,4 +1,4 @@
-import { Text, View, Image, TextInput, StyleSheet, Button, TouchableOpacity, TextStyle } from "react-native";
+import { Alert, Text, View, Image, TextInput, StyleSheet, Button, TouchableOpacity, TextStyle } from "react-native";
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
@@ -61,24 +61,57 @@ function PostPage() {
 
     const handlePostProduct = async () => {
         if (!title || !content || !price || !selectedCategory || !selectedImg) {
-            setErrorMessage("All fields are required. Please fill in all details before posting.");
+            setErrorMessage("กรุณากรอกข้อมูลให้ครบถ้วนก่อนทำการโพสต์");
             return;
         }
-        if (selectedImg) {
-            console.log("IF in Image");
-            const filename = `public/product/${selectedImg.fileName}` + '.png';
-            await postItem(filename)
-            const fileBase64 = await FileSystem.readAsStringAsync(selectedImg.uri, {
-                encoding: FileSystem.EncodingType.Base64
-            })
-            let imageData = decode(fileBase64)
-            await dispatch(uploadImgToS3({ filenamePath: filename, data: imageData }))
-            setSelectedImg(null)
-            setErrorMessage("")
-        } else {
-            console.log("No image selected");
-        }
 
+        Alert.alert(
+            'Confirm',
+            'คุณต้องการโพสต์สินค้านี้ใช่หรือไม่?',  // Confirmation message
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('User canceled the post'),
+                style: 'cancel',
+              },
+              {
+                text: 'OK',
+                onPress: async () => {
+                    if (selectedImg) {
+                        console.log("IF in Image");
+                        const filename = `public/product/${selectedImg.fileName}` + '.png';
+                        await postItem(filename)
+                        const fileBase64 = await FileSystem.readAsStringAsync(selectedImg.uri, {
+                            encoding: FileSystem.EncodingType.Base64
+                        })
+                        let imageData = decode(fileBase64)
+                        await dispatch(uploadImgToS3({ filenamePath: filename, data: imageData }))
+                        setSelectedImg(null)
+                        setErrorMessage("")
+                    } else {
+                        console.log("No image selected");
+                    }
+                  console.log('Product posted!');
+                  // You can insert your posting logic here (e.g., uploading to S3, etc.)
+                },
+              },
+            ],
+            { cancelable: false }
+          );
+        // if (selectedImg) {
+        //     console.log("IF in Image");
+        //     const filename = `public/product/${selectedImg.fileName}` + '.png';
+        //     await postItem(filename)
+        //     const fileBase64 = await FileSystem.readAsStringAsync(selectedImg.uri, {
+        //         encoding: FileSystem.EncodingType.Base64
+        //     })
+        //     let imageData = decode(fileBase64)
+        //     await dispatch(uploadImgToS3({ filenamePath: filename, data: imageData }))
+        //     setSelectedImg(null)
+        //     setErrorMessage("")
+        // } else {
+        //     console.log("No image selected");
+        // }
     };
 
     const postItem = async (imgPath: string | null) => {
@@ -179,7 +212,7 @@ function PostPage() {
                             style={styles.textInput}
                         ></TextInput>
                         {errorMessage && (
-                            <Text style={{ color: "red", marginTop: 10 , width: 300}}>{errorMessage}</Text>
+                            <Text style = {styles.errorMessage}>{errorMessage}</Text>
                         )}
                         <View style={{ marginTop: 20 , alignContent:'center'}}>
                             <TouchableOpacity
@@ -220,6 +253,12 @@ const styles = StyleSheet.create({
         padding: 12,
         borderWidth: 1,
         borderColor: '#ccc',
+    },
+    errorMessage: {
+        textAlign: 'center',
+        fontSize: 16,
+        color: 'red',
+        marginTop: 20,
     },
     detailInput: {
         backgroundColor: 'white',
