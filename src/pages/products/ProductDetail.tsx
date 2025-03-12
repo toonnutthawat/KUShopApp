@@ -1,4 +1,4 @@
-import { View, Image, Text, StyleSheet, Pressable, TextInput, TouchableOpacity, ScrollView, TextStyle, Linking, Platform } from "react-native"
+import { View, Image, Text, StyleSheet, Pressable, TextInput, TouchableOpacity, ScrollView, TextStyle, Linking, Platform, RefreshControl } from "react-native"
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import ProfileImage from "../../components/ProfileImage";
@@ -47,12 +47,16 @@ function ProductDetail({ route }) {
   const [comment, setComment] = useState("")
   const dispatch = useAppDispatch()
   const navigation = useNavigation<ChatResuableNavigationProp>()
+  const [refreshing, setRefreshing] = useState(false);
+
+
+  
 
   useEffect(() => {
     const fetch = async () => {
       dispatch(fetchCommentByProduct(product))
       dispatch(fetchLikeStatus(product.id))
-      dispatch(fetchMyProducts())
+      dispatch(fetchMyProducts({isSold: false}))
     }
     fetch()
   }, [product])
@@ -156,6 +160,7 @@ function ProductDetail({ route }) {
       <StyledHomeBox>
         <BackButton backButtonStyle={styles.backButt} />
         <ScrollView style={{ height: hp(hp) }}>
+       
 
           {/* Product Image */}
           <View className='flex justify-center'>

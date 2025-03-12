@@ -107,7 +107,7 @@ function ChatPage({ route }) {
             productID: productWithinChat.id,
             buyerID: chat.userID !== myUser.id ? chat.userID : chat.userID2
         }))
-        await dispatch(removeProductWithinChat(chat.id))
+        //await dispatch(removeProductWithinChat(chat.id))
         await dispatch(fetchProductWithinChat(chat.ProductID))
     }
 
@@ -262,23 +262,6 @@ function ChatPage({ route }) {
                     </KeyboardAvoidingView>
             </View>
              
-                {/* <View style={[styles.messageInputContainer, {height: selectedImg ? "20%" : "10%"}]}>
-                    <View style = {styles.inputContainer}>
-                    {
-                        !selectedImg ?
-                        <TextInput
-                        value={newMessage}
-                        onChangeText={(value) => setNewMessage(value)}
-                        placeholder="Type your message..."
-                        style={styles.messageInput} /> :
-                        <Image source={{uri: selectedImg.uri}} style={{width: 200, height: 100, borderRadius: 10}}></Image>
-                    }
-                    
-                    
-                    <TouchableOpacity style={styles.button} onPress={selectImage}><FontAwesome name="file-photo-o" size={17} color="white" /></TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={sentMessage}><Text style={{ color: 'white' }}>sent</Text></TouchableOpacity>
-                    </View>
-                </View> */}
         </ScreenWrapper>
     )
 }

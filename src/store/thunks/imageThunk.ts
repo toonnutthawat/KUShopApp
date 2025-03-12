@@ -6,7 +6,9 @@ import { useState } from "react";
 const client = generateClient()
 
 const uploadImgToS3 = createAsyncThunk("uploadImgToS3" , async ({filenamePath , data} : {filenamePath : string , data: ArrayBuffer }) =>{
-    try{
+    
+    try
+        {
             const result = uploadData({
                 path: filenamePath,
                     data: data,
@@ -14,6 +16,7 @@ const uploadImgToS3 = createAsyncThunk("uploadImgToS3" , async ({filenamePath , 
                         contentType: 'image/jpeg'
                     }
             }).result;
+            
     console.log("uploadImg Success");
     
     return (await result).path

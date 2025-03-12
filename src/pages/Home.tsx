@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet,ScrollView ,TextInput,TextStyle, Pressable } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet,ScrollView ,TextInput,TextStyle, Pressable, RefreshControl } from "react-native";
 import KuShopTitle from "../components/KuShopTitle";
 import { getCurrentUser, signOut } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
@@ -22,6 +22,7 @@ function Home() {
     const dispatch = useAppDispatch()
     const [selectedCategory, setSelectedCategory] = useState("");
     const allProducts = useAppSelector(state => state.products.allProducts.data || [])
+    const [refreshing, setRefreshing] = useState(false);
     const [loading, setLoading] = useState(false);
     if(!allProducts) return;
     const filteredMyProducts = allProducts.filter((post) => post.title.toLowerCase().includes(term.toLowerCase()))
@@ -34,6 +35,12 @@ function Home() {
         fetch()
         
     }, []);
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        // Simulate an async action
+        setTimeout(() => setRefreshing(false), 2000);
+      };
 
     useEffect(() => {
         if(selectedCategory) {
@@ -80,7 +87,6 @@ function Home() {
                         </View>
                     ))}
                 </ScrollView>                        
-
             </StyledHomeBox>
         </StyledContainer>
     );

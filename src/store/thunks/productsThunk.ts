@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { generateClient } from "@aws-amplify/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createProduct, deleteProduct, updateProduct } from "../../graphql/mutations";
@@ -36,18 +37,39 @@ const addProduct = createAsyncThunk("addProduct", async ({ titlePost , contentPo
     }
 })
 
-const fetchMyProducts = createAsyncThunk("fetchMyProducts", async () => {
+const fetchMyProducts = createAsyncThunk("fetchMyProducts", async ({isSold} : {isSold : boolean}) => {
     const user = await getCurrentUser()
-    const response = await client.graphql({
+    let response;
+    if(!isSold){
+    response = await client.graphql({
         query: listProducts,
         variables: {
             filter: {
                 userID : { 
                     eq : user.username
+                },
+                status: {
+                    eq: ProductStatus.AVAILABLE
                 }
             }
         }
     })
+    }
+    else{
+        response = await client.graphql({
+            query: listProducts,
+            variables: {
+                filter: {
+                    userID : { 
+                        eq : user.username
+                    },
+                    status: {
+                        eq: ProductStatus.SOLD
+                    }
+                }
+            }
+        })
+    }
     const userPromises = response.data.listProducts.items.map(async (product) => {
         const userResponse = await client.graphql({
             query: getUser,

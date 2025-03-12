@@ -1,4 +1,4 @@
-import { Text, View, TextInput,ScrollView } from "react-native";
+import { Text, View, TextInput,ScrollView, TouchableOpacity } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { useEffect, useState } from "react";
 import { fetchMyProducts } from "../../store/thunks/productsThunk";
@@ -12,11 +12,12 @@ function MyProducts() {
 
     const myPosts = useAppSelector(state => state.products.myProducts.data || [])
     const [term, setTerm] = useState("")
+    const [productByStatus , setProductByStatus] = useState(false)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         const fetch = async () => {
-            await dispatch(fetchMyProducts());
+            await dispatch(fetchMyProducts({isSold: false}));
         };
         fetch();
     }, []);
@@ -24,6 +25,16 @@ function MyProducts() {
     const filteredMyPosts = myPosts.filter((post) =>
         post.title.toLowerCase().includes(term.toLowerCase())
     );
+
+    const changeProductByStatus = () => {
+        setProductByStatus(!productByStatus)
+        if(productByStatus){
+            dispatch(fetchMyProducts({isSold: true}));
+        }
+        else{
+            dispatch(fetchMyProducts({isSold: false}));
+        }
+    }
 
     return (
         
@@ -37,6 +48,9 @@ function MyProducts() {
                     className="bg-gray-100 rounded-full px-4 h-12 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300 w-full"
                     placeholderTextColor="#555"
                 />
+                    <TouchableOpacity className="bg-blue-500 rounded-lg p-2 mb-4" onPress={changeProductByStatus}>
+                        <Text className="text-white">{`${productByStatus ? "AVAILABLE" : "SOLD"}`}</Text>
+                    </TouchableOpacity>
                 <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1),justifyContent: 'center'}} className="w-full flex-grow" showsVerticalScrollIndicator={false}>
                     {filteredMyPosts.length > 0 ? (
                         filteredMyPosts.map((product, index) => (
