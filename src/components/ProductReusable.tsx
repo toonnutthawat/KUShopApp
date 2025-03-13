@@ -28,6 +28,7 @@ const ProductReusable = ({ product, isMyPosts, className }: { product: Product, 
     const navigation = useNavigation<PostReusableNavigationProp>()
     const dispatch = useAppDispatch()
 
+
     // const removeProductByID = async () => {
     //     await dispatch(removeProduct(product.id))
     //     await dispatch(fetchAllProducts(null))
@@ -81,14 +82,14 @@ const ProductReusable = ({ product, isMyPosts, className }: { product: Product, 
                      (product.status === ProductStatus.SOLD) && (
                         <View className='absolute z-10 bg-slate-400 opacity-75 
                         flex items-center justify-center rounded-lg' style={{width: '100%', height: '100%'}}>
-                            <Text className="text-white text-3xl font-bold bg-red-600 px-3 py-3 rounded-lg">ขายแล้ว</Text>
+                            <Text className='text-white'>Out of Stock</Text>
                         </View>
                      )
                     }
                     <PostImage size={25} src={product.image}/>
                 </View>
                     <View className='mt-1'>
-                            <Text style = {styles.priceText}>฿ {product.price}</Text>
+                            <Text style = {styles.priceText}>฿ {product.price > 1000 ? product.price.toLocaleString() : product.price}</Text>
                     </View>
             </View>
             <View>

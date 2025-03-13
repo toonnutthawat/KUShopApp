@@ -178,7 +178,7 @@ function ProductDetail({ route }) {
           <View className="flex flex-row">
 
               <View style={styles.detailsContainer} className="justify-start">
-                <Text className='mt-1' style={styles.price}>฿{product.price}</Text>
+                <Text className='mt-1' style={styles.price}>฿{product.price > 1000 ? product.price.toLocaleString() : product.price}</Text>
                 <Text className='mt-1' style={styles.title}>{product.title}</Text>
                 <Text style={styles.condition}>{product.category}</Text>
               </View>
