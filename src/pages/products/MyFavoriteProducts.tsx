@@ -42,7 +42,7 @@ function MyFavoriteProducts(){
                     className="bg-gray-100 rounded-full px-4 h-12 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300 w-full"
                     placeholderTextColor="#555"
                 />
-                <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1),justifyContent: 'center'}} className="w-full flex-grow" showsVerticalScrollIndicator={false}>
+                <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1)}} className="w-full flex-grow" showsVerticalScrollIndicator={false}>
                     {filteredMyFavoriteProducts.length > 0 ? (
                         filteredMyFavoriteProducts.map((product, index) => (
                             <View key={index} style={{ width: hp(20), height: wp(60), marginBottom: hp(5)}}>
