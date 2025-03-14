@@ -47,19 +47,13 @@ function ProductDetail({ route }) {
   const [comment, setComment] = useState("")
   const dispatch = useAppDispatch()
   const navigation = useNavigation<ChatResuableNavigationProp>()
-  const [refreshProfile, setRefreshProfile] = useState(false);
 
-
-  const refreshProfileImage = () => {
-    setRefreshProfile(prev => !prev); // Toggle state to trigger re-render
-  };
 
   useEffect(() => {
     const fetch = async () => {
       dispatch(fetchCommentByProduct(product))
       dispatch(fetchLikeStatus(product.id))
       dispatch(fetchMyProducts({isSold: false}))
-      refreshProfileImage()
     }
     fetch()
   }, [product])
@@ -210,7 +204,7 @@ function ProductDetail({ route }) {
           {/* Contact Buttons */}
 
           <View className='mt-5' style={styles.memberCard}>
-            <ProfileImage size={hp(6)} src={product.user.profile} refreshProfile = {refreshProfile}/>
+            <ProfileImage size={hp(6)} src={product.user.profile}/>
             <Text className='mt-2' style={styles.memberId}>{product.userID}</Text>
 
             <Text style={styles.membershipDuration}>

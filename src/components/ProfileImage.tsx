@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../hook";
 import { theme } from "../constants/theme";
 import { hp } from "../helpers/common";
 
-function ProfileImage({size = hp(4.5) , src, refreshProfile , isChatPage } : { size: number, src?: string | null ; refreshProfile?: boolean , isChatPage? : boolean | null}){
+function ProfileImage({size = hp(4.5) , src , isChatPage } : { size: number, src?: string | null ; isChatPage? : boolean | null}){
 
     const styles = StyleSheet.create({
         profile : {

@@ -23,7 +23,7 @@ type RootStackParamList = {
 type PostReusableNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ProductDetail'>;
 
 
-const ProductReusable = ({ product, navigatedPath, className, refreshProfile }: { product: Product, navigatedPath?: String | null; className?: string;refreshProfile?: boolean; }) => {
+const ProductReusable = ({ product, navigatedPath, className, }: { product: Product, navigatedPath?: String | null; className?: string;}) => {
     const navigation = useNavigation<PostReusableNavigationProp>()
     const dispatch = useAppDispatch()
 
@@ -57,7 +57,7 @@ const ProductReusable = ({ product, navigatedPath, className, refreshProfile }: 
 
             <View style = {styles.header}>
                 <View style = {styles.userInfo}>
-                    <ProfileImage size={hp(4.5)} src={product.user.profile} refreshProfile={refreshProfile}/>
+                    <ProfileImage size={hp(4.5)} src={product.user.profile} />
                     <View style = {{gap:2}}>
                         <Text style = {styles.username}>{product.userID}</Text>
                         <Text style = {styles.postTime}>{createAt}</Text>

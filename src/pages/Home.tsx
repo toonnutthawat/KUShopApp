@@ -96,7 +96,7 @@ function Home() {
                     showsVerticalScrollIndicator={false}>
                     {filteredMyProducts.map((product, index) => (
                         <View key={index} style={{ width: hp(20), height: wp(55), marginBottom: hp(5) }}>
-                            <ProductReusable key={index} product={product} refreshProfile={refreshProfile}/>
+                            <ProductReusable key={index} product={product} />
                         </View>
                     ))}
                 </ScrollView>                        
