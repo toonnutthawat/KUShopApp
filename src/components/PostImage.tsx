@@ -10,8 +10,9 @@ interface PostImageProps {
     size: number;
     src?: string | null;
     style?: ImageStyle | ImageStyle[]; // Accepts custom styles
+    refreshTrigger?: boolean; // Accept a refresh trigger prop
   }
-  function PostImage({ size, src, style }: PostImageProps) {
+  function PostImage({ size, src, style , refreshTrigger}: PostImageProps) {
     
     const styles = StyleSheet.create({
         ImageStyles : {

@@ -2,7 +2,7 @@ import { Alert, Text, View, Image, TextInput, StyleSheet, Button, TouchableOpaci
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
-import { addProduct, fetchMyProducts } from "../../store/thunks/productsThunk";
+import { addProduct, fetchAllProducts, fetchMyProducts } from "../../store/thunks/productsThunk";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker'
 import * as FileSystem from 'expo-file-system'
@@ -92,26 +92,15 @@ function PostPage() {
                         console.log("No image selected");
                     }
                   console.log('Product posted!');
+                  await dispatch(fetchAllProducts({category: null})) 
+                  await dispatch(fetchMyProducts({isSold: false}))
                   // You can insert your posting logic here (e.g., uploading to S3, etc.)
                 },
               },
             ],
             { cancelable: false }
           );
-        // if (selectedImg) {
-        //     console.log("IF in Image");
-        //     const filename = `public/product/${selectedImg.fileName}` + '.png';
-        //     await postItem(filename)
-        //     const fileBase64 = await FileSystem.readAsStringAsync(selectedImg.uri, {
-        //         encoding: FileSystem.EncodingType.Base64
-        //     })
-        //     let imageData = decode(fileBase64)
-        //     await dispatch(uploadImgToS3({ filenamePath: filename, data: imageData }))
-        //     setSelectedImg(null)
-        //     setErrorMessage("")
-        // } else {
-        //     console.log("No image selected");
-        // }
+
     };
 
     const postItem = async (imgPath: string | null) => {
