@@ -16,15 +16,14 @@ import { format } from 'date-fns';
 
 // Define the navigation stack types
 type RootStackParamList = {
-    ProductDetail: { product: Product };
-    // Add other routes here if needed
+    ProductDetail: { product: Product; navigatedPath?: String };  // Add navigatedPath
 };
 
 // Define the navigation prop for this component
 type PostReusableNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ProductDetail'>;
 
 
-const ProductReusable = ({ product, isMyPosts, className, refreshProfile }: { product: Product, isMyPosts?: Boolean | null; className?: string;refreshProfile?: boolean; }) => {
+const ProductReusable = ({ product, navigatedPath, className, refreshProfile }: { product: Product, navigatedPath?: String | null; className?: string;refreshProfile?: boolean; }) => {
     const navigation = useNavigation<PostReusableNavigationProp>()
     const dispatch = useAppDispatch()
 
@@ -54,7 +53,7 @@ const ProductReusable = ({ product, isMyPosts, className, refreshProfile }: { pr
 
     return (
 
-        <TouchableOpacity  onPress={() => navigation.navigate('ProductDetail', { product })} style={[styles.container, shadowStyles]} >
+        <TouchableOpacity  onPress={() => navigation.navigate('ProductDetail', { product , navigatedPath })} style={[styles.container, shadowStyles]} >
 
             <View style = {styles.header}>
                 <View style = {styles.userInfo}>

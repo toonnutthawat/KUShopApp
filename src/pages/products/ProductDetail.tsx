@@ -33,7 +33,7 @@ type ChatResuableNavigationProp = NativeStackNavigationProp<RootStackParamList, 
 
 
 function ProductDetail({ route }) {
-  const { product }: { product: Product } = route.params
+  const { product , navigatedPath }: { product: Product , navigatedPath : String} = route.params
   const formattedDate = format(new Date(product.createdAt), 'hh:mm a : PPP');
   const comments = useAppSelector(state => state.comments.data)
   const myUser = useAppSelector(state => state.users.myUser)
@@ -158,7 +158,7 @@ function ProductDetail({ route }) {
 
     <StyledContainer>
       <StyledHomeBox>
-        <BackButton backButtonStyle={styles.backButt} />
+        <BackButton backButtonStyle={styles.backButt}  navigatedPath={navigatedPath}/>
         <ScrollView style={{ height: hp(hp) }} showsVerticalScrollIndicator={false}>
        
 

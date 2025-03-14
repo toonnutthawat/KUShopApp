@@ -7,12 +7,13 @@ import { useNavigation } from "@react-navigation/native";
 interface BackButtonProps {
     size?: 26,
     backButtonStyle?: ViewStyle;
+    navigatedPath?: String | null;
 }
-const BackButton: React.FC<BackButtonProps> = ({size = 26, backButtonStyle }) => {
+const BackButton: React.FC<BackButtonProps> = ({size = 26, backButtonStyle , navigatedPath}) => {
     const navigation = useNavigation();
 
     return (
-        <Pressable style = {[styles.button, backButtonStyle]} onPress={() => navigation.goBack()}> 
+        <Pressable style = {[styles.button, backButtonStyle]} onPress={!navigatedPath ? () => navigation.goBack() : () => navigation.navigate(`${navigatedPath}` as never)}> 
             <Icon name = "arrowLeft" strokeWidth= {2.5} size = {size} color = {theme.colors.text}></Icon>
         </Pressable>
     ) 
