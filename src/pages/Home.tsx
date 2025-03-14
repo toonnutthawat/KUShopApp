@@ -26,6 +26,7 @@ function Home() {
     const [loading, setLoading] = useState(false);
     if(!allProducts) return;
     const filteredMyProducts = allProducts.filter((post) => post.title.toLowerCase().includes(term.toLowerCase()))
+    const [refreshProfile, setRefreshProfile] = useState(false);
     
     useEffect(() => {
         const fetch = async () => {
@@ -36,9 +37,18 @@ function Home() {
         
     }, []);
 
+    const refreshProduct = () =>{
+        dispatch(fetchAllProducts({category: selectedCategory}))
+    }
+
+    const refreshProfileImage = () => {
+        setRefreshProfile(prev => !prev); // Toggle state to trigger re-render
+    };
+
     const onRefresh = () => {
         setRefreshing(true);
-        // Simulate an async action
+        refreshProduct()
+        refreshProfileImage()
         setTimeout(() => setRefreshing(false), 2000);
       };
 
@@ -80,12 +90,13 @@ function Home() {
                     placeholderTextColor="#555"
                 />
                 <ProductCategoryTab onSelectCategory={handleCategorySelect}></ProductCategoryTab>
-                <ScrollView  contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1),justifyContent: 'center',paddingBottom:hp(7)}} 
+                <ScrollView  contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1),justifyContent: 'flex-start',paddingBottom:hp(7)}}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                     className="w-full flex-grow mt-4" 
                     showsVerticalScrollIndicator={false}>
                     {filteredMyProducts.map((product, index) => (
                         <View key={index} style={{ width: hp(20), height: wp(55), marginBottom: hp(5) }}>
-                            <ProductReusable key={index} product={product} />
+                            <ProductReusable key={index} product={product} refreshProfile={refreshProfile}/>
                         </View>
                     ))}
                 </ScrollView>                        
