@@ -1,4 +1,4 @@
-import { Text, View, TextInput,ScrollView, TouchableOpacity ,StyleSheet} from "react-native";
+import { Text, View, TextInput,ScrollView, TouchableOpacity ,StyleSheet, RefreshControl} from "react-native";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { useEffect, useState } from "react";
 import { fetchMyProducts } from "../../store/thunks/productsThunk";
@@ -14,6 +14,7 @@ function MyProducts() {
     const [term, setTerm] = useState("")
     const [productByStatus , setProductByStatus] = useState(false)
     const dispatch = useAppDispatch()
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         const fetch = async () => {
@@ -26,21 +27,20 @@ function MyProducts() {
         post.title.toLowerCase().includes(term.toLowerCase())
     );
 
-    // const changeProductByStatus = () => {
-    //     setProductByStatus(!productByStatus)
-    //     if(productByStatus){
-    //         dispatch(fetchMyProducts({isSold: true}));
-    //     }
-    //     else{
-    //         dispatch(fetchMyProducts({isSold: false}));
-    //     }
-    // }
-
+    const refreshProduct = () => {
+        dispatch(fetchMyProducts({ isSold: productByStatus }));
+    };
+    
     const changeProductByStatus = (status) => {
         setProductByStatus(status);
         dispatch(fetchMyProducts({ isSold: status }));
     };
-
+    
+    const onRefresh = () => {
+        setRefreshing(true);
+        refreshProduct();
+        setTimeout(() => setRefreshing(false), 2000);
+    };
     return (
         
         <StyledContainer>
@@ -87,7 +87,10 @@ function MyProducts() {
                 </View>
 
 
-                <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1)}} className="w-full flex-grow" showsVerticalScrollIndicator={false}>
+                <ScrollView  contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1),justifyContent: 'flex-start',paddingBottom:hp(7)}}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                    className="w-full flex-grow mt-4" 
+                    showsVerticalScrollIndicator={false}>
                     {filteredMyPosts.length > 0 ? (
                         filteredMyPosts.map((product, index) => (
                             
@@ -108,7 +111,7 @@ function MyProducts() {
 
 const styles = StyleSheet.create({
     radio:{
-        height: hp(6.5),
+        height: hp(6),
         width: wp(44),
         flexDirection: "row",
         alignItems:"center",
