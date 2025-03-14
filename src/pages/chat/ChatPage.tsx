@@ -40,6 +40,7 @@ function ChatPage({ route }) {
     const [subNewMessage , setSubNewMessage] = useState<Message>()
     const myUser = useAppSelector(state => state.users.myUser)
     let productWithinChat = useAppSelector(state => state.chats.productWithinChat || null)
+    const [isVisible, setIsVisible] = useState(false);
     if(!chat.ProductID){
         productWithinChat = null
     }
@@ -141,6 +142,14 @@ function ChatPage({ route }) {
             console.log("fetchProductWithinChat");
     },[])
 
+    useEffect(() => {
+        if (productWithinChat?.status === ProductStatus.AVAILABLE) {
+          setIsVisible(true); // Set to true if status is AVAILABLE
+        } else {
+          setIsVisible(false); // Set to false otherwise
+        }
+      }, [productWithinChat?.status]); // Trigger effect when status changes
+
     const renderedMesssages = sortedMessages.map((message, index) => {
         const hr = format(new Date(message.createdAt), 'hh:mm a');
         const date = format(new Date(message.createdAt), 'dd/MM/yyyy');
@@ -191,7 +200,7 @@ function ChatPage({ route }) {
                         <ProfileImage size={40} src={myUser.id === chat.userID ? chat.user2.profile : chat.user.profile}></ProfileImage>
                         <Text style={styles.title}>{myUser.id === chat.userID ? chat.userID2 : chat.userID}</Text>
                     </View>
-                    {
+                    {/* {
                         productWithinChat && (
                             <View className="flex flex-row bg-white p-2 rounded-lg">
                                 <PostImage size={10} src={productWithinChat.image} style={{width: 50}}></PostImage>
@@ -209,7 +218,43 @@ function ChatPage({ route }) {
                                 }
                             </View>
                         )
-                    }
+                    } */}
+
+                    <View>
+                         <TouchableOpacity 
+                           onPress={() => setIsVisible(!isVisible)} 
+                           className="flex flex-row items-center bg-white p-2 rounded-lg"
+                         >
+                           <Text className="text-lg font-semibold">แสดงสินค้า</Text>
+                           {isVisible ? (
+                            <View className="absolute right-4"><Icon name = "arrowUp" strokeWidth= {2.5} size = {26} color = {theme.colors.text}></Icon></View>
+                             
+                           ) : (
+                            <View className="absolute right-4"><Icon name = "arrowDown" strokeWidth= {2.5} size = {26} color = {theme.colors.text}></Icon></View>
+                           )}
+                         </TouchableOpacity>
+                       
+                         {isVisible && productWithinChat && (
+                           <View className="flex flex-row bg-white p-2 rounded-lg mt-2">
+                             <PostImage size={10} src={productWithinChat.image} style={{ width: 50 }} />
+                             <View className="ml-4 mt-2">
+                               <Text className="text-l">สินค้า : {productWithinChat.title}</Text>
+                               <Text className="text-l">ราคา : {productWithinChat.price} ฿</Text>
+                               <Text className="text-l">หมวดหมู่ : {productWithinChat.category}</Text>
+                               <Text className="text-l">สถานะ : {productWithinChat.status === ProductStatus.SOLD ? 'ขายแล้ว' : 'มีอยู่'}</Text>
+                             </View>
+                        
+                             {(productWithinChat.userID === myUser.id && productWithinChat.status === ProductStatus.AVAILABLE) && (
+                               <TouchableOpacity 
+                                 onPress={changeProductStatus} 
+                                 className="bg-blue-600 flex justify-center p-4 rounded-lg right-0 absolute m-4"
+                               >
+                                 <Text className="text-white">ขายแล้ว</Text>
+                               </TouchableOpacity>
+                             )}
+                           </View>
+                         )}
+                       </View>
                     <ScrollView contentContainerStyle={{}} showsVerticalScrollIndicator={false}>{renderedMesssages}</ScrollView>
 
                     <KeyboardAvoidingView
