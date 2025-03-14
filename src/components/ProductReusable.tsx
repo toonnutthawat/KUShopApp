@@ -24,7 +24,7 @@ type RootStackParamList = {
 type PostReusableNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ProductDetail'>;
 
 
-const ProductReusable = ({ product, isMyPosts, className }: { product: Product, isMyPosts?: Boolean | null; className?: string }) => {
+const ProductReusable = ({ product, isMyPosts, className, refreshProfile }: { product: Product, isMyPosts?: Boolean | null; className?: string;refreshProfile?: boolean; }) => {
     const navigation = useNavigation<PostReusableNavigationProp>()
     const dispatch = useAppDispatch()
 
@@ -57,7 +57,7 @@ const ProductReusable = ({ product, isMyPosts, className }: { product: Product, 
 
             <View style = {styles.header}>
                 <View style = {styles.userInfo}>
-                    <ProfileImage size={hp(4.5)} src={product.user.profile} />
+                    <ProfileImage size={hp(4.5)} src={product.user.profile} refreshProfile={refreshProfile}/>
                     <View style = {{gap:2}}>
                         <Text style = {styles.username}>{product.userID}</Text>
                         <Text style = {styles.postTime}>{createAt}</Text>
@@ -137,13 +137,13 @@ const styles = StyleSheet.create({
     container: {
         gap: 10,
         marginBottom: 15,
-        borderRadius: theme.radius.xxl * 1.1,
+        borderRadius: theme.radius.md,
         borderCurve: 'continuous',
         padding: 10,
         paddingVertical: 12,
         backgroundColor: 'white',
-        borderWidth: 0.5,
-        borderColor: theme.colors.gray,
+        borderWidth: 1,
+        borderColor: theme.colors.darkLight,
         shadowColor: '#000',
     },
     deleteButton: {
