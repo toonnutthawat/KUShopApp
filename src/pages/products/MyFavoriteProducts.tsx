@@ -1,4 +1,4 @@
-import { ScrollView, TextInput, View , Text} from "react-native";
+import { ScrollView, TextInput, View , Text, StyleSheet} from "react-native";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { useEffect, useState } from "react";
 import { fetchFavoriteProducts } from "../../store/thunks/productsThunk";
@@ -31,8 +31,7 @@ function MyFavoriteProducts(){
     return(
         <StyledContainer>
             <View className="flex flex-row items-center">
-                <AntDesign name="heart" size={24} color="red" className="mr-4"/>
-                <Header title = "บันทึกสินค้า"showBackButton={false}></Header>    
+                <Header title = "รายการโปรด"showBackButton={false}></Header>    
             </View>
             <StyledHomeBox>
                 <TextInput
@@ -51,7 +50,11 @@ function MyFavoriteProducts(){
                             </View>
                         ))
                     ) : (
-                        <Text className="text-center text-gray-400 mt-4">ไม่พบรายการ...</Text>
+                            <View style = {styles.containertext}>
+                                <AntDesign name="heart" size={24} color="grey" className=""/>
+                                <Text className="text-2xl text-center text-gray-400 mt-4">แตะไอคอนรูปหัวใจ</Text>
+                                <Text className="text-2xl text-center text-gray-400 ">เพื่อบันทึกสินค้าลงในรายการโปรดของคุณ</Text>
+                            </View>
                     )}
                 </ScrollView>
             </StyledHomeBox>
@@ -59,5 +62,17 @@ function MyFavoriteProducts(){
         </StyledContainer>
     )
 }
+
+const styles = StyleSheet.create({
+    containertext:{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginLeft: 7,
+        gap: hp(1),
+        justifyContent: 'center',  // This will center the content horizontally
+        alignItems: 'center',      // This will center the content vertically
+        flexGrow: 1,          
+    }
+})
 
 export default MyFavoriteProducts;

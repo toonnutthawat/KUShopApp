@@ -159,7 +159,7 @@ function ProfilePage() {
                                 <View className="flex flex-row items-center mt-5">
                                     <Text className="text-2xl text-black-700">เบอร์ติดต่อ : {userInfo.phone}</Text>
                                     <Pressable onPress={() => setEditPhone(true)} className="ml-2 p-1">
-                                        <Feather name="edit" size={20} color="#2563eb" />
+                                        <Feather name="edit" size={20} color= {theme.colors.kuBGColor} />
                                     </Pressable>
                                 </View>
                             </View>
@@ -178,7 +178,7 @@ function ProfilePage() {
                             onPress={() => navigation.navigate("MyFavoriteProducts" as never)}
                             style={styles.myPostStyles}
                         >
-                            <Text style={styles.myPosttext}>สินค้าที่ถูกใจ</Text>
+                            <Text style={styles.myPosttext}>รายการโปรด</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
@@ -186,7 +186,7 @@ function ProfilePage() {
                             onPress={() => navigation.navigate("MyProductsPurchased" as never)}
                             style={styles.myPostStyles}
                         >
-                            <Text style={styles.myPosttext}>ประวัติการซื้อของฉัน</Text>
+                            <Text style={styles.myPosttext}>ประวัติการซื้อสินค้า</Text>
                         </TouchableOpacity>
 
                         {isAdmin && (
