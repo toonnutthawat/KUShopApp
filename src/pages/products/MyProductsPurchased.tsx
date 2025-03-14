@@ -44,7 +44,7 @@ function MyProductsPurchased(){
                     {filteredMyFavoriteProducts.length > 0 ? (
                         filteredMyFavoriteProducts.map((product, index) => (
                             <View key={index} style={{ width: hp(20), height: wp(60), marginBottom: hp(5)}}>
-                                <ProductReusable key={index} product={product} />
+                                <ProductReusable key={index} product={product} navigatedPath={"MyProductsPurchased"}/>
                             </View>
                         ))
                     ) : (
