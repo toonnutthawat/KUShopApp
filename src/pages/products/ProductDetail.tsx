@@ -47,16 +47,19 @@ function ProductDetail({ route }) {
   const [comment, setComment] = useState("")
   const dispatch = useAppDispatch()
   const navigation = useNavigation<ChatResuableNavigationProp>()
+  const [refreshProfile, setRefreshProfile] = useState(false);
 
 
-
-  
+  const refreshProfileImage = () => {
+    setRefreshProfile(prev => !prev); // Toggle state to trigger re-render
+  };
 
   useEffect(() => {
     const fetch = async () => {
       dispatch(fetchCommentByProduct(product))
       dispatch(fetchLikeStatus(product.id))
       dispatch(fetchMyProducts({isSold: false}))
+      refreshProfileImage()
     }
     fetch()
   }, [product])
@@ -75,7 +78,6 @@ function ProductDetail({ route }) {
     console.log("myChat", myChat);
     setChatTriggered(true);
   }
-
 
   useEffect(() => {
     if (chatTriggered) {
@@ -160,8 +162,7 @@ function ProductDetail({ route }) {
     <StyledContainer>
       <StyledHomeBox>
         <BackButton backButtonStyle={styles.backButt}  navigatedPath={navigatedPath}/>
-        <ScrollView style={{ height: hp(hp) }} showsVerticalScrollIndicator={false}>
-       
+        <ScrollView style={{ height: hp(hp) }} showsVerticalScrollIndicator={false} >
 
           {/* Product Image */}
           <View className='flex justify-center'>
@@ -209,7 +210,7 @@ function ProductDetail({ route }) {
           {/* Contact Buttons */}
 
           <View className='mt-5' style={styles.memberCard}>
-            <ProfileImage size={hp(6)} src={product.user.profile} />
+            <ProfileImage size={hp(6)} src={product.user.profile} refreshProfile = {refreshProfile}/>
             <Text className='mt-2' style={styles.memberId}>{product.userID}</Text>
 
             <Text style={styles.membershipDuration}>
