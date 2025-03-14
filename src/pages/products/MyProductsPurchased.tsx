@@ -1,4 +1,4 @@
-import { ScrollView, TextInput, View , Text} from "react-native";
+import { ScrollView, TextInput, View , Text, StyleSheet} from "react-native";
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
@@ -40,15 +40,17 @@ function MyProductsPurchased(){
                     className="bg-gray-100 rounded-full px-4 h-12 mb-4 border border-gray-300 focus:border-green-500 focus:ring focus:ring-green-300 w-full"
                     placeholderTextColor="#555"
                 />
-                <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1),justifyContent: 'center'}} className="w-full flex-grow" showsVerticalScrollIndicator={false}>
+                <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 7, gap: hp(1)}} className="w-full flex-grow" showsVerticalScrollIndicator={false}>
                     {filteredMyFavoriteProducts.length > 0 ? (
                         filteredMyFavoriteProducts.map((product, index) => (
-                            <View key={index} style={{ width: hp(34), height: wp(55), marginBottom: hp(5)}}>
+                            <View key={index} style={{ width: hp(20), height: wp(60), marginBottom: hp(5)}}>
                                 <ProductReusable key={index} product={product} />
                             </View>
                         ))
                     ) : (
-                        <Text className="text-center text-gray-400 mt-4">ไม่พบรายการ...</Text>
+                        <View style = {styles.containertext}>
+                            <Text className="text-center text-gray-400 mt-4">ไม่พบรายการ...</Text>
+                        </View>
                     )}
                 </ScrollView>
             </StyledHomeBox>
@@ -56,5 +58,17 @@ function MyProductsPurchased(){
         </StyledContainer>
     )
 }
+
+const styles = StyleSheet.create({
+    containertext:{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginLeft: 7,
+        gap: hp(1),
+        justifyContent: 'center',  // This will center the content horizontally
+        alignItems: 'center',      // This will center the content vertically
+        flexGrow: 1,          
+    }
+})
 
 export default MyProductsPurchased;
