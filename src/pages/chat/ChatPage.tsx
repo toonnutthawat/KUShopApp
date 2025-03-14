@@ -241,9 +241,13 @@ function ChatPage({ route }) {
                                <Text className="text-l">สินค้า : {productWithinChat.title}</Text>
                                <Text className="text-l">ราคา : {productWithinChat.price} ฿</Text>
                                <Text className="text-l">หมวดหมู่ : {productWithinChat.category}</Text>
-                               <Text className="text-l">สถานะ : {productWithinChat.status === ProductStatus.SOLD ? 'ขายแล้ว' : 'มีอยู่'}</Text>
+                               <Text className="text-l"
+                                        style={{
+                                          color: productWithinChat.status === ProductStatus.SOLD ? 'red' : 'green', // Red if SOLD, default text color if AVAILABLE
+                                        }}>
+                                            สถานะ : {productWithinChat.status === ProductStatus.SOLD ? 'ขายแล้ว' : 'มีอยู่'}
+                                </Text>
                              </View>
-                        
                              {(productWithinChat.userID === myUser.id && productWithinChat.status === ProductStatus.AVAILABLE) && (
                                <TouchableOpacity 
                                  onPress={changeProductStatus} 
