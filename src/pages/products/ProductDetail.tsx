@@ -47,7 +47,7 @@ function ProductDetail({ route }) {
   const [comment, setComment] = useState("")
   const dispatch = useAppDispatch()
   const navigation = useNavigation<ChatResuableNavigationProp>()
-  const [refreshing, setRefreshing] = useState(false);
+
 
 
   
@@ -75,6 +75,7 @@ function ProductDetail({ route }) {
     console.log("myChat", myChat);
     setChatTriggered(true);
   }
+
 
   useEffect(() => {
     if (chatTriggered) {
