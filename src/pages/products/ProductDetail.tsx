@@ -159,7 +159,7 @@ function ProductDetail({ route }) {
     <StyledContainer>
       <StyledHomeBox>
         <BackButton backButtonStyle={styles.backButt} />
-        <ScrollView style={{ height: hp(hp) }}>
+        <ScrollView style={{ height: hp(hp) }} showsVerticalScrollIndicator={false}>
        
 
           {/* Product Image */}
