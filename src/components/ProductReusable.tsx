@@ -82,7 +82,7 @@ const ProductReusable = ({ product, isMyPosts, className, refreshProfile }: { pr
                      (product.status === ProductStatus.SOLD) && (
                         <View className='absolute z-10 bg-slate-400 opacity-75 
                         flex items-center justify-center rounded-lg' style={{width: '100%', height: '100%'}}>
-                            <Text className='text-white'>Out of Stock</Text>
+                           <Text className="text-white text-2xl font-bold bg-red-600 px-3 py-3 rounded-lg">ขายแล้ว</Text>
                         </View>
                      )
                     }
