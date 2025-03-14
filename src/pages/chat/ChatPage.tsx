@@ -25,14 +25,12 @@ import { Ionicons, Entypo } from "@expo/vector-icons";
 import { Platform } from "react-native";
 import Icon from "../../../assets/icons";
 import Button from "../../components/Button";
-import { fetchProductWithinChat, removeProductWithinChat } from "../../store/thunks/chatsThunk";
+import { fetchAllChats, fetchProductWithinChat, removeProductWithinChat } from "../../store/thunks/chatsThunk";
 import PostImage from "../../components/PostImage";
 import { changeToSoldProductStatus } from "../../store/thunks/productsThunk";
 
 function ChatPage({ route }) {
-    const { chat }: { chat: Chat } = route.params
-    console.log("chat :", chat);
-    
+    const { chat }: { chat: Chat } = route.params  
     const messages = useAppSelector(state => state.messages.data || [])
     const [newMessage, setNewMessage] = useState("")
     const sortedMessages = [...messages].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
@@ -44,12 +42,16 @@ function ChatPage({ route }) {
     if(!chat.ProductID){
         productWithinChat = null
     }
-    console.log("productWithinChat:",productWithinChat);
-    
     const dispatch = useAppDispatch()
     const client = generateClient()
     const [message, setMessage] = useState("");
     let subOncreate : Subscription
+
+    useEffect(() => {
+        dispatch(fetchAllChats())
+        console.log("fetchAllChats");
+        
+    },[])
 
 
 
@@ -160,7 +162,7 @@ function ChatPage({ route }) {
 
                         <View style={styles.chatBubbleSender}>
                             <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                <ProfileImage size={30} src={myUser.profile}></ProfileImage>
+                                <ProfileImage size={30} src={myUser.profile} isChatPage={true}></ProfileImage>
                                 <Text style={{marginLeft: 10, color: 'white'}}>{myUser.id}</Text>
                                 <Text style={{marginLeft: 10, color: 'white'}}>{date}</Text>
                             </View>
@@ -175,7 +177,7 @@ function ChatPage({ route }) {
                     :
                         <View style={styles.chatBubbleReceiver}>
                             <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                <ProfileImage size={30} src={message.userID === chat.userID ? chat.user.profile : chat.user2.profile}></ProfileImage>
+                                <ProfileImage size={30} src={message.userID === chat.userID ? chat.user.profile : chat.user2.profile} isChatPage={true}></ProfileImage>
                                 <Text style={{marginLeft: 10, color: 'black'}}>{message.userID}</Text>
                                 <Text style={{marginLeft: 10, color: 'black'}}>{date}</Text>
                             </View>
@@ -197,7 +199,7 @@ function ChatPage({ route }) {
             <View style={{ flex: 1, marginLeft : 10, marginRight: 10}}>
 
                     <View className="flex flex-row items-center pb-4">
-                        <ProfileImage size={40} src={myUser.id === chat.userID ? chat.user2.profile : chat.user.profile}></ProfileImage>
+                        <ProfileImage size={40} src={myUser.id === chat.userID ? chat.user2.profile : chat.user.profile} isChatPage={true}></ProfileImage>
                         <Text style={styles.title}>{myUser.id === chat.userID ? chat.userID2 : chat.userID}</Text>
                     </View>
                     {/* {

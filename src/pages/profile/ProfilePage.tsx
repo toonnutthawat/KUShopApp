@@ -25,8 +25,6 @@ const imgDir = FileSystem.documentDirectory + 'images/'
 
 function ProfilePage() {
     const userInfo = useAppSelector(state => state.users.myUser)
-    console.log(userInfo);
-    
     const [images, setImages] = useState<string[]>()
     const dispatch = useAppDispatch()
     const [editImg, setEditImg] = useState(false)
