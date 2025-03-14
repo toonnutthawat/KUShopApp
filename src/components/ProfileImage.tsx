@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../hook";
 import { theme } from "../constants/theme";
 import { hp } from "../helpers/common";
 
-function ProfileImage({size = hp(4.5) , src } : { size: number, src?: string | null}){
+function ProfileImage({size = hp(4.5) , src, refreshProfile  } : { size: number, src?: string | null ; refreshProfile?: boolean;}){
 
     const styles = StyleSheet.create({
         profile : {
@@ -25,7 +25,7 @@ function ProfileImage({size = hp(4.5) , src } : { size: number, src?: string | n
     useEffect(() => {
         fetchedImageFromS3()
         console.log("fetchProfileImg");
-    },[])
+    },[refreshProfile])
 
     async function fetchedImageFromS3() {
         if (!src) return;
