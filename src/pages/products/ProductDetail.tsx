@@ -1,4 +1,4 @@
-import { View, Image, Text, StyleSheet, Pressable, TextInput, TouchableOpacity, ScrollView, TextStyle, Linking, Platform, RefreshControl } from "react-native"
+import { View, Image, Text, StyleSheet, Pressable, TextInput, TouchableOpacity, ScrollView, TextStyle, Linking, Platform, RefreshControl, Alert } from "react-native"
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import ProfileImage from "../../components/ProfileImage";
@@ -68,6 +68,7 @@ function ProductDetail({ route }) {
   }
 
   const checkUserChatWithFriendID = async () => {
+    setLoading(true);
     await dispatch(fetchMyChat(product.userID));
     console.log("myChat", myChat);
     setChatTriggered(true);
@@ -92,6 +93,7 @@ function ProductDetail({ route }) {
         
           // Wait for chat to be updated, then navigate
           navigation.navigate("ChatPage", { chat: updatedChat });
+          setLoading(false);
         } catch (error) {
           console.error("Error fetching chat or adding product:", error);
         }
@@ -214,11 +216,19 @@ function ProductDetail({ route }) {
             <View style={styles.buttonContainer}>
 
               {myUser.id !== product.userID && (
-                <Pressable style={styles.chatButton} onPress={checkUserChatWithFriendID}>
-                  <Entypo name="chat" size={hp(2)} color={theme.colors.kuBGColor} />
-                  <Text style={styles.chatText}> แชท</Text>
-                </Pressable>
-              )
+                // <Pressable style={styles.chatButton} onPress={checkUserChatWithFriendID}>
+                //   <Entypo name="chat" size={hp(2)} color={theme.colors.kuBGColor} />
+                //   <Text style={styles.chatText}> แชท</Text>
+                // </Pressable>
+                
+                <Button 
+                  icon={<Entypo name="chat" size={hp(2)} color={theme.colors.kuBGColor} />} 
+                  buttonStyle = {styles.chatButton} 
+                  title = {' แชท'}  
+                  loading = {loading} 
+                  onPress={checkUserChatWithFriendID}
+                  textStyle = {styles.chatText}/>
+                )
               }
 
               {myUser.id !== product.userID && (
@@ -312,7 +322,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 5,
     flexDirection:'row',
-    justifyContent:'center'
+    justifyContent:'center',
+    backgroundColor:'white',
   },
   productDescription: {
     fontSize: 16,
@@ -338,7 +349,7 @@ const styles = StyleSheet.create({
   },
   chatText: {
     color: theme.colors.kuBGColor,
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   callButton: {
@@ -352,7 +363,7 @@ const styles = StyleSheet.create({
   },
   callText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   membershipDuration: {
