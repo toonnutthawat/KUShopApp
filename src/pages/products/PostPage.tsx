@@ -94,6 +94,8 @@ function PostPage() {
                   console.log('Product posted!');
                   await dispatch(fetchAllProducts({category: null})) 
                   await dispatch(fetchMyProducts({isSold: false}))
+                   // Show success alert after posting
+                   Alert.alert("สำเร็จ", "โพสต์สินค้าสำเร็จ", [{ text: "OK" }]);
                   // You can insert your posting logic here (e.g., uploading to S3, etc.)
                 },
               },
@@ -150,8 +152,9 @@ function PostPage() {
                 }
                 {
                     (userInfo.credit === CreditStatus.PENDING) &&
-                    <View>
-                        <Text className="text-xl">สถานะของคุณอยู่ระหว่างการตรวจสอบ กรุณารอการยืนยันจากผู้ดูแลระบบ</Text>
+                    <View style = {styles.containertext}>
+                        <Text className="text-xl">สถานะของคุณอยู่ระหว่างการตรวจสอบ</Text>
+                        <Text className="text-xl">กรุณารอการยืนยันจากผู้ดูแลระบบ</Text>
                     </View>
                 }
                 {
@@ -242,6 +245,15 @@ const styles = StyleSheet.create({
         padding: 12,
         borderWidth: 1,
         borderColor: '#ccc',
+    },
+    containertext:{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginLeft: 7,
+        gap: hp(1),
+        justifyContent: 'center',  // This will center the content horizontally
+        alignItems: 'center',      // This will center the content vertically
+        flexGrow: 1,          
     },
     errorMessage: {
         textAlign: 'center',
