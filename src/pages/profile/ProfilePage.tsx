@@ -144,8 +144,8 @@ function ProfilePage() {
                 {
                     selectedImage && (
                         <View className="flex flex-row mt-4">
-                            <TouchableOpacity onPress={() => uploadIMG()} style={styles.saveButton}><Text className="text-white">Save</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={cancelEditImg} style={styles.cancelButton}><Text className="text-white">Cancel</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={() => uploadIMG()} style={styles.saveButton}><Text className="text-white">ยืนยัน</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={cancelEditImg} style={styles.cancelButton}><Text className="text-white">ยกเลิก</Text></TouchableOpacity>
                         </View>
                     )
                 }
@@ -238,21 +238,38 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     profile: {
-        width: 100,
-        height: 100,
-        borderRadius: 50
+        width: 101,  // Set width
+        height: 101, // Set height
+        borderRadius: 10, // Remove or adjust for rounded corners (not a full circle)
+        resizeMode: "cover", // Ensure proper fit
     },
     saveButton: {
-        backgroundColor: '#004d26',
-        display: 'flex',
+        backgroundColor: '#007A4D', // Slightly brighter green for better contrast
         alignItems: 'center',
-        width: 60,
+        justifyContent: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        width: 80,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+        elevation: 3, // For Android shadow
     },
     cancelButton: {
-        backgroundColor: 'red',
-        display: 'flex',
+        backgroundColor: '#D32F2F', // Deep red for a softer look
         alignItems: 'center',
-        width: 60,
+        justifyContent: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        width: 80,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+        elevation: 3, // For Android shadow
     },
     myPostStyles: {
         backgroundColor: "#004c27",
