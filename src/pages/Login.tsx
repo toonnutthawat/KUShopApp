@@ -80,7 +80,7 @@ function Login() {
                 />
                 </View>
                 {errorMessage && <Text className="text-red-600 text-center mb-2">{errorMessage}</Text>}
-                <Button title = {'เข้าสู่ระบบ'}  loading = {loading} onPress={handleSignIn}/>
+                <Button buttonStyle = {styles.chatButton} title = {'เข้าสู่ระบบ'}  loading = {loading} onPress={handleSignIn}/>
                 {/* <TouchableOpacity className="mt-4" onPress={() => navigation.navigate("SignUp" as never)}>
                     <Text className="text-blue-600 font-semibold text-center">Don't have an account? Sign Up</Text>
                 </TouchableOpacity>
@@ -132,6 +132,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color : theme.colors.text,
         fontSize: hp(1.6)
+    },
+    chatButton:{
+        backgroundColor: theme.colors.primary
     }
 })
 
