@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Image, TextStyle, KeyboardAvoidingView } from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Image, TextStyle, KeyboardAvoidingView, Alert } from "react-native";
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 import { Chat, Message, ProductStatus } from "../../API";
 import { useEffect, useState } from "react";
@@ -113,6 +113,26 @@ function ChatPage({ route }) {
         //await dispatch(removeProductWithinChat(chat.id))
         await dispatch(fetchProductWithinChat(chat.ProductID))
     }
+
+    const confirmChangeProductStatus = async () => {
+        Alert.alert(
+            "ยืนยันการเปลี่ยนสถานะ",  // Title of the alert
+            "คุณแน่ใจหรือไม่ว่าต้องการเปลี่ยนสถานะสินค้าเป็นขายแล้ว?",  // Message
+            [
+                {
+                    text: "ยกเลิก",
+                    style: "cancel",
+                },
+                {
+                    text: "ยืนยัน",
+                    onPress: async () => {
+                        await changeProductStatus();
+                    },
+                },
+            ]
+        );
+    };
+    
 
     const selectImage = async () => {
         const image = await pickImage()
@@ -252,7 +272,7 @@ function ChatPage({ route }) {
                              </View>
                              {(productWithinChat.userID === myUser.id && productWithinChat.status === ProductStatus.AVAILABLE) && (
                                <TouchableOpacity 
-                                 onPress={changeProductStatus} 
+                                 onPress={confirmChangeProductStatus} 
                                  className="bg-blue-600 flex justify-center p-4 rounded-lg right-0 absolute m-4"
                                >
                                  <Text className="text-white">ขายแล้ว</Text>
