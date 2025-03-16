@@ -11,6 +11,7 @@ interface ButtonProps {
     onPress?: () => void;
     loading?: boolean;
     hasShadow?: boolean;
+    icon?: React.ReactNode;  // New prop to support icons
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -20,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
     onPress = () => {},
     loading = false,
     hasShadow = true,
+    icon,  // Destructure the new icon prop
 }) => {
     const shadowStyle: ViewStyle = {
         shadowColor: theme.colors.dark,
@@ -31,7 +33,7 @@ const Button: React.FC<ButtonProps> = ({
 
     if (loading) {
         return (
-            <View style={[styles.button, buttonStyle, { backgroundColor: theme.colors.kuColor }]}>
+            <View style={[styles.button, buttonStyle,  { backgroundColor: icon ? 'white' : theme.colors.kuColor }]}>
                 <Loading></Loading>
             </View>
         );
@@ -39,6 +41,7 @@ const Button: React.FC<ButtonProps> = ({
 
     return (
         <Pressable onPress={onPress} style={[styles.button, buttonStyle, hasShadow && shadowStyle]}>
+            {icon && <View style={{ marginRight: 8 }}>{icon}</View>} 
             <Text style={[styles.text, textStyle]}>{title}</Text>
         </Pressable>
     );
