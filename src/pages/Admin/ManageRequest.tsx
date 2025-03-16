@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Alert } from "react-native";
 import { StyledContainer, StyledHomeBox } from "../../components/StyleContainer";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { useEffect } from "react";
@@ -27,6 +27,28 @@ function ManageRequest() {
         await dispatch(fetchPendingStatusUsers())
     }
 
+    // Function to handle confirmation alert before managing requests
+    const confirmManageRequest = (userID: string, status: CreditStatus) => {
+        const actionText = status === CreditStatus.ACCEPTED ? "อนุมัติ" : "ปฎิเสธ";
+
+        Alert.alert(
+            `ยืนยันการ${actionText}`,  // Title of the alert
+            `คุณแน่ใจหรือไม่ว่าต้องการ${actionText}คำขอนี้?`,  // Message
+            [
+                {
+                    text: "ยกเลิก",
+                    style: "cancel",
+                },
+                {
+                    text: "ยืนยัน",
+                    onPress: async () => {
+                        await manageRequest(userID, status);
+                    },
+                },
+            ]
+        );
+    };
+
     const renderedRequestUsers = requestedUsers.map((user, index) => {
         // const formattedDate = format(new Date(user.createdAt), 'hh:mm a : PPP');
         const formattedDate = format(new Date(user.createdAt), "dd MMMM yyyy", { locale: th });
@@ -42,12 +64,12 @@ function ManageRequest() {
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity
                             style={styles.acceptedButton}
-                            onPress={() => manageRequest(user.id,CreditStatus.ACCEPTED)}>
+                            onPress={() => confirmManageRequest(user.id,CreditStatus.ACCEPTED)}>
                             <Text className="text-white">อนุมัติ</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                             style={styles.rejectedButton}
-                            onPress={() => manageRequest(user.id,CreditStatus.NOT_YET_VERIFIED)}>
+                            onPress={() => confirmManageRequest(user.id,CreditStatus.NOT_YET_VERIFIED)}>
                             <Text className="text-white">ปฎิเสธ</Text>
                         </TouchableOpacity>
                     </View>
@@ -58,8 +80,15 @@ function ManageRequest() {
         <StyledContainer>
             <StyledHomeBox>
                 <Header title="จัดการคำขอ" showBackButton={false}></Header>
-                <ScrollView>
-                    {renderedRequestUsers}
+                <ScrollView
+                showsVerticalScrollIndicator={false}>
+                {renderedRequestUsers.length > 0 ? (
+                    renderedRequestUsers
+                ) : (
+                    <View style={styles.containertext}>
+                        <Text className="text-2xl text-center text-gray-400">ไม่พบรายการ...</Text>
+                    </View>
+                )}
                 </ScrollView>
             </StyledHomeBox>
         </StyledContainer>
@@ -79,6 +108,15 @@ const styles = StyleSheet.create({
         marginRight: 5,
         flexDirection:'row',
         justifyContent:'center'
+    },
+    containertext:{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginLeft: 7,
+        gap: hp(1),
+        justifyContent: 'center',  // This will center the content horizontally
+        alignItems: 'center',      // This will center the content vertically
+        flexGrow: 1,          
     },
     memberCard: {
         backgroundColor: '#F5F5F5',
