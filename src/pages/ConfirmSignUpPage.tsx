@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity,Alert } from "react-native";
 import { confirmSignUp } from "aws-amplify/auth";
 import { useNavigation } from "@react-navigation/native";
 import KuShopTitle from "../components/KuShopTitle";
@@ -24,7 +24,8 @@ function ConfirmSignUpPage({ username , email , phone}: { username: string , ema
 
             if (nextStep.signUpStep === "DONE") {
                 dispatch(addUser({usernameOfUser: username , emailOfUser: email, phoneNumber: phone}))
-                navigation.navigate("Login" as never);
+                navigation.navigate("Welcome" as never);
+                Alert.alert("สำเร็จ", "ลงทะเบียนสำเร็จ", [{ text: "OK" }]);
             }
         } catch (e) {
             setErrorMessage((e as Error).message);
