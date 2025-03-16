@@ -39,7 +39,7 @@ function SignUpPage() {
 
     const handleSignUp = async () => {
         if (!email || !username || !phone || !password || !confirmPassword) {
-            setErrorMessage("All fields are required. Please fill in all details before posting.");
+            setErrorMessage("ต้องกรอกข้อมูลให้ครบถ้วน กรุณากรอกรายละเอียดให้ครบถ้วนก่อนโพสต์");
             return;
         }
         if (!email.endsWith("@ku.th")) {
