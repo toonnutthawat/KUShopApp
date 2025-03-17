@@ -281,7 +281,7 @@ function ChatPage({ route }) {
                            </View>
                          )}
                        </View>
-                    <ScrollView contentContainerStyle={{}} showsVerticalScrollIndicator={false}>{renderedMesssages}</ScrollView>
+                    <ScrollView ref={scrollViewRef} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>{renderedMesssages}</ScrollView>
 
                     <KeyboardAvoidingView
                         behavior={Platform.OS ==="ios" ? "padding" : undefined}
