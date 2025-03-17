@@ -54,6 +54,13 @@ const fetchMyUser = createAsyncThunk("fetchMyUser", async () => {
   }
 });
 
+const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
+  const response = await privateClient.graphql({
+    query: listUsers
+  })
+  return response.data.listUsers.items
+})
+
 const editImgUser = createAsyncThunk("editImgUser" , async ({userID , imgPath} : {userID : string , imgPath: string}) => {
   const response = await privateClient.graphql({
     query: updateUser,
@@ -117,4 +124,4 @@ const fetchPendingStatusUsers = createAsyncThunk("fetchPendingStatusUsers" , asy
   return response.data.listUsers.items
 })
 
-export { addUser, fetchMyUser , editImgUser , changeCreditStatus, fetchPendingStatusUsers , changePhoneNumber};
+export { addUser, fetchMyUser , editImgUser , changeCreditStatus, fetchPendingStatusUsers , changePhoneNumber , fetchAllUsers };

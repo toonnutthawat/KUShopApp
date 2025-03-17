@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../API";
-import { addUser, changeCreditStatus, changePhoneNumber, editImgUser, fetchMyUser, fetchPendingStatusUsers } from "../thunks/userThunk";
+import { addUser, changeCreditStatus, changePhoneNumber, editImgUser, fetchAllUsers, fetchMyUser, fetchPendingStatusUsers } from "../thunks/userThunk";
 
 const userSlice = createSlice({
     name: "user",
@@ -8,6 +8,7 @@ const userSlice = createSlice({
         data: null as User[] | null,
         myUser: null as User | null,
         requestedUser: null as User[] | null,
+        allUsers: null as User[] | null,
         error: ""
     },
     extraReducers(builder){
@@ -42,6 +43,9 @@ const userSlice = createSlice({
         })
         builder.addCase(fetchPendingStatusUsers.fulfilled, (state,action) => {
             state.requestedUser = action.payload
+        })
+        builder.addCase(fetchAllUsers.fulfilled, (state,action) => {
+            state.allUsers = action.payload
         })
 
     },

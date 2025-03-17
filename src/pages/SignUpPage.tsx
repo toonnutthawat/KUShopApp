@@ -1,7 +1,7 @@
 import { View, TextInput, Text, TouchableOpacity, StyleSheet, TextStyle, Pressable } from "react-native";
 import { StatusBar } from 'expo-status-bar'
 import { signUp } from "aws-amplify/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import ConfirmSignUpPage from "./ConfirmSignUpPage";
 import KuShopTitle from "../components/KuShopTitle";
@@ -13,6 +13,8 @@ import Input from "../components/Input";
 import Icon from "../../assets/icons";
 import Button from "../components/Button";
 import Header from "../components/Header";
+import { useAppDispatch, useAppSelector } from "../hook";
+import { fetchAllUsers } from "../store/thunks/userThunk";
 
 function SignUpPage() {
     const [email, setEmail] = useState("");
@@ -23,6 +25,15 @@ function SignUpPage() {
     const [errorMessage, setErrorMessage] = useState("");
     const [confirmSignUp, setConfirmSignUp] = useState(false);
     const navigation = useNavigation();
+    const allUsers = useAppSelector(state => state.users.allUsers)
+    const dispatch = useAppDispatch()
+    console.log("fetchAllUsers :" , allUsers);
+    
+
+    useEffect(() => {
+        dispatch(fetchAllUsers())
+        console.log("fetchAllUsers");
+    },[])
 
     const validatePhoneNumber = () => {
         // Regular expression for a valid Thai phone number
@@ -44,6 +55,11 @@ function SignUpPage() {
         }
         if (!email.endsWith("@ku.th")) {
             setErrorMessage("อีเมลต้องลงท้ายด้วย @ku.th เท่านั้น");
+            return;
+        }
+        const emailExists = allUsers.some(user => user.email === email);
+        if (emailExists) {
+            setErrorMessage("อีเมลนี้ถูกใช้ไปแล้ว กรุณาใช้อีเมลอื่น");
             return;
         }
         const formattedPhone = validatePhoneNumber();
