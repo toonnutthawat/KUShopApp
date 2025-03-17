@@ -119,11 +119,19 @@ function PostPage() {
         navigation.navigate("MyProducts" as never)
     }
 
-    const handlePriceChange = (text) => {
-        // Ensure only numbers are entered
-        const numericText = text.replace(/[^0-9.]/g, "");
+    const handlePriceChange = (text: string) => {
+        const numericText = text.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+        const priceValue = Number(numericText);
+    
+        if (priceValue < 100 || priceValue > 100000) {
+            setErrorMessage("ราคาต้องอยู่ระหว่าง 100 ถึง 100,000 บาท");
+        } else {
+            setErrorMessage(null);
+        }
+    
         setPrice(numericText);
-      };
+    };
+    
     
 
     return (
