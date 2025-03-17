@@ -34,8 +34,8 @@ function EditPhoneNumber({handleEditPhone}){
         const formattedPhone = `+66${phone.substring(1)}`;
         setErrorMessage("");
         Alert.alert(
-            "ยืนยันการกระทำ", // Title
-            "คุณแน่ใจหรือไม่?", // Message
+            "Confirm", // Title
+            "คุณต้องการเปลี่ยนเบอร์โทรศัพท์ใช่หรือไม่?", // Message
             [
                 {
                     text: "ยกเลิก",

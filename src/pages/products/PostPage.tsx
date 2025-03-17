@@ -70,12 +70,12 @@ function PostPage() {
             'คุณต้องการโพสต์สินค้านี้ใช่หรือไม่?',  // Confirmation message
             [
               {
-                text: 'Cancel',
+                text: 'ยกเลิก',
                 onPress: () => console.log('User canceled the post'),
                 style: 'cancel',
               },
               {
-                text: 'OK',
+                text: 'ยืนยัน',
                 onPress: async () => {
                     if (selectedImg) {
                         console.log("IF in Image");

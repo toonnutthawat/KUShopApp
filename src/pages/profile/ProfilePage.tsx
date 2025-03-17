@@ -81,7 +81,7 @@ function ProfilePage() {
 
     const handleSignOut = () => {
         Alert.alert(
-            "ยืนยันการออกจากระบบ", // Title
+            "Confirm", // Title
             "คุณต้องการออกจากระบบใช่หรือไม่?", // Message
             [
                 {
