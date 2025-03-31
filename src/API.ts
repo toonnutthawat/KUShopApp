@@ -411,25 +411,6 @@ export type CreateUserInput = {
   credit: CreditStatus,
 };
 
-export type ModelUserFilterInput = {
-  id?: ModelIDInput | null,
-  email?: ModelStringInput | null,
-  profile?: ModelStringInput | null,
-  phone?: ModelStringInput | null,
-  credit?: ModelCreditStatusInput | null,
-  createdAt?: ModelStringInput | null,
-  updatedAt?: ModelStringInput | null,
-  and?: Array< ModelUserFilterInput | null > | null,
-  or?: Array< ModelUserFilterInput | null > | null,
-  not?: ModelUserFilterInput | null,
-};
-
-export type ModelUserConnection = {
-  __typename: "ModelUserConnection",
-  items:  Array<User | null >,
-  nextToken?: string | null,
-};
-
 export type ModelProductFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
@@ -504,31 +485,23 @@ export enum ModelSortDirection {
 }
 
 
-export type ModelSubscriptionUserFilterInput = {
-  email?: ModelSubscriptionStringInput | null,
-  profile?: ModelSubscriptionStringInput | null,
-  phone?: ModelSubscriptionStringInput | null,
-  credit?: ModelSubscriptionStringInput | null,
-  createdAt?: ModelSubscriptionStringInput | null,
-  updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionUserFilterInput | null > | null,
-  or?: Array< ModelSubscriptionUserFilterInput | null > | null,
-  id?: ModelStringInput | null,
+export type ModelUserFilterInput = {
+  id?: ModelIDInput | null,
+  email?: ModelStringInput | null,
+  profile?: ModelStringInput | null,
+  phone?: ModelStringInput | null,
+  credit?: ModelCreditStatusInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
 };
 
-export type ModelSubscriptionStringInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  in?: Array< string | null > | null,
-  notIn?: Array< string | null > | null,
+export type ModelUserConnection = {
+  __typename: "ModelUserConnection",
+  items:  Array<User | null >,
+  nextToken?: string | null,
 };
 
 export type ModelSubscriptionProductFilterInput = {
@@ -549,6 +522,21 @@ export type ModelSubscriptionProductFilterInput = {
 };
 
 export type ModelSubscriptionIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  in?: Array< string | null > | null,
+  notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionStringInput = {
   ne?: string | null,
   eq?: string | null,
   le?: string | null,
@@ -624,6 +612,18 @@ export type ModelSubscriptionMessageFilterInput = {
   and?: Array< ModelSubscriptionMessageFilterInput | null > | null,
   or?: Array< ModelSubscriptionMessageFilterInput | null > | null,
   userID?: ModelStringInput | null,
+};
+
+export type ModelSubscriptionUserFilterInput = {
+  email?: ModelSubscriptionStringInput | null,
+  profile?: ModelSubscriptionStringInput | null,
+  phone?: ModelSubscriptionStringInput | null,
+  credit?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  or?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  id?: ModelStringInput | null,
 };
 
 export type UpdateUserMutationVariables = {
@@ -1238,58 +1238,6 @@ export type CreateUserMutation = {
   } | null,
 };
 
-export type GetUserQueryVariables = {
-  id: string,
-};
-
-export type GetUserQuery = {
-  getUser?:  {
-    __typename: "User",
-    id: string,
-    email: string,
-    profile?: string | null,
-    phone?: string | null,
-    credit: CreditStatus,
-    products?:  {
-      __typename: "ModelProductConnection",
-      nextToken?: string | null,
-    } | null,
-    chats?:  {
-      __typename: "ModelChatConnection",
-      nextToken?: string | null,
-    } | null,
-    chats2?:  {
-      __typename: "ModelChatConnection",
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListUsersQueryVariables = {
-  filter?: ModelUserFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListUsersQuery = {
-  listUsers?:  {
-    __typename: "ModelUserConnection",
-    items:  Array< {
-      __typename: "User",
-      id: string,
-      email: string,
-      profile?: string | null,
-      phone?: string | null,
-      credit: CreditStatus,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
 export type GetProductQueryVariables = {
   id: string,
 };
@@ -1729,13 +1677,12 @@ export type MessagesByChatIDQuery = {
   } | null,
 };
 
-export type OnCreateUserSubscriptionVariables = {
-  filter?: ModelSubscriptionUserFilterInput | null,
-  id?: string | null,
+export type GetUserQueryVariables = {
+  id: string,
 };
 
-export type OnCreateUserSubscription = {
-  onCreateUser?:  {
+export type GetUserQuery = {
+  getUser?:  {
     __typename: "User",
     id: string,
     email: string,
@@ -1759,63 +1706,26 @@ export type OnCreateUserSubscription = {
   } | null,
 };
 
-export type OnUpdateUserSubscriptionVariables = {
-  filter?: ModelSubscriptionUserFilterInput | null,
-  id?: string | null,
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
 };
 
-export type OnUpdateUserSubscription = {
-  onUpdateUser?:  {
-    __typename: "User",
-    id: string,
-    email: string,
-    profile?: string | null,
-    phone?: string | null,
-    credit: CreditStatus,
-    products?:  {
-      __typename: "ModelProductConnection",
-      nextToken?: string | null,
-    } | null,
-    chats?:  {
-      __typename: "ModelChatConnection",
-      nextToken?: string | null,
-    } | null,
-    chats2?:  {
-      __typename: "ModelChatConnection",
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteUserSubscriptionVariables = {
-  filter?: ModelSubscriptionUserFilterInput | null,
-  id?: string | null,
-};
-
-export type OnDeleteUserSubscription = {
-  onDeleteUser?:  {
-    __typename: "User",
-    id: string,
-    email: string,
-    profile?: string | null,
-    phone?: string | null,
-    credit: CreditStatus,
-    products?:  {
-      __typename: "ModelProductConnection",
-      nextToken?: string | null,
-    } | null,
-    chats?:  {
-      __typename: "ModelChatConnection",
-      nextToken?: string | null,
-    } | null,
-    chats2?:  {
-      __typename: "ModelChatConnection",
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
+export type ListUsersQuery = {
+  listUsers?:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      id: string,
+      email: string,
+      profile?: string | null,
+      phone?: string | null,
+      credit: CreditStatus,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -2339,6 +2249,96 @@ export type OnDeleteMessageSubscription = {
     },
     chatID: string,
     image?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  id?: string | null,
+};
+
+export type OnCreateUserSubscription = {
+  onCreateUser?:  {
+    __typename: "User",
+    id: string,
+    email: string,
+    profile?: string | null,
+    phone?: string | null,
+    credit: CreditStatus,
+    products?:  {
+      __typename: "ModelProductConnection",
+      nextToken?: string | null,
+    } | null,
+    chats?:  {
+      __typename: "ModelChatConnection",
+      nextToken?: string | null,
+    } | null,
+    chats2?:  {
+      __typename: "ModelChatConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  id?: string | null,
+};
+
+export type OnUpdateUserSubscription = {
+  onUpdateUser?:  {
+    __typename: "User",
+    id: string,
+    email: string,
+    profile?: string | null,
+    phone?: string | null,
+    credit: CreditStatus,
+    products?:  {
+      __typename: "ModelProductConnection",
+      nextToken?: string | null,
+    } | null,
+    chats?:  {
+      __typename: "ModelChatConnection",
+      nextToken?: string | null,
+    } | null,
+    chats2?:  {
+      __typename: "ModelChatConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  id?: string | null,
+};
+
+export type OnDeleteUserSubscription = {
+  onDeleteUser?:  {
+    __typename: "User",
+    id: string,
+    email: string,
+    profile?: string | null,
+    phone?: string | null,
+    credit: CreditStatus,
+    products?:  {
+      __typename: "ModelProductConnection",
+      nextToken?: string | null,
+    } | null,
+    chats?:  {
+      __typename: "ModelChatConnection",
+      nextToken?: string | null,
+    } | null,
+    chats2?:  {
+      __typename: "ModelChatConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,

@@ -5,7 +5,7 @@ import { getUser, listUsers } from "../../graphql/queries";
 import { getCurrentUser } from "aws-amplify/auth";
 import { CreditStatus } from "../../API";
 
-const client = generateClient({authMode: 'apiKey'});
+const client = generateClient({authMode: "apiKey"});
 const privateClient = generateClient();
 
 const addUser = createAsyncThunk(
@@ -55,8 +55,9 @@ const fetchMyUser = createAsyncThunk("fetchMyUser", async () => {
 });
 
 const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
-  const response = await privateClient.graphql({
-    query: listUsers
+  const response = await client.graphql({
+    query: listUsers,
+    authMode: 'apiKey'
   })
   return response.data.listUsers.items
 })

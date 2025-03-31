@@ -15,7 +15,7 @@ type User
     rules: [
       { allow: private, operations: [read, update], provider: userPools }
       { allow: owner, ownerField: "id", provider: userPools }
-      { allow: public, operations: [create] }
+      { allow: public, operations: [create,read] }
     ]
   )
   @aws_cognito_user_pools {

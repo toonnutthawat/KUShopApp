@@ -4,7 +4,7 @@ import { getCurrentUser, signOut } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../hook";
-import { fetchMyUser } from "../store/thunks/userThunk";
+import { fetchAllUsers, fetchMyUser } from "../store/thunks/userThunk";
 import { StyledContainer, StyledHomeBox } from "../components/StyleContainer";
 import {  fetchAllProducts } from "../store/thunks/productsThunk";
 import PostReusable from "../components/ProductReusable";
@@ -27,6 +27,8 @@ function Home() {
     if(!allProducts) return;
     const filteredMyProducts = allProducts.filter((post) => post.title.toLowerCase().includes(term.toLowerCase()))
     const [refreshProfile, setRefreshProfile] = useState(false);
+    // const allUsers = useAppSelector(state => state.users.allUsers)
+    // console.log("fetchAllUsers :" , allUsers);
     
     useEffect(() => {
         const fetch = async () => {
@@ -35,7 +37,16 @@ function Home() {
         }
         fetch()
         
+        
     }, []);
+
+    // useEffect(() => {
+    //     const fetch = async () => {
+    //         await dispatch(fetchAllUsers())
+    //     }
+    //     fetch()
+    //     console.log("fetchAllUsers");
+    // },[])
 
     const refreshProduct = () =>{
         dispatch(fetchAllProducts({category: selectedCategory}))
