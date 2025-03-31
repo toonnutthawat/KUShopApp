@@ -31,7 +31,10 @@ function SignUpPage() {
     
 
     useEffect(() => {
-        dispatch(fetchAllUsers())
+        const fetch = async () => {
+            await dispatch(fetchAllUsers())
+        }
+        fetch()
         console.log("fetchAllUsers");
     },[])
 
