@@ -11,7 +11,7 @@ import { decode } from "base64-arraybuffer";
 import { uploadImgToS3 } from "../../store/thunks/imageThunk";
 import { pickImage } from "../../components/pickImage";
 import { CreditStatus } from "../../API";
-import { changeCreditStatus } from "../../store/thunks/userThunk";
+import { changeCreditStatus, fetchMyUser } from "../../store/thunks/userThunk";
 import RNPickerSelect from 'react-native-picker-select';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { ProductCategory } from "../../types/ProductCategory";
@@ -26,6 +26,8 @@ import { fetchUserAttributes } from "aws-amplify/auth";
 
 function PostPage() {
     const userInfo = useAppSelector(state => state.users.myUser)
+    console.log("userInfo : ",userInfo);
+    
     const [content, setContent] = useState("")
     const [title, setTitle] = useState("")
     const [price, setPrice] = useState("")
@@ -57,6 +59,14 @@ function PostPage() {
             }
             fetch()
             //fetchedImageFromS3()
+        }, [])
+
+        useEffect(() => {
+            //dispatch(fetchMyUser())
+            const fetch = async () => {
+                await dispatch(fetchMyUser())
+            }
+            fetch()
         }, [])
 
     const handlePostProduct = async () => {

@@ -38,7 +38,7 @@ const addUser = createAsyncThunk(
 const fetchMyUser = createAsyncThunk("fetchMyUser", async () => {
   try {
     const userInfo = await getCurrentUser();
-    //console.log("123",userInfo);
+    console.log("123",userInfo);
     const response = await privateClient.graphql({
       query: getUser,
       variables: {
